@@ -1,0 +1,8 @@
+
+git submodule update
+
+source init-build-env
+
+edit build/local.conf to something sensible
+
+bitbake
