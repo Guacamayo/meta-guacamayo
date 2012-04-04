@@ -1,3 +1,6 @@
 [submodule "meta-guacomole"]
 	path = meta-guacomole
 	url = ./meta-guacomole
+[submodule "upstream/yocto"]
+	path = upstream/yocto
+	url = git://git.pokylinux.org/poky.git
