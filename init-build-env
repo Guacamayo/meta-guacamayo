@@ -1,0 +1,2 @@
+export TEMPLATECONF=meta-guacamole/conf
+source oe-init-build-env
