@@ -1,0 +1,3 @@
+[submodule "meta-guacomole"]
+	path = meta-guacomole
+	url = ./meta-guacomole
