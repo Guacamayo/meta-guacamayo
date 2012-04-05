@@ -1,6 +1,8 @@
 
 require rygel.inc
 
+PR = "${INC_PR}.1"
+
 LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7"
 
 SRC_URI[archive.md5sum] = "ec05cb7217c6ac78ef276d6ab9a66b81"
