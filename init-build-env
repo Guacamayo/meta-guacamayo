@@ -1,2 +1,15 @@
-export TEMPLATECONF=meta-guacamole/conf
-source oe-init-build-env
+GUACABASE="`pwd`"
+TEMPLATECONF="$GUACABASE/meta-guacamole/conf"
+BDIR=build
+BUILDDIR="$GUACABASE/build"
+HAVE_BBLAYERS=
+
+if (test -r "$BUILDDIR/conf/bblayers.conf"); then
+   HAVE_BBLAYERS=yes
+fi
+
+source "$GUACABASE/upstream/yocto/oe-init-build-env"
+
+if (test x$HAVE_BBLAYERS = x); then
+    sed -i "s|##GUACABASE##|$GUACABASE|g" $BUILDDIR/conf/bblayers.conf
+fi

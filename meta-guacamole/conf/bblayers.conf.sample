@@ -6,5 +6,5 @@ BBFILES ?= ""
 BBLAYERS = " \
   ##COREBASE##/meta \
   ##COREBASE##/meta-yocto \
-  ##COREBASE##/meta-guacamole \
+  ##GUACABASE##/meta-guacamole \
   "
