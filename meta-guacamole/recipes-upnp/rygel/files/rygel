@@ -1,0 +1,59 @@
+#!/bin/sh
+#
+### BEGIN INIT INFO
+# Provides: rygel
+### END INIT INFO
+
+USER=rygel
+HOME="/var/run/$USER"
+
+killproc() {
+        pid=`/bin/pidof $1`
+        [ "$pid" != "" ] && kill $pid
+}
+
+ensurehome() {
+    if ! [ -d "$HOME/.config" ]; then
+	mkdir -p "$HOME/.config"
+	# create a dummy conf file to shut up warnings
+	echo "#" > "$HOME/.config/rygel.conf"
+	chown -R rygel $HOME
+    fi
+}
+
+setupdbus() {
+    if [ -z "$DBUS_SESSION_BUS_ADDRESS" ]; then
+	if [ -x /usr/bin/dbus-launch ]; then
+	    eval `sudo -u $USER -g $USER dbus-launch --sh-syntax`
+	    export DBUS_SESSION_BUS_ADDRESS=$DBUS_SESSION_BUS_ADDRESS
+	    export DBUS_SESSION_BUS_PID=$DBUS_SESSION_BUS_PID
+	fi
+    fi
+}
+
+case "$1" in
+  start)
+       . /etc/profile
+       echo "Starting Rygel"
+       ensurehome
+       setupdbus
+       sudo -b -E -u $USER -g $USER /usr/bin/rygel
+  ;;
+
+  stop)
+        echo "Stopping Rygel"
+        killproc rygel
+  ;;
+
+  restart)
+	$0 stop
+        sleep 1
+        $0 start
+  ;;
+
+  *)
+        echo "usage: $0 { start | stop | restart }"
+  ;;
+esac
+
+exit 0
