@@ -1,6 +1,6 @@
 LICENSE = "LGPLv2+"
 
-INC_PR = "rgc3"
+INC_PR = "rgc4"
 
 inherit gnome update-rc.d useradd
 
@@ -11,14 +11,15 @@ SRC_URI += "file://rygel"
 DESCRIPTION = "Collection of DLNA[1] (UPnP[2] AV) devices, implemented through a plug-in mechanism."
 SECTION = "network/multimedia"
 DEPENDS = "glib-2.0 gupnp gupnp-av gupnp-dlna gstreamer sqlite3 libsoup-2.4 libgee"
-RDEPENDS = "sudo"
+RDEPENDS_${PN} = "sudo"
+PACKAGES =+ "${PN}-initd"
 
 HOMEPAGE = "http://live.gnome.org/Rygel"
 
-INITSCRIPT_NAME = "rygel"
-
+INITSCRIPT_PACKAGES = "${PN}-initd"
+INITSCRIPT_NAME_${PN}-initd = "rygel"
 # need dbus, so start after and stop before
-INITSCRIPT_PARAMS = "start 50 5 2 3 . stop 10 0 1 6 ."
+INITSCRIPT_PARAMS_${PN}-initd = "start 50 5 2 3 . stop 10 0 1 6 ."
 
 USERADD_PACKAGES = "${PN}"
 USERADD_PARAM_${PN} = "--home-dir=/var/run/rygel \
@@ -32,6 +33,6 @@ do_install_append() {
 
 FILES_${PN} += "${libdir}/rygel-1.0/librygel*.so \
                 ${datadir}/dbus-1/ \
-		${sysconfdir}/init.d \
 	       "
 FILES_${PN}-dbg += "${libdir}/rygel-1.0/.debug/"
+FILES_${PN}-initd += "${sysconfdir}/init.d"
