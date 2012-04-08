@@ -1,8 +1,22 @@
 
-git submodule update
+This repository contains the buildsystem for the guacamole images:
 
-source init-build-env
+meta-gucamole: this is the guacamole layerwe will split it out
 
-edit build/local.conf to something sensible
+upstream: this is where the upstream meta layers go; to add a new meta layer:
+           1. add git submodule into a subdir of upstream
+           2. link the meta-whatever dir into the layers dir
+           3. update meta-guacamole/conf/bblayers.conf.sample accordingly
+           4. rm build/conf/bblayer.conf so it gets regenerated
 
-bitbake
+layers:   this directory holds all the layers into a single whole
+
+Normal workflow:
+
+  git submodule update
+
+  source init-build-env
+
+  edit build/local.conf to something sensible
+
+  bitbake guacamole-image
