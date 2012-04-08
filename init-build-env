@@ -4,14 +4,5 @@ export BDIR=build
 export BUILDDIR="$GUACABASE/build"
 HAVE_BBLAYERS=
 
-echo "TEMPLATECONF=$TEMPLATECONF"
+source "$GUACABASE/layers/oe-init-build-env"
 
-if (test -r "$BUILDDIR/conf/bblayers.conf"); then
-   HAVE_BBLAYERS=yes
-fi
-
-source "$GUACABASE/upstream/yocto/oe-init-build-env"
-
-if (test x$HAVE_BBLAYERS = x); then
-    sed -i "s|##GUACABASE##|$GUACABASE|g" $BUILDDIR/conf/bblayers.conf
-fi
