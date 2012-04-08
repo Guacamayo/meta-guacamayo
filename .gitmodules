@@ -4,3 +4,6 @@
 [submodule "upstream/yocto"]
 	path = upstream/yocto
 	url = git://git.pokylinux.org/poky.git
+[submodule "upstream/oe"]
+	path = upstream/oe
+	url = git://git.openembedded.org/meta-openembedded
