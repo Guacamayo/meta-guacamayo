@@ -3,7 +3,7 @@ LICENSE = "MIT"
 
 LIC_FILES_CHKSUM = "file://${GUACABASE}/meta-guacamole/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 
-PR = "r2"
+PR = "r3"
 
 PACKAGES="task-guacamole-core task-guacamole-restricted"
 
@@ -14,7 +14,7 @@ ALLOW_EMPTY = "1"
 # these packages down to what the whitelist permits
 #
 # These packages have 'commercial' license flag set
-GUACA_COMMERCIAL = "gst-plugins-ugly"
+GUACA_COMMERCIAL = "gst-fluendo-mp3"
 
 python __anonymous () {
     def license_flag_matches(flag, whitelist, pn):
