@@ -8,3 +8,5 @@ BBLAYERS = " \
   ##COREBASE##/meta-yocto \
   ##GUACABASE##/meta-guacamole \
   "
+
+require ##GUACABASE##/meta-guacamole/conf/preferred-versions.conf
