@@ -1,6 +1,6 @@
 LICENSE = "LGPLv2+"
 
-INC_PR = "rgc2"
+INC_PR = "rgc3"
 
 inherit gnome update-rc.d useradd
 
@@ -11,6 +11,8 @@ SRC_URI += "file://rygel"
 DESCRIPTION = "Collection of DLNA[1] (UPnP[2] AV) devices, implemented through a plug-in mechanism."
 SECTION = "network/multimedia"
 DEPENDS = "glib-2.0 gupnp gupnp-av gupnp-dlna gstreamer sqlite3 libsoup-2.4 libgee"
+RDEPENDS = "sudo"
+
 HOMEPAGE = "http://live.gnome.org/Rygel"
 
 INITSCRIPT_NAME = "rygel"
