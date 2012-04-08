@@ -1,8 +1,10 @@
-GUACABASE="`pwd`"
-TEMPLATECONF="$GUACABASE/meta-guacamole/conf"
-BDIR=build
-BUILDDIR="$GUACABASE/build"
+export GUACABASE="`pwd`"
+export TEMPLATECONF="$GUACABASE/meta-guacamole/conf"
+export BDIR=build
+export BUILDDIR="$GUACABASE/build"
 HAVE_BBLAYERS=
+
+echo "TEMPLATECONF=$TEMPLATECONF"
 
 if (test -r "$BUILDDIR/conf/bblayers.conf"); then
    HAVE_BBLAYERS=yes
