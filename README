@@ -1,7 +1,24 @@
+WHAT IS GUACAMOLE?!
+-------------------
+The aim of the Guacamole Project is to provide a reference software stack for
+Linux-based media servers. It is based on the Yocto platform (simply because
+it is the best!).
 
-This repository contains the buildsystem for the guacamole images:
 
-meta-gucamole: this is the guacamole layerwe will split it out
+HARDWARE
+--------
+Guacamole is not targeting any particular hardware; at present images are
+known to work with Intel Atom based devices and the Beagleboard board.
+
+
+REPOSITORY LAYOUT
+-----------------
+This repository contains the buildsystem for the guacamole images, with the
+following subdirectories:
+
+meta-gucamole: the guacamole layer for Poky; the aim is to keep this as thin
+          as possible, using upstream Yocto packages where possible and
+          appropriate.
 
 upstream: this is where the upstream meta layers go; to add a new meta layer:
            1. add git submodule into a subdir of upstream
@@ -9,14 +26,20 @@ upstream: this is where the upstream meta layers go; to add a new meta layer:
            3. update meta-guacamole/conf/bblayers.conf.sample accordingly
            4. rm build/conf/bblayer.conf so it gets regenerated
 
-layers:   this directory holds all the layers into a single whole
+layers:   this directory holds all the layers into a single whole; it should
+          contain no real files, only symlinks
 
-Normal workflow:
 
-  git submodule update
+To build the guacamole image
+
+  git clone git://github.com/Guacamole/meta-guacamole.git
+  cd meta-guacamole
+  git submodule update --init
+
+  # edit build/local.conf to something sensible for your setup
 
   source init-build-env
-
-  edit build/local.conf to something sensible
-
   bitbake guacamole-image
+
+
+See also the documentation for Yocto, yocto-project.org.
