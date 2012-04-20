@@ -3,16 +3,12 @@ LICENSE = "MIT"
 
 LIC_FILES_CHKSUM = "file://${GUACABASE}/meta-guacamole/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 
-PR = "r1"
+PR = "r2"
 
-# for now use SATO features.
-IMAGE_FEATURES += "apps-console-core ${SATO_IMAGE_FEATURES}"
+# For now add X/Sato, though eventually we want to run X-less
+GUACAMOLE_FEATURES =+ "x11-base apps-x11-core package-management x11-sato"
 
-inherit core-image
+# Extra Image features
+GUACAMOLE_FEATURES =+ "guacamole-restricted guacamole-mex"
 
-GUACAMOLE_TASKS = " \
-		   task-guacamole-core \
-		   task-guacamole-restricted \
-		  "
-
-IMAGE_INSTALL += "${GUACAMOLE_TASKS}"
+inherit guacamole-image
