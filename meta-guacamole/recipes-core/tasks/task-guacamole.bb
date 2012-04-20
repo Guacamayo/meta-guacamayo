@@ -3,9 +3,9 @@ LICENSE = "MIT"
 
 LIC_FILES_CHKSUM = "file://${GUACABASE}/meta-guacamole/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 
-PR = "r3"
+PR = "r4"
 
-PACKAGES="task-guacamole-core task-guacamole-restricted"
+PACKAGES="task-guacamole-core task-guacamole-restricted task-guacamole-mex"
 
 ALLOW_EMPTY = "1"
 
@@ -91,3 +91,10 @@ RDEPENDS_task-guacamole-core = "\
                                "
 
 RDEPENDS_task-guacamole-restricted = "${GUACA_RESTRICTED}"
+
+RDEPENDS_task-guacamole-mex = "\
+			      clutter-1.10 \
+			      clutter-1.10-examples \
+			      clutter-gst-1.10	    \
+			      clutter-gst-1.10-examples \
+			      "
