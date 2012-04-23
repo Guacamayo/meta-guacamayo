@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7 \
                     file://glib/pcre/pcre.h;startline=11;endline=35;md5=2ffb79f0a0933f282f4f36cda635683d \
                     file://docs/reference/COPYING;md5=f51a5100c17af6bae00735cd791e1fcc"
 
-PR = "r0"
+PR = "r1"
 PE = "1"
 
 #DEFAULT_PREFERENCE="-1"
@@ -22,7 +22,6 @@ SHRT_VER = "${@d.getVar('PV',1).split('.')[0]}.${@d.getVar('PV',1).split('.')[1]
 SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
            file://configure-libtool.patch \
            file://${GUACABASE}/meta/recipes-core/glib-2.0/glib-2.0/60_wait-longer-for-threads-to-die.patch \
-           file://g_once_init_enter.patch \
            file://${GUACABASE}/meta/recipes-core/glib-2.0/glib-2.0/glib-2.0_fix_for_x32.patch \
            file://${GUACABASE}/meta/recipes-core/glib-2.0/glib-2.0/nodbus.patch \
           "
