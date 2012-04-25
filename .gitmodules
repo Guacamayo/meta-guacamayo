@@ -7,3 +7,6 @@
 [submodule "upstream/oe"]
 	path = upstream/oe
 	url = git://git.openembedded.org/meta-openembedded
+[submodule "upstream/angstrom/meta-ti"]
+	path = upstream/angstrom/meta-ti
+	url = git://github.com/Angstrom-distribution/meta-ti
