@@ -22,7 +22,7 @@ S = "${WORKDIR}/OMAP35x_Graphics_SDK_${SGXPV}"
 
 # Logic to unpack installjammer file
 TI_BIN_UNPK_CMDS="Y: qY:workdir:Y"
-require ../../recipes-ti/includes/ti-eula-unpack.inc
+require ${GUACABASE}/meta-ti/recipes-ti/includes/ti-eula-unpack.inc
 
 BINLOCATION ?= "${S}/gfx_rel"
 ES2LOCATION ?= "${S}/gfx_rel_es2.x"
@@ -35,7 +35,7 @@ do_configure() {
 	# Attempt to fix up the worst offenders for file permissions
 	for i in $(find ${S} -name "*.h") $(find ${S} -name "*.c") $(find ${S} -name "Make*") ; do
 		chmod 0644 $i
-	done 
+	done
 
 	# Attempt to create proper library softlinks
 	for sofile in $(find ${S} -name "lib*Open*.so") $(find ${S} -name "lib*srv*.so") $(find ${S} -name "lib*gl*.so") $(find ${S} -name "libpvr*.so") $(find ${S} -name "lib*GL*.so"); do
@@ -77,23 +77,23 @@ do_compile() {
 	for X11BUILD in 0 1 ; do
 		for demo in ${S}/GFX_Linux_SDK/OGLES/SDKPackage/Demos/* ; do
 			cd $demo/OGLES/Build/LinuxGeneric
-			oe_runmake Common=1 PLATFORM=$PLATFORM X11BUILD=$X11BUILD  
+			oe_runmake Common=1 PLATFORM=$PLATFORM X11BUILD=$X11BUILD
 			rm $demo/OGLES/Build/LinuxOMAP3/Release*/*.o
 			install -m 0755 $demo/OGLES/Build/LinuxOMAP3/ReleaseX11/* ${S}/demos/x11 || true
 			sed -e s:NAME:$(basename $demo): \
 			    -e s:EXEC:${bindir}/SGX/demos/X11/$(basename $demo/OGLES/Build/LinuxOMAP3/ReleaseX11/*): \
 			     ${WORKDIR}/sample.desktop > ${WORKDIR}/$(basename $demo).desktop
-			install -m 0755 $demo/OGLES/Build/LinuxOMAP3/ReleaseRaw/* ${S}/demos/raw || true	
+			install -m 0755 $demo/OGLES/Build/LinuxOMAP3/ReleaseRaw/* ${S}/demos/raw || true
 		done
 		for demo in ${S}/GFX_Linux_SDK/OGLES2/SDKPackage/Demos/* ; do
 			cd $demo/OGLES2/Build/LinuxGeneric
-			oe_runmake Common=1 PLATFORM=$PLATFORM X11BUILD=$X11BUILD  
+			oe_runmake Common=1 PLATFORM=$PLATFORM X11BUILD=$X11BUILD
 			rm -f $demo/OGLES2/Build/LinuxOMAP3/Release*/*.o
 			install -m 0755 $demo/OGLES2/Build/LinuxOMAP3/ReleaseX11/* ${S}/demos/x11 || true
 			sed -e s:NAME:$(basename $demo): \
 			    -e s:EXEC:${bindir}/SGX/demos/X11/$(basename $demo/OGLES2/Build/LinuxOMAP3/ReleaseX11/*): \
 			     ${WORKDIR}/sample.desktop > ${WORKDIR}/$(basename $demo).desktop
-			install -m 0755 $demo/OGLES2/Build/LinuxOMAP3/ReleaseRaw/* ${S}/demos/raw || true	
+			install -m 0755 $demo/OGLES2/Build/LinuxOMAP3/ReleaseRaw/* ${S}/demos/raw || true
 		done
 	done
 
@@ -111,12 +111,12 @@ do_compile() {
 
 			if [ -e $training/OGLES2/Build/LinuxOMAP3/Makefile ] ; then
 				cd $training/OGLES2/Build/LinuxOMAP3
-			fi			
+			fi
 
-			oe_runmake Common=1 PLATFORM=$PLATFORM X11BUILD=$X11BUILD  
+			oe_runmake Common=1 PLATFORM=$PLATFORM X11BUILD=$X11BUILD
 			rm -f $training/OGLES2/Build/LinuxOMAP3/Release*/*.o
 			install -m 0755 $training/OGLES2/Build/LinuxOMAP3/ReleaseX11/* ${S}/trainingcourses/x11 || true
-			install -m 0755 $training/OGLES2/Build/LinuxOMAP3/ReleaseRaw/* ${S}/trainingcourses/raw || true	
+			install -m 0755 $training/OGLES2/Build/LinuxOMAP3/ReleaseRaw/* ${S}/trainingcourses/raw || true
 		done
 	done
 
@@ -150,7 +150,7 @@ do_install () {
 	cp -pPr ${S}/GFX_Linux_SDK/OVG/SDKPackage/Builds/OVG/Include/V* ${D}${includedir}/ || true
 	cp -pPr ${S}/include/*.h ${D}${includedir} || true
 	cp -pPr ${S}/include/wsegl/*.h ${D}${includedir} || true
-	
+
 	install -d ${D}${sysconfdir}/init.d/
 	cp -pP ${WORKDIR}/rc.pvr ${D}${sysconfdir}/init.d/pvr-init
 
@@ -183,7 +183,7 @@ do_install () {
 		cp ${ES3LOCATION}/p[dv]* ${D}${bindir}/ES3.0
 	fi
 
-	if [ -e ${ES5LOCATION} ] ; then 
+	if [ -e ${ES5LOCATION} ] ; then
 		cp -pPR ${ES5LOCATION}/lib*${IMGPV} ${D}${libdir}/ES5.0/
 		cp ${ES5LOCATION}/p[dv]* ${D}${bindir}/ES5.0/
 	fi
@@ -349,7 +349,7 @@ INITSCRIPT_PARAMS = "start 30 5 2 . stop 40 0 1 6 ."
 pkg_postinst_${PN}_append() {
 rm -f $D${sysconfdir}/powervr-esrev
 
-ln -sf /usr/lib/libXdmcp.so.6.0.0 /usr/lib/libXdmcp.so.0 
+ln -sf /usr/lib/libXdmcp.so.6.0.0 /usr/lib/libXdmcp.so.0
 ln -sf /usr/lib/libXau.so.6.0.0 /usr/lib/libXau.so.0
 }
 
