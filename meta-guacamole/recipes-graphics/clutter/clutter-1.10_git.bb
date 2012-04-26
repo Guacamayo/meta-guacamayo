@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
 # the 1.10.2 tag
 SRCREV = "62cffec9036f6a24736dc47914844fe9336c8ce4"
 PV = "1.10.2+git${SRCPV}"
-PR = "r1"
+PR = "r2"
 
 PACKAGES =+ "${PN}-examples"
 
@@ -21,7 +21,7 @@ S = "${WORKDIR}/git"
 
 BASE_CONF += "--disable-introspection"
 
-EXTRA_OECONF = "${BASE_CONF} --with-flavour=eglnative --with-x=no --with-gles=1.1 --with-imagebackend=internal"
+EXTRA_OECONF = "${BASE_CONF} --enable-egl-backend --disable-quartz-backend --disable-win32-backend --disable-x11-backend --disable-gdk-backend --disable-wayland-backend --disable-wayland-compositor --disable-cex100-backend --disable-tslib-input --disable-evdev-input"
 
 AUTOTOOLS_AUXDIR = "${S}/build"
 
