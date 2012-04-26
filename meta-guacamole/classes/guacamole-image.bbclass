@@ -11,6 +11,7 @@
 PACKAGE_GROUP_guacamole-core       = "task-guacamole-core"
 PACKAGE_GROUP_guacamole-mex        = "task-guacamole-mex"
 PACKAGE_GROUP_guacamole-restricted = "task-guacamole-restricted"
+PACKAGE_GROUP_guacamole-gles-tests = "task-guacamole-gles-tests"
 
 # The core bits of Guacamole
 IMAGE_FEATURES =+ "apps-console-core ssh-server-dropbear guacamole-core"
