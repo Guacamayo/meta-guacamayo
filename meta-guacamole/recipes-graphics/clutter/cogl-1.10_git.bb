@@ -7,9 +7,9 @@ DEPENDS += "virtual/egl"
 LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
 
 # the 1.10.2 tag
-SRCREV = "ebb8cdd7c6c6c5d6c6ff92e40aacb0a78e6abdbc"
+SRCREV = "5ad99f6c3e56d13574b6904c0e625dff2c24f075"
 PV = "1.10.2+git${SRCPV}"
-PR = "r3"
+PR = "r4"
 
 DEFAULT_PREFERENCE = "1"
 
