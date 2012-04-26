@@ -1,0 +1,25 @@
+From 5be065dd4c8711b530c69c9ab5b998f404a0be5f Mon Sep 17 00:00:00 2001
+From: Nisim Peled <nisimp@ti.com>
+Date: Tue, 17 May 2011 23:14:02 +0300
+Subject: [PATCH] PSP03.21.00.04.sdk: activate wireless extensions interface used by iwconfig
+
+Signed-off-by: Nisim Peled <nisimp@ti.com>
+---
+ arch/arm/mach-davinci/Kconfig |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
+
+diff --git a/arch/arm/mach-davinci/Kconfig b/arch/arm/mach-davinci/Kconfig
+index ece78c6..287bd51 100644
+--- a/arch/arm/mach-davinci/Kconfig
++++ b/arch/arm/mach-davinci/Kconfig
+@@ -41,6 +41,7 @@ config ARCH_DAVINCI_DA850
+ 	select ARCH_DAVINCI_DA8XX
+ 	select ARCH_HAS_CPUFREQ
+ 	select WL12XX_PLATFORM_DATA
++	select WIRELESS_EXT
+ 
+ config DAVINCI_UART1_AFE
+ 	bool "Enable UART1 flow control"
+-- 
+1.7.0.4
+

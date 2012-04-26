@@ -1,0 +1,114 @@
+From da8fc5330246e7242945646306ea062e6aca3214 Mon Sep 17 00:00:00 2001
+From: Nisim Peled <nisimp@ti.com>
+Date: Wed, 18 May 2011 21:56:03 +0300
+Subject: [PATCH] AM18xx WL1271 Enable BT Manage a GPIO enable/disable (DA850_GPIO0_15) to enable the Bluetooth functionality.
+
+Signed-off-by: Nisim Peled <nisimp@ti.com>
+---
+ arch/arm/mach-davinci/board-da850-evm.c    |   27 ++++++++++++++++++++++++++-
+ arch/arm/mach-davinci/da850.c              |    6 ++++++
+ arch/arm/mach-davinci/include/mach/da8xx.h |    1 +
+ arch/arm/mach-davinci/include/mach/mux.h   |    1 +
+ 4 files changed, 34 insertions(+), 1 deletions(-)
+
+diff --git a/arch/arm/mach-davinci/board-da850-evm.c b/arch/arm/mach-davinci/board-da850-evm.c
+index 4b4d78b..7414331 100644
+--- a/arch/arm/mach-davinci/board-da850-evm.c
++++ b/arch/arm/mach-davinci/board-da850-evm.c
+@@ -72,6 +72,20 @@
+ 
+ #define PWM_DEVICE_ID	"ehrpwm.1"
+ 
++
++/* Enabling GPIO for WL1271's Bluetooth */
++#define WL1271_BT_EN_GPIO GPIO_TO_PIN(0, 15)
++
++/* Enabling GPIOs for WL1271's BT, FM, GPS respectively (-1 if not used) */
++static int gpios[] = { WL1271_BT_EN_GPIO, -1, -1};
++
++static struct platform_device wl1271_device = {
++       .name           = "kim",
++       .id             = -1,
++       .dev.platform_data = &gpios,
++};
++
++
+ static struct platform_pwm_backlight_data da850evm_backlight_data = {
+ 	.pwm_id		= PWM_DEVICE_ID,
+ 	.ch		= 0,
+@@ -1836,6 +1850,9 @@ static void da850_wl12xx_init(void)
+ 	if (gpio_request(DA850_WLAN_IRQ, "wl12xx_irq") ||
+ 	    gpio_direction_input(DA850_WLAN_IRQ))
+ 		pr_err("Error initializing the wl12xx irq gpio\n");
++	if (gpio_request(WL1271_BT_EN_GPIO, "wl1271 BT Enable") ||
++	    gpio_direction_output(WL1271_BT_EN_GPIO,0))
++		pr_err("Failed to request BT_EN GPIO\n");
+ 
+ 	da850_wl12xx_set_platform_data();
+ }
+@@ -2109,7 +2126,15 @@ static __init void da850_evm_init(void)
+ 	if (ret)
+ 		pr_warning("da850_evm_init: eCAP registration failed: %d\n",
+ 			       ret);
+-
++	ret = davinci_cfg_reg_list(da850_wl1271_pins);
++	if (ret)
++		pr_warning("da850_evm_init: wl1271 mux setup failed:"
++		       "%d\n",	ret);
++ 
++	ret = platform_device_register(&wl1271_device);
++	if (ret)
++		pr_warning("da850_evm_init: wl1271 device registration"
++				" failed: %d\n", ret);
+ 	/* initilaize usb module */
+ 	da850_evm_usb_init();
+ }
+diff --git a/arch/arm/mach-davinci/da850.c b/arch/arm/mach-davinci/da850.c
+index d11854c..884c88c 100644
+--- a/arch/arm/mach-davinci/da850.c
++++ b/arch/arm/mach-davinci/da850.c
+@@ -649,6 +649,7 @@ static const struct mux_config da850_pins[] = {
+ 	MUX_CFG(DA850, GPIO6_13,        13,     8,      15,     8,      false)
+ 	MUX_CFG(DA850, RTC_ALARM,	0,	28,	15,	2,	false)
+ 	MUX_CFG(DA850, GPIO7_4,         17,     20,     15,     8,      false)
++	MUX_CFG(DA850, GPIO0_15,	0,	0,	15,	8,	false)
+ 	MUX_CFG(DA850, GPIO6_9,		13,	24,	15,	8,	false)
+ 	MUX_CFG(DA850, GPIO6_10,	13,	20,	15,	8,	false)
+ 	/* McBSP0 function */
+@@ -804,6 +805,11 @@ const short da850_ehrpwm1_pins[] __initdata = {
+ 	-1
+ };
+ 
++const short da850_wl1271_pins[] __initdata = {
++	DA850_GPIO0_15,
++	-1
++};
++
+ const short da850_emif25_pins[] __initdata = {
+ 	DA850_EMA_BA_1, DA850_EMA_CLK, DA850_EMA_WAIT_1, DA850_NEMA_CS_2,
+ 	DA850_NEMA_CS_3, DA850_NEMA_CS_4, DA850_NEMA_WE, DA850_NEMA_OE,
+diff --git a/arch/arm/mach-davinci/include/mach/da8xx.h b/arch/arm/mach-davinci/include/mach/da8xx.h
+index d67d502..f9b70c4 100644
+--- a/arch/arm/mach-davinci/include/mach/da8xx.h
++++ b/arch/arm/mach-davinci/include/mach/da8xx.h
+@@ -158,4 +158,5 @@ extern const short da850_vpif_capture_pins[];
+ extern const short da850_vpif_display_pins[];
+ extern const short da850_ehrpwm0_pins[];
+ extern const short da850_ehrpwm1_pins[];
++extern const short da850_wl1271_pins[];
+ #endif /* __ASM_ARCH_DAVINCI_DA8XX_H */
+diff --git a/arch/arm/mach-davinci/include/mach/mux.h b/arch/arm/mach-davinci/include/mach/mux.h
+index b8b00bc..b7333bb 100644
+--- a/arch/arm/mach-davinci/include/mach/mux.h
++++ b/arch/arm/mach-davinci/include/mach/mux.h
+@@ -931,6 +931,7 @@ enum davinci_da850_index {
+ 	DA850_GPIO6_13,
+ 	DA850_RTC_ALARM,
+ 	DA850_GPIO7_4,
++	DA850_GPIO0_15,
+ 	DA850_GPIO6_9,
+ 	DA850_GPIO6_10,
+ 
+-- 
+1.7.0.4
+

@@ -1,0 +1,616 @@
+From 303bd9e5876970a970aa8a90b2f1836a3374ab39 Mon Sep 17 00:00:00 2001
+From: Nisim Peled <nisimp@ti.com>
+Date: Wed, 18 May 2011 22:34:29 +0300
+Subject: [PATCH] TI-WL12xx MMC patches 03.21.00.04
+ Enables a second MMC (mmc1) which is actually the TI-WL12xx module connection to the board.
+
+Signed-off-by: Nisim Peled <nisimp@ti.com>
+---
+ arch/arm/mach-davinci/Kconfig              |    1 +
+ arch/arm/mach-davinci/board-da850-evm.c    |  102 +++++++++++++++++++++++++--
+ arch/arm/mach-davinci/da850.c              |   16 +++++
+ arch/arm/mach-davinci/devices-da8xx.c      |    1 +
+ arch/arm/mach-davinci/dma.c                |    6 ++
+ arch/arm/mach-davinci/include/mach/da8xx.h |    1 +
+ arch/arm/mach-davinci/include/mach/mmc.h   |    3 +
+ arch/arm/mach-davinci/include/mach/mux.h   |   10 +++
+ drivers/mmc/core/core.c                    |   24 ++++++-
+ drivers/mmc/core/sdio.c                    |   16 ++++-
+ drivers/mmc/core/sdio_bus.c                |   32 ---------
+ drivers/mmc/host/davinci_mmc.c             |   18 +++++
+ drivers/net/wireless/wl12xx/Kconfig        |    1 -
+ drivers/net/wireless/wl12xx/wl1271_boot.c  |   10 +--
+ include/linux/mmc/host.h                   |    5 ++
+ include/linux/wl12xx.h                     |   27 +++++++
+ 16 files changed, 221 insertions(+), 52 deletions(-)
+
+diff --git a/arch/arm/mach-davinci/Kconfig b/arch/arm/mach-davinci/Kconfig
+index c4c207e..ece78c6 100644
+--- a/arch/arm/mach-davinci/Kconfig
++++ b/arch/arm/mach-davinci/Kconfig
+@@ -40,6 +40,7 @@ config ARCH_DAVINCI_DA850
+ 	select CP_INTC
+ 	select ARCH_DAVINCI_DA8XX
+ 	select ARCH_HAS_CPUFREQ
++	select WL12XX_PLATFORM_DATA
+ 
+ config DAVINCI_UART1_AFE
+ 	bool "Enable UART1 flow control"
+diff --git a/arch/arm/mach-davinci/board-da850-evm.c b/arch/arm/mach-davinci/board-da850-evm.c
+index 80710f1..4b4d78b 100644
+--- a/arch/arm/mach-davinci/board-da850-evm.c
++++ b/arch/arm/mach-davinci/board-da850-evm.c
+@@ -34,6 +34,7 @@
+ #include <linux/delay.h>
+ #include <linux/i2c-gpio.h>
+ #include <linux/pwm_backlight.h>
++#include <linux/wl12xx.h>
+ 
+ #include <asm/mach-types.h>
+ #include <asm/mach/arch.h>
+@@ -62,6 +63,9 @@
+ 
+ #define DA850_SD_ENABLE_PIN		GPIO_TO_PIN(0, 11)
+ 
++#define DA850_WLAN_EN			GPIO_TO_PIN(6, 9)
++#define DA850_WLAN_IRQ			GPIO_TO_PIN(6, 10)
++
+ #define DAVINCI_BACKLIGHT_MAX_BRIGHTNESS	250
+ #define DAVINVI_BACKLIGHT_DEFAULT_BRIGHTNESS	250
+ #define DAVINCI_PWM_PERIOD_NANO_SECONDS		(10000 * 10)
+@@ -1038,13 +1042,50 @@ static int da850_evm_mmc_get_cd(int index)
+ 	return !gpio_get_value(DA850_MMCSD_CD_PIN);
+ }
+ 
+-static struct davinci_mmc_config da850_mmc_config = {
+-	.get_ro		= da850_evm_mmc_get_ro,
+-	.get_cd		= da850_evm_mmc_get_cd,
+-	.wires		= 4,
+-	.max_freq	= 50000000,
+-	.caps		= MMC_CAP_MMC_HIGHSPEED | MMC_CAP_SD_HIGHSPEED,
+-	.version	= MMC_CTLR_VERSION_2,
++static int wl12xx_set_power(int slot, int power_on)
++{
++	static int power_state;
++
++	pr_debug("Powering %s wifi", (power_on ? "on" : "off"));
++
++	if (power_on == power_state)
++		return 0;
++	power_state = power_on;
++
++	if (power_on) {
++		gpio_set_value(DA850_WLAN_EN, 1);
++		mdelay(15);
++		gpio_set_value(DA850_WLAN_EN, 0);
++		mdelay(1);
++		gpio_set_value(DA850_WLAN_EN, 1);
++		mdelay(70);
++	} else {
++		gpio_set_value(DA850_WLAN_EN, 0);
++	}
++
++	return 0;
++}
++
++static struct davinci_mmc_config da850_mmc_config[] = {
++	{
++		.get_ro		= da850_evm_mmc_get_ro,
++		.get_cd		= da850_evm_mmc_get_cd,
++		.wires		= 4,
++		.max_freq	= 50000000,
++		.caps		= MMC_CAP_MMC_HIGHSPEED | MMC_CAP_SD_HIGHSPEED,
++		.version	= MMC_CTLR_VERSION_2,
++	},
++	{
++		.get_ro		= NULL,
++		.get_cd		= NULL,
++		.set_power	= wl12xx_set_power,
++		.wires		= 4,
++		.max_freq	= 25000000,
++		.caps		= MMC_CAP_4_BIT_DATA | MMC_CAP_NONREMOVABLE |
++				  MMC_CAP_POWER_OFF_CARD,
++		.version	= MMC_CTLR_VERSION_2,
++	},
++	{}	/* Terminator */
+ };
+ 
+ static void da850_panel_power_ctrl(int val)
+@@ -1765,6 +1806,40 @@ static struct vpif_display_config da850_vpif_display_config = {
+ #define HAS_LCD	0
+ #endif
+ 
++#ifdef CONFIG_WL12XX_PLATFORM_DATA
++
++static struct wl12xx_platform_data da850_wl12xx_wlan_data __initdata = {
++	.irq = -1,
++	.board_ref_clock = WL12XX_REFCLOCK_38,
++	.platform_quirks = WL12XX_PLATFORM_QUIRK_EDGE_IRQ,
++};
++
++static void da850_wl12xx_set_platform_data(void)
++{
++	da850_wl12xx_wlan_data.irq = gpio_to_irq(DA850_WLAN_IRQ);
++	if (wl12xx_set_platform_data(&da850_wl12xx_wlan_data))
++		pr_err("Error setting wl12xx data\n");
++}
++
++#else
++
++static void da850_wl12xx_set_platform_data(void) { }
++
++#endif
++
++static void da850_wl12xx_init(void)
++{
++	if (gpio_request(DA850_WLAN_EN, "wl12xx") ||
++	    gpio_direction_output(DA850_WLAN_EN, 0))
++		pr_err("Error initializing the wl12xx enable gpio\n");
++
++	if (gpio_request(DA850_WLAN_IRQ, "wl12xx_irq") ||
++	    gpio_direction_input(DA850_WLAN_IRQ))
++		pr_err("Error initializing the wl12xx irq gpio\n");
++
++	da850_wl12xx_set_platform_data();
++}
++
+ static __init void da850_evm_init(void)
+ {
+ 	int ret;
+@@ -1806,6 +1881,11 @@ static __init void da850_evm_init(void)
+ 			pr_warning("da850_evm_init: mmcsd0 mux setup failed:"
+ 					" %d\n", ret);
+ 
++		ret = davinci_cfg_reg_list(da850_mmcsd1_pins);
++		if (ret)
++			pr_warning("da850_evm_init: mmcsd1 mux setup failed:"
++					" %d\n", ret);
++
+ 		ret = gpio_request(DA850_MMCSD_CD_PIN, "MMC CD\n");
+ 		if (ret)
+ 			pr_warning("da850_evm_init: can not open GPIO %d\n",
+@@ -1818,10 +1898,16 @@ static __init void da850_evm_init(void)
+ 					DA850_MMCSD_WP_PIN);
+ 		gpio_direction_input(DA850_MMCSD_WP_PIN);
+ 
+-		ret = da8xx_register_mmcsd0(&da850_mmc_config);
++		ret = da8xx_register_mmcsd0(&da850_mmc_config[0]);
+ 		if (ret)
+ 			pr_warning("da850_evm_init: mmcsd0 registration failed:"
+ 					" %d\n", ret);
++		ret = da850_register_mmcsd1(&da850_mmc_config[1]);
++		if (ret)
++			pr_warning("da850_evm_init: mmcsd0 registration failed:"
++					" %d\n", ret);
++
++		da850_wl12xx_init();
+ 	}
+ 
+ 	davinci_serial_init(&da850_evm_uart_config);
+diff --git a/arch/arm/mach-davinci/da850.c b/arch/arm/mach-davinci/da850.c
+index 5e13f88..bc52ec4 100644
+--- a/arch/arm/mach-davinci/da850.c
++++ b/arch/arm/mach-davinci/da850.c
+@@ -580,6 +580,13 @@ static const struct mux_config da850_pins[] = {
+ 	MUX_CFG(DA850, MMCSD0_DAT_3,	10,	20,	15,	2,	false)
+ 	MUX_CFG(DA850, MMCSD0_CLK,	10,	0,	15,	2,	false)
+ 	MUX_CFG(DA850, MMCSD0_CMD,	10,	4,	15,	2,	false)
++	/* MMC/SD1 function */
++	MUX_CFG(DA850, MMCSD1_DAT_0,	18,	8,	15,	2,	false)
++	MUX_CFG(DA850, MMCSD1_DAT_1,	19,	16,	15,	2,	false)
++	MUX_CFG(DA850, MMCSD1_DAT_2,	19,	12,	15,	2,	false)
++	MUX_CFG(DA850, MMCSD1_DAT_3,	19,	8,	15,	2,	false)
++	MUX_CFG(DA850, MMCSD1_CLK,	18,	12,	15,	2,	false)
++	MUX_CFG(DA850, MMCSD1_CMD,	18,	16,	15,	2,	false)
+ 	/* EMIF2.5/EMIFA function */
+ 	MUX_CFG(DA850, EMA_D_7,		9,	0,	15,	1,	false)
+ 	MUX_CFG(DA850, EMA_D_6,		9,	4,	15,	1,	false)
+@@ -642,6 +649,8 @@ static const struct mux_config da850_pins[] = {
+ 	MUX_CFG(DA850, GPIO6_13,        13,     8,      15,     8,      false)
+ 	MUX_CFG(DA850, RTC_ALARM,	0,	28,	15,	2,	false)
+ 	MUX_CFG(DA850, GPIO7_4,         17,     20,     15,     8,      false)
++	MUX_CFG(DA850, GPIO6_9,		13,	24,	15,	8,	false)
++	MUX_CFG(DA850, GPIO6_10,	13,	20,	15,	8,	false)
+ 	/* McBSP0 function */
+ 	MUX_CFG(DA850,	MCBSP0_CLKR,	2,	4,	15,	2,	false)
+ 	MUX_CFG(DA850,	MCBSP0_CLKX,	2,	8,	15,	2,	false)
+@@ -778,6 +787,13 @@ const short da850_mmcsd0_pins[] __initdata = {
+ 	-1
+ };
+ 
++const short da850_mmcsd1_pins[] __initdata = {
++	DA850_MMCSD1_DAT_0, DA850_MMCSD1_DAT_1, DA850_MMCSD1_DAT_2,
++	DA850_MMCSD1_DAT_3, DA850_MMCSD1_CLK, DA850_MMCSD1_CMD,
++	DA850_GPIO6_9, DA850_GPIO6_10,
++	-1
++};
++
+ const short da850_ehrpwm0_pins[] __initdata = {
+ 	DA850_EHRPWM0_A, DA850_EHRPWM0_B, DA850_EHRPWM0_TZ,
+ 	-1
+diff --git a/arch/arm/mach-davinci/devices-da8xx.c b/arch/arm/mach-davinci/devices-da8xx.c
+index 70aa9f8..dd62e44 100644
+--- a/arch/arm/mach-davinci/devices-da8xx.c
++++ b/arch/arm/mach-davinci/devices-da8xx.c
+@@ -124,6 +124,7 @@ static struct edma_soc_info da830_edma_cc0_info = {
+ 	.n_cc			= 1,
+ 	.queue_tc_mapping	= da8xx_queue_tc_mapping,
+ 	.queue_priority_mapping	= da8xx_queue_priority_mapping,
++	.default_queue		= EVENTQ_0,
+ };
+ 
+ static struct edma_soc_info *da830_edma_info[EDMA_MAX_CC] = {
+diff --git a/arch/arm/mach-davinci/dma.c b/arch/arm/mach-davinci/dma.c
+index 6b96698..6152f69 100644
+--- a/arch/arm/mach-davinci/dma.c
++++ b/arch/arm/mach-davinci/dma.c
+@@ -1450,8 +1450,10 @@ static int __init edma_probe(struct platform_device *pdev)
+ 							EDMA_MAX_CC);
+ 
+ 		edma_cc[j]->default_queue = info[j]->default_queue;
++#if 0
+ 		if (!edma_cc[j]->default_queue)
+ 			edma_cc[j]->default_queue = EVENTQ_1;
++#endif
+ 
+ 		dev_dbg(&pdev->dev, "DMA REG BASE ADDR=%p\n",
+ 			edmacc_regs_base[j]);
+@@ -1516,7 +1518,11 @@ static int __init edma_probe(struct platform_device *pdev)
+ 		 * started by the codec engine will not cause audio defects.
+ 		 */
+ 		for (i = 0; i < edma_cc[j]->num_channels; i++)
++#if 0
+ 			map_dmach_queue(j, i, EVENTQ_1);
++#else
++			map_dmach_queue(j, i, edma_cc[j]->default_queue);
++#endif
+ 
+ 		queue_tc_mapping = info[j]->queue_tc_mapping;
+ 		queue_priority_mapping = info[j]->queue_priority_mapping;
+diff --git a/arch/arm/mach-davinci/include/mach/da8xx.h b/arch/arm/mach-davinci/include/mach/da8xx.h
+index 1053485..d67d502 100644
+--- a/arch/arm/mach-davinci/include/mach/da8xx.h
++++ b/arch/arm/mach-davinci/include/mach/da8xx.h
+@@ -150,6 +150,7 @@ extern const short da850_cpgmac_pins[];
+ extern const short da850_mcasp_pins[];
+ extern const short da850_lcdcntl_pins[];
+ extern const short da850_mmcsd0_pins[];
++extern const short da850_mmcsd1_pins[];
+ extern const short da850_emif25_pins[];
+ extern const short da850_mcbsp0_pins[];
+ extern const short da850_mcbsp1_pins[];
+diff --git a/arch/arm/mach-davinci/include/mach/mmc.h b/arch/arm/mach-davinci/include/mach/mmc.h
+index d4f1e96..e64d636 100644
+--- a/arch/arm/mach-davinci/include/mach/mmc.h
++++ b/arch/arm/mach-davinci/include/mach/mmc.h
+@@ -12,6 +12,9 @@ struct davinci_mmc_config {
+ 	/* get_cd()/get_wp() may sleep */
+ 	int	(*get_cd)(int module);
+ 	int	(*get_ro)(int module);
++
++	int	(*set_power)(int module, int on);
++
+ 	/* wires == 0 is equivalent to wires == 4 (4-bit parallel) */
+ 	u8	wires;
+ 
+diff --git a/arch/arm/mach-davinci/include/mach/mux.h b/arch/arm/mach-davinci/include/mach/mux.h
+index 8bea8fb..b8b00bc 100644
+--- a/arch/arm/mach-davinci/include/mach/mux.h
++++ b/arch/arm/mach-davinci/include/mach/mux.h
+@@ -860,6 +860,14 @@ enum davinci_da850_index {
+ 	DA850_MMCSD0_CLK,
+ 	DA850_MMCSD0_CMD,
+ 
++	/* MMC/SD1 function */
++	DA850_MMCSD1_DAT_0,
++	DA850_MMCSD1_DAT_1,
++	DA850_MMCSD1_DAT_2,
++	DA850_MMCSD1_DAT_3,
++	DA850_MMCSD1_CLK,
++	DA850_MMCSD1_CMD,
++
+ 	/* EMIF2.5/EMIFA function */
+ 	DA850_EMA_D_7,
+ 	DA850_EMA_D_6,
+@@ -923,6 +931,8 @@ enum davinci_da850_index {
+ 	DA850_GPIO6_13,
+ 	DA850_RTC_ALARM,
+ 	DA850_GPIO7_4,
++	DA850_GPIO6_9,
++	DA850_GPIO6_10,
+ 
+ 	/* McBSP0 function */
+ 	DA850_MCBSP0_CLKR,
+diff --git a/drivers/mmc/core/core.c b/drivers/mmc/core/core.c
+index 57dcf8f..add09c3 100644
+--- a/drivers/mmc/core/core.c
++++ b/drivers/mmc/core/core.c
+@@ -22,6 +22,7 @@
+ #include <linux/scatterlist.h>
+ #include <linux/log2.h>
+ #include <linux/regulator/consumer.h>
++#include <linux/pm_runtime.h>
+ 
+ #include <linux/mmc/card.h>
+ #include <linux/mmc/host.h>
+@@ -1446,8 +1447,12 @@ void mmc_rescan(struct work_struct *work)
+ 
+ 	mmc_bus_get(host);
+ 
+-	/* if there is a card registered, check whether it is still present */
+-	if ((host->bus_ops != NULL) && host->bus_ops->detect && !host->bus_dead)
++	/*
++	 * if there is a _removable_ card registered, check whether it is
++	 * still present
++	 */
++	if (host->bus_ops && host->bus_ops->detect && !host->bus_dead
++	    && mmc_card_is_removable(host))
+ 		host->bus_ops->detect(host);
+ 
+ 	mmc_bus_put(host);
+@@ -1538,7 +1543,8 @@ out_fail:
+ 		mmc_power_off(host);
+ 	}
+ out:
+-	if (host->caps & MMC_CAP_NEEDS_POLL)
++	if (host->caps & MMC_CAP_NEEDS_POLL &&
++	    !(host->caps & MMC_CAP_NONREMOVABLE))
+ 		mmc_schedule_delayed_work(&host->detect, HZ);
+ }
+ 
+@@ -1721,6 +1727,18 @@ int mmc_resume_host(struct mmc_host *host)
+ 		if (!(host->pm_flags & MMC_PM_KEEP_POWER)) {
+ 			mmc_power_up(host);
+ 			mmc_select_voltage(host, host->ocr);
++			/*
++			 * Tell runtime PM core we just powered up the card,
++			 * since it still believes the card is powered off.
++			 * Note that currently runtime PM is only enabled
++			 * for SDIO cards that are MMC_CAP_POWER_OFF_CARD
++			 */
++			if (mmc_card_sdio(host->card) &&
++			    (host->caps & MMC_CAP_POWER_OFF_CARD)) {
++				pm_runtime_disable(&host->card->dev);
++				pm_runtime_set_active(&host->card->dev);
++				pm_runtime_enable(&host->card->dev);
++			}
+ 		}
+ 		BUG_ON(!host->bus_ops->resume);
+ 		err = host->bus_ops->resume(host);
+diff --git a/drivers/mmc/core/sdio.c b/drivers/mmc/core/sdio.c
+index efef5f9..b424fbe 100644
+--- a/drivers/mmc/core/sdio.c
++++ b/drivers/mmc/core/sdio.c
+@@ -627,15 +627,27 @@ static int mmc_sdio_suspend(struct mmc_host *host)
+ 
+ static int mmc_sdio_resume(struct mmc_host *host)
+ {
+-	int i, err;
++	int i, err = 0;
+ 
+ 	BUG_ON(!host);
+ 	BUG_ON(!host->card);
+ 
+ 	/* Basic card reinitialization. */
+ 	mmc_claim_host(host);
+-	err = mmc_sdio_init_card(host, host->ocr, host->card,
++
++	/* No need to reinitialize powered-resumed nonremovable cards */
++	if (mmc_card_is_removable(host) || !mmc_card_is_powered_resumed(host))
++		err = mmc_sdio_init_card(host, host->ocr, host->card,
+ 				 (host->pm_flags & MMC_PM_KEEP_POWER));
++	else if (mmc_card_is_powered_resumed(host)) {
++		/* We may have switched to 1-bit mode during suspend */
++		err = sdio_enable_4bit_bus(host->card);
++		if (err > 0) {
++			mmc_set_bus_width(host, MMC_BUS_WIDTH_4);
++			err = 0;
++		}
++	}
++
+ 	if (!err && host->sdio_irqs)
+ 		mmc_signal_sdio_irq(host);
+ 	mmc_release_host(host);
+diff --git a/drivers/mmc/core/sdio_bus.c b/drivers/mmc/core/sdio_bus.c
+index 203da44..d29b9c3 100644
+--- a/drivers/mmc/core/sdio_bus.c
++++ b/drivers/mmc/core/sdio_bus.c
+@@ -197,44 +197,12 @@ out:
+ 
+ #ifdef CONFIG_PM_RUNTIME
+ 
+-static int sdio_bus_pm_prepare(struct device *dev)
+-{
+-	struct sdio_func *func = dev_to_sdio_func(dev);
+-
+-	/*
+-	 * Resume an SDIO device which was suspended at run time at this
+-	 * point, in order to allow standard SDIO suspend/resume paths
+-	 * to keep working as usual.
+-	 *
+-	 * Ultimately, the SDIO driver itself will decide (in its
+-	 * suspend handler, or lack thereof) whether the card should be
+-	 * removed or kept, and if kept, at what power state.
+-	 *
+-	 * At this point, PM core have increased our use count, so it's
+-	 * safe to directly resume the device. After system is resumed
+-	 * again, PM core will drop back its runtime PM use count, and if
+-	 * needed device will be suspended again.
+-	 *
+-	 * The end result is guaranteed to be a power state that is
+-	 * coherent with the device's runtime PM use count.
+-	 *
+-	 * The return value of pm_runtime_resume is deliberately unchecked
+-	 * since there is little point in failing system suspend if a
+-	 * device can't be resumed.
+-	 */
+-	if (func->card->host->caps & MMC_CAP_POWER_OFF_CARD)
+-		pm_runtime_resume(dev);
+-
+-	return 0;
+-}
+-
+ static const struct dev_pm_ops sdio_bus_pm_ops = {
+ 	SET_RUNTIME_PM_OPS(
+ 		pm_generic_runtime_suspend,
+ 		pm_generic_runtime_resume,
+ 		pm_generic_runtime_idle
+ 	)
+-	.prepare = sdio_bus_pm_prepare,
+ };
+ 
+ #define SDIO_PM_OPS_PTR	(&sdio_bus_pm_ops)
+diff --git a/drivers/mmc/host/davinci_mmc.c b/drivers/mmc/host/davinci_mmc.c
+index e15547c..2e9b507 100644
+--- a/drivers/mmc/host/davinci_mmc.c
++++ b/drivers/mmc/host/davinci_mmc.c
+@@ -208,6 +208,8 @@ struct mmc_davinci_host {
+ #ifdef CONFIG_CPU_FREQ
+ 	struct notifier_block	freq_transition;
+ #endif
++
++	unsigned char		power_mode;
+ };
+ 
+ 
+@@ -798,12 +800,28 @@ static void calculate_clk_divider(struct mmc_host *mmc, struct mmc_ios *ios)
+ static void mmc_davinci_set_ios(struct mmc_host *mmc, struct mmc_ios *ios)
+ {
+ 	struct mmc_davinci_host *host = mmc_priv(mmc);
++	struct platform_device *pdev = to_platform_device(mmc->parent);
++	struct davinci_mmc_config *config = pdev->dev.platform_data;
+ 
+ 	dev_dbg(mmc_dev(host->mmc),
+ 		"clock %dHz busmode %d powermode %d Vdd %04x\n",
+ 		ios->clock, ios->bus_mode, ios->power_mode,
+ 		ios->vdd);
+ 
++	if (ios->power_mode != host->power_mode) {
++		switch (ios->power_mode) {
++		case MMC_POWER_OFF:
++			if (config && config->set_power)
++				config->set_power(pdev->id, 0);
++			break;
++		case MMC_POWER_UP:
++			if (config && config->set_power)
++				config->set_power(pdev->id, 1);
++			break;
++		}
++		host->power_mode = ios->power_mode;
++	}
++
+ 	switch (ios->bus_width) {
+ 	case MMC_BUS_WIDTH_8:
+ 		dev_dbg(mmc_dev(host->mmc), "Enabling 8 bit mode\n");
+diff --git a/drivers/net/wireless/wl12xx/Kconfig b/drivers/net/wireless/wl12xx/Kconfig
+index b447559..441aaf6 100644
+--- a/drivers/net/wireless/wl12xx/Kconfig
++++ b/drivers/net/wireless/wl12xx/Kconfig
+@@ -42,5 +42,4 @@ config WL1271_SDIO
+ 
+ config WL12XX_PLATFORM_DATA
+ 	bool
+-	depends on WL1271_SDIO != n
+ 	default y
+diff --git a/drivers/net/wireless/wl12xx/wl1271_boot.c b/drivers/net/wireless/wl12xx/wl1271_boot.c
+index b910212..5b19072 100644
+--- a/drivers/net/wireless/wl12xx/wl1271_boot.c
++++ b/drivers/net/wireless/wl12xx/wl1271_boot.c
+@@ -471,20 +471,19 @@ int wl1271_boot(struct wl1271 *wl)
+ {
+ 	int ret = 0;
+ 	u32 tmp, clk, pause;
+-	int ref_clock = wl->ref_clock;
+ 
+ 	wl1271_boot_hw_version(wl);
+ 
+-	if (ref_clock == 0 || ref_clock == 2 || ref_clock == 4)
++	if (wl->ref_clock == 0 || wl->ref_clock == 2 || wl->ref_clock == 4)
+ 		/* ref clk: 19.2/38.4/38.4-XTAL */
+ 		clk = 0x3;
+-	else if (ref_clock == 1 || ref_clock == 3)
++	else if (wl->ref_clock == 1 || wl->ref_clock == 3)
+ 		/* ref clk: 26/52 */
+ 		clk = 0x5;
+ 	else
+ 		return -EINVAL;
+ 
+-	if (ref_clock != 0) {
++	if (wl->ref_clock != 0) {
+ 		u16 val;
+ 		/* Set clock type (open drain) */
+ 		val = wl1271_top_reg_read(wl, OCP_REG_CLK_TYPE);
+@@ -529,8 +528,7 @@ int wl1271_boot(struct wl1271 *wl)
+ 
+ 	wl1271_debug(DEBUG_BOOT, "clk2 0x%x", clk);
+ 
+-	/* 2 */
+-	clk |= (ref_clock << 1) << 4;
++	clk |= (wl->ref_clock << 1) << 4;
+ 	wl1271_write32(wl, DRPW_SCRATCH_START, clk);
+ 
+ 	wl1271_set_partition(wl, &part_table[PART_WORK]);
+diff --git a/include/linux/mmc/host.h b/include/linux/mmc/host.h
+index 30f6fad..86d74a5 100644
+--- a/include/linux/mmc/host.h
++++ b/include/linux/mmc/host.h
+@@ -307,5 +307,10 @@ static inline int mmc_card_is_removable(struct mmc_host *host)
+ 	return !(host->caps & MMC_CAP_NONREMOVABLE) && mmc_assume_removable;
+ }
+ 
++static inline int mmc_card_is_powered_resumed(struct mmc_host *host)
++{
++	return host->pm_flags & MMC_PM_KEEP_POWER;
++}
++
+ #endif
+ 
+diff --git a/include/linux/wl12xx.h b/include/linux/wl12xx.h
+index 4f902e1..4b69739 100644
+--- a/include/linux/wl12xx.h
++++ b/include/linux/wl12xx.h
+@@ -24,14 +24,41 @@
+ #ifndef _LINUX_WL12XX_H
+ #define _LINUX_WL12XX_H
+ 
++/* Reference clock values */
++enum {
++	WL12XX_REFCLOCK_19	= 0, /* 19.2 MHz */
++	WL12XX_REFCLOCK_26	= 1, /* 26 MHz */
++	WL12XX_REFCLOCK_38	= 2, /* 38.4 MHz */
++	WL12XX_REFCLOCK_52	= 3, /* 52 MHz */
++	WL12XX_REFCLOCK_38_XTAL = 4, /* 38.4 MHz, XTAL */
++	WL12XX_REFCLOCK_26_XTAL = 5, /* 26 MHz, XTAL */
++};
++
++/* TCXO clock values */
++enum {
++	WL12XX_TCXOCLOCK_19_2	= 0, /* 19.2MHz */
++	WL12XX_TCXOCLOCK_26	= 1, /* 26 MHz */
++	WL12XX_TCXOCLOCK_38_4	= 2, /* 38.4MHz */
++	WL12XX_TCXOCLOCK_52	= 3, /* 52 MHz */
++	WL12XX_TCXOCLOCK_16_368	= 4, /* 16.368 MHz */
++	WL12XX_TCXOCLOCK_32_736	= 5, /* 32.736 MHz */
++	WL12XX_TCXOCLOCK_16_8	= 6, /* 16.8 MHz */
++	WL12XX_TCXOCLOCK_33_6	= 7, /* 33.6 MHz */
++};
++
+ struct wl12xx_platform_data {
+ 	void (*set_power)(bool enable);
+ 	/* SDIO only: IRQ number if WLAN_IRQ line is used, 0 for SDIO IRQs */
+ 	int irq;
+ 	bool use_eeprom;
+ 	int board_ref_clock;
++	int board_tcxo_clock;
++	unsigned long platform_quirks;
+ };
+ 
++/* Platform does not support level trigger interrupts */
++#define WL12XX_PLATFORM_QUIRK_EDGE_IRQ	BIT(0)
++
+ #ifdef CONFIG_WL12XX_PLATFORM_DATA
+ 
+ int wl12xx_set_platform_data(const struct wl12xx_platform_data *data);
+-- 
+1.7.0.4
+

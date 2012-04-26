@@ -1,0 +1,539 @@
+From 15a3ca5868a7ba5b0526a566605675b77c45d40d Mon Sep 17 00:00:00 2001
+From: Melissa Watkins <m-watkins@ti.com>
+Date: Tue, 14 Jun 2011 09:32:53 -0500
+Subject: [PATCH] uio_pruss
+
+Signed-off-by: Melissa Watkins <m-watkins@ti.com>
+---
+ arch/arm/configs/da850_omapl138_defconfig  |    7 +-
+ arch/arm/mach-davinci/board-da850-evm.c    |    3 +
+ arch/arm/mach-davinci/da850.c              |   40 ++++-
+ arch/arm/mach-davinci/devices-da8xx.c      |   75 ++++++++
+ arch/arm/mach-davinci/include/mach/da8xx.h |    4 +
+ drivers/uio/Kconfig                        |   10 +
+ drivers/uio/Makefile                       |    1 +
+ drivers/uio/uio_pru.c                      |  274 ++++++++++++++++++++++++++++
+ 8 files changed, 406 insertions(+), 8 deletions(-)
+ create mode 100644 drivers/uio/uio_pru.c
+
+diff --git a/arch/arm/configs/da850_omapl138_defconfig b/arch/arm/configs/da850_omapl138_defconfig
+index 73af1fc..646c477 100644
+--- a/arch/arm/configs/da850_omapl138_defconfig
++++ b/arch/arm/configs/da850_omapl138_defconfig
+@@ -1513,7 +1513,12 @@ CONFIG_RTC_INTF_DEV=y
+ CONFIG_RTC_DRV_OMAP=y
+ # CONFIG_DMADEVICES is not set
+ # CONFIG_AUXDISPLAY is not set
+-# CONFIG_UIO is not set
++CONFIG_UIO=y
++# CONFIG_UIO_PDRV is not set
++# CONFIG_UIO_PDRV_GENIRQ is not set
++# CONFIG_UIO_SMX is not set
++# CONFIG_UIO_SERCOS3 is not set
++CONFIG_UIO_PRUSS=m
+ # CONFIG_STAGING is not set
+ 
+ #
+diff --git a/arch/arm/mach-davinci/board-da850-evm.c b/arch/arm/mach-davinci/board-da850-evm.c
+index 80745f6..5efd814 100644
+--- a/arch/arm/mach-davinci/board-da850-evm.c
++++ b/arch/arm/mach-davinci/board-da850-evm.c
+@@ -1876,6 +1876,9 @@ static __init void da850_evm_init(void)
+ 
+ 	platform_device_register(&da850_gpio_i2c);
+ 
++	/* Register PRUSS device */
++	da8xx_register_pruss();
++
+ 	ret = da8xx_register_watchdog();
+ 	if (ret)
+ 		pr_warning("da830_evm_init: watchdog registration failed: %d\n",
+diff --git a/arch/arm/mach-davinci/da850.c b/arch/arm/mach-davinci/da850.c
+index 884c88c..6fefd50 100644
+--- a/arch/arm/mach-davinci/da850.c
++++ b/arch/arm/mach-davinci/da850.c
+@@ -241,6 +241,13 @@ static struct clk tptc2_clk = {
+ 	.flags		= ALWAYS_ENABLED,
+ };
+ 
++static struct clk pruss_clk = {
++	.name		= "pruss",
++	.parent		= &pll0_sysclk2,
++	.lpsc		= DA8XX_LPSC0_DMAX,
++	.flags		= ALWAYS_ENABLED,
++};
++
+ static struct clk uart0_clk = {
+ 	.name		= "uart0",
+ 	.parent		= &pll0_sysclk2,
+@@ -398,12 +405,28 @@ static struct clk ehrpwm_clk = {
+ 	.flags          = DA850_CLK_ASYNC3,
+ };
+ 
+-static struct clk ecap_clk = {
+-	.name		= "ecap",
+-	.parent		= &pll0_sysclk2,
+-	.lpsc		= DA8XX_LPSC1_ECAP,
+-	.gpsc		= 1,
+-	.flags          = DA850_CLK_ASYNC3,
++static struct clk ecap0_clk = {
++       .name           = "ecap0",
++       .parent         = &pll0_sysclk2,
++       .lpsc           = DA8XX_LPSC1_ECAP,
++       .flags          = DA850_CLK_ASYNC3,
++       .gpsc           = 1,
++};
++
++static struct clk ecap1_clk = {
++       .name           = "ecap1",
++       .parent         = &pll0_sysclk2,
++       .lpsc           = DA8XX_LPSC1_ECAP,
++       .flags          = DA850_CLK_ASYNC3,
++       .gpsc           = 1,
++};
++
++static struct clk ecap2_clk = {
++       .name           = "ecap2",
++       .parent         = &pll0_sysclk2,
++       .lpsc           = DA8XX_LPSC1_ECAP,
++       .flags          = DA850_CLK_ASYNC3,
++       .gpsc           = 1,
+ };
+ 
+ static struct clk usb11_clk = {
+@@ -447,6 +470,7 @@ static struct clk_lookup da850_clks[] = {
+ 	CLK(NULL,		"tptc1",	&tptc1_clk),
+ 	CLK(NULL,		"tpcc1",	&tpcc1_clk),
+ 	CLK(NULL,		"tptc2",	&tptc2_clk),
++	CLK(NULL,       "pruss",    &pruss_clk),
+ 	CLK(NULL,		"uart0",	&uart0_clk),
+ 	CLK(NULL,		"uart1",	&uart1_clk),
+ 	CLK(NULL,		"uart2",	&uart2_clk),
+@@ -469,7 +493,9 @@ static struct clk_lookup da850_clks[] = {
+ 	CLK("davinci-mcbsp.1",	NULL,		&mcbsp1_clk),
+ 	CLK(NULL,		"vpif",		&vpif_clk),
+ 	CLK(NULL,		"ehrpwm",	&ehrpwm_clk),
+-	CLK(NULL,		"ecap",		&ecap_clk),
++	CLK(NULL,               "ecap0",        &ecap0_clk),
++        CLK(NULL,               "ecap1",        &ecap1_clk),
++        CLK(NULL,               "ecap2",        &ecap2_clk),
+ 	CLK(NULL,               "usb11",        &usb11_clk),
+ 	CLK(NULL,               "usb20",        &usb20_clk),
+ 	CLK(NULL,		NULL,		NULL),
+diff --git a/arch/arm/mach-davinci/devices-da8xx.c b/arch/arm/mach-davinci/devices-da8xx.c
+index dd62e44..08f6dfa 100644
+--- a/arch/arm/mach-davinci/devices-da8xx.c
++++ b/arch/arm/mach-davinci/devices-da8xx.c
+@@ -1064,3 +1064,78 @@ int __init da850_register_sata(unsigned long refclkpn)
+ 
+ 	return platform_device_register(&da850_sata_device);
+ }
++
++static struct resource pruss_resources[] = {
++        [0] = {
++                .start  = DA8XX_PRUSS_BASE,
++                .end    = DA8XX_PRUSS_BASE + SZ_64K - 1,
++                .flags  = IORESOURCE_MEM,
++        },
++       [1] = {
++                .start  = DA8XX_L3RAM_BASE,
++                .end    = DA8XX_L3RAM_BASE + SZ_128K - 1,
++                .flags  = IORESOURCE_MEM,
++        },
++       [2] = {
++                .start  = 0,
++                .end    = SZ_256K - 1,
++                .flags  = IORESOURCE_MEM,
++        },
++
++        [3] = {
++                .start  = IRQ_DA8XX_EVTOUT0,
++                .end    = IRQ_DA8XX_EVTOUT0,
++                .flags  = IORESOURCE_IRQ,
++        },
++        [4] = {
++                .start  = IRQ_DA8XX_EVTOUT1,
++                .end    = IRQ_DA8XX_EVTOUT1,
++                .flags  = IORESOURCE_IRQ,
++        },
++        [5] = {
++                .start  = IRQ_DA8XX_EVTOUT2,
++                .end    = IRQ_DA8XX_EVTOUT2,
++                .flags  = IORESOURCE_IRQ,
++        },
++        [6] = {
++                .start  = IRQ_DA8XX_EVTOUT3,
++                .end    = IRQ_DA8XX_EVTOUT3,
++                .flags  = IORESOURCE_IRQ,
++        },
++        [7] = {
++                .start  = IRQ_DA8XX_EVTOUT4,
++                .end    = IRQ_DA8XX_EVTOUT4,
++                .flags  = IORESOURCE_IRQ,
++        },
++        [8] = {
++                .start  = IRQ_DA8XX_EVTOUT5,
++                .end    = IRQ_DA8XX_EVTOUT5,
++                .flags  = IORESOURCE_IRQ,
++        },
++        [9] = {
++                .start  = IRQ_DA8XX_EVTOUT6,
++                .end    = IRQ_DA8XX_EVTOUT6,
++                .flags  = IORESOURCE_IRQ,
++        },
++        [10] = {
++                .start  = IRQ_DA8XX_EVTOUT7,
++                .end    = IRQ_DA8XX_EVTOUT7,
++                .flags  = IORESOURCE_IRQ,
++        },
++};
++
++static struct platform_device pruss_device = {
++       .name                   = "pruss",
++        .id                    = 0,
++        .num_resources         = ARRAY_SIZE(pruss_resources),
++        .resource              = pruss_resources,
++       .dev    =       {
++               .coherent_dma_mask = 0xffffffff,
++       }
++
++};
++
++int __init da8xx_register_pruss()
++{
++        return platform_device_register(&pruss_device);
++}
+diff --git a/arch/arm/mach-davinci/include/mach/da8xx.h b/arch/arm/mach-davinci/include/mach/da8xx.h
+index f9b70c4..ad0474f 100644
+--- a/arch/arm/mach-davinci/include/mach/da8xx.h
++++ b/arch/arm/mach-davinci/include/mach/da8xx.h
+@@ -78,6 +78,9 @@ extern unsigned int da850_max_speed;
+ #define DA8XX_DDR2_CTL_BASE	0xb0000000
+ #define DA8XX_ARM_RAM_BASE	0xffff0000
+ #define DA8XX_VPIF_BASE		0x01e17000
++#define DA8XX_PRUSS_BASE       0x01C30000
++#define DA8XX_L3RAM_BASE       0x80000000
++
+ 
+ void __init da830_init(void);
+ void __init da850_init(void);
+@@ -108,6 +111,7 @@ int __init da850_register_vpif_capture(struct vpif_capture_config
+ int __init da850_register_sata(unsigned long refclkpn);
+ void __init da850_register_ehrpwm(char);
+ int __init da850_register_ecap(char);
++int da8xx_register_pruss(void);
+ 
+ extern struct platform_device da8xx_serial_device;
+ extern struct emac_platform_data da8xx_emac_pdata;
+diff --git a/drivers/uio/Kconfig b/drivers/uio/Kconfig
+index bb44079..4a26486 100644
+--- a/drivers/uio/Kconfig
++++ b/drivers/uio/Kconfig
+@@ -94,4 +94,14 @@ config UIO_NETX
+ 	  To compile this driver as a module, choose M here; the module
+ 	  will be called uio_netx.
+ 
++config UIO_PRUSS
++	tristate "Texas Instruments PRUSS driver"
++	depends on ARCH_DAVINCI_DA850
++	default n
++	help
++	  PRUSS driver for OMAPL13X/DA8XX/AM17XX/AM18XX devices
++	  PRUSS driver requires user space components
++	  To compile this driver as a module, choose M here: the module
++	  will be called uio_pruss.
++
+ endif
+diff --git a/drivers/uio/Makefile b/drivers/uio/Makefile
+index 18fd818..948d587 100644
+--- a/drivers/uio/Makefile
++++ b/drivers/uio/Makefile
+@@ -5,4 +5,5 @@ obj-$(CONFIG_UIO_PDRV_GENIRQ)	+= uio_pdrv_genirq.o
+ obj-$(CONFIG_UIO_AEC)	+= uio_aec.o
+ obj-$(CONFIG_UIO_SERCOS3)	+= uio_sercos3.o
+ obj-$(CONFIG_UIO_PCI_GENERIC)	+= uio_pci_generic.o
++obj-$(CONFIG_UIO_PRUSS)         += uio_pru.o
+ obj-$(CONFIG_UIO_NETX)	+= uio_netx.o
+diff --git a/drivers/uio/uio_pru.c b/drivers/uio/uio_pru.c
+new file mode 100644
+index 0000000..88af0a2
+--- /dev/null
++++ b/drivers/uio/uio_pru.c
+@@ -0,0 +1,274 @@
++/*
++ * UIO TI Programmable Real-Time Unit (PRU) driver.
++ *
++ * (C) 2010 Amit Chatterjee <amit.chatterjee@ti.com>
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License version 2 as
++ * published by the Free Software Foundation.
++ *
++ */
++
++#include <linux/device.h>
++#include <linux/module.h>
++#include <linux/platform_device.h>
++#include <linux/uio_driver.h>
++#include <linux/io.h>
++#include <linux/clk.h>
++#include <linux/dma-mapping.h>
++#include <linux/slab.h>
++
++#define DRV_NAME "pruss"
++#define DRV_VERSION "0.01"
++
++/*
++0x01C30000 - 0x01C301FF Data RAM 0
++0x01C30200 - 0x01C31FFF Reserved
++0x01C32000 - 0x01C321FF Data RAM 1
++0x01C32200 - 0x01C33FFF Reserved
++0x01C34000 - 0x01C36FFF INTC Registers
++0x01C37000 - 0x01C373FF PRU0 Control Registers
++0x01C37400 - 0x01C377FF PRU0 Debug Registers
++0x01C37800 - 0x01C37BFF PRU1 Control Registers
++0x01C37C00 - 0x01C37FFF PRU1 Debug Registers
++0x01C38000 - 0x01C38FFF PRU0 Instruction RAM
++0x01C39000 - 0x01C3BFFF Reserved
++0x01C3C000 - 0x01C3CFFF PRU1 Instruction RAM
++0x01C3D000 - 0x01C3FFFF Reserved
++*/
++/*
++ * 3 PRU_EVTOUT0 PRUSS Interrupt
++ * 4 PRU_EVTOUT1 PRUSS Interrupt
++ * 5 PRU_EVTOUT2 PRUSS Interrupt
++ * 6 PRU_EVTOUT3 PRUSS Interrupt
++ * 7 PRU_EVTOUT4 PRUSS Interrupt
++ * 8 PRU_EVTOUT5 PRUSS Interrupt
++ * 9 PRU_EVTOUT6 PRUSS Interrupt
++ * 10 PRU_EVTOUT7 PRUSS Interrupt
++*/
++
++#define PRUSS_INSTANCE		(8)
++
++static struct clk *pruss_clk = NULL, *ecap0_clk = NULL;
++static struct uio_info *info[PRUSS_INSTANCE];
++static void *ddr_virt_addr;
++static dma_addr_t ddr_phy_addr;
++
++
++
++static irqreturn_t pruss_handler(int irq, struct uio_info *dev_info)
++{
++	return IRQ_HANDLED;
++}
++
++static int __devinit pruss_probe(struct platform_device *dev)
++{
++	int ret = -ENODEV;
++	int count = 0;
++	struct resource *regs_pruram, *regs_l3ram, *regs_ddr;
++	char *string;
++ 
++	/* Power on PRU in case its not done as part of boot-loader */
++	pruss_clk = clk_get(&dev->dev, "pruss");
++	if (IS_ERR(pruss_clk)) {
++		dev_err(&dev->dev, "no pruss clock available\n");
++		ret = PTR_ERR(pruss_clk);
++		pruss_clk = NULL;
++		return ret;
++	} else {
++		clk_enable (pruss_clk);
++	}
++
++	ecap0_clk = clk_get(&dev->dev, "ecap0");
++	if (IS_ERR(ecap0_clk)) {
++		dev_err(&dev->dev, "no ecap0 clock available\n");
++		ret = PTR_ERR(ecap0_clk);
++		ecap0_clk = NULL;
++		return ret;
++	} else {
++		clk_enable (ecap0_clk);
++	}
++ 
++
++
++        for (count = 0; count < PRUSS_INSTANCE; count ++) {
++		info[count] = (struct uio_info *)kzalloc(sizeof (struct uio_info), GFP_KERNEL);
++	        if (!info[count])
++        	        return -ENOMEM;
++
++        }
++
++	regs_pruram = platform_get_resource(dev, IORESOURCE_MEM, 0);
++	if (!regs_pruram) {
++		dev_err(&dev->dev, "No memory resource specified\n");
++		goto out_free;
++	}
++
++	regs_l3ram = platform_get_resource(dev, IORESOURCE_MEM, 1);
++	if (!regs_l3ram) {
++		dev_err(&dev->dev, "No memory resource specified\n");
++		goto out_free;
++	}
++
++	regs_ddr = platform_get_resource(dev, IORESOURCE_MEM, 2);
++        if (!regs_ddr) {
++                dev_err(&dev->dev, "No memory resource specified\n");
++                goto out_free;
++        }
++	ddr_virt_addr = dma_alloc_coherent (&dev->dev, regs_ddr->end-regs_ddr->start+1, &ddr_phy_addr, GFP_KERNEL|GFP_DMA);
++
++
++	for (count = 0; count < PRUSS_INSTANCE; count ++) {
++		info[count]->mem[0].addr = regs_pruram->start;
++		if (!info[count]->mem[0].addr) {
++			dev_err(&dev->dev, "Invalid memory resource\n");
++			break;
++		}
++
++		info[count]->mem[0].size = regs_pruram->end - regs_pruram->start + 1;
++		info[count]->mem[0].internal_addr = ioremap(regs_pruram->start, info[count]->mem[0].size);
++
++		if (!info[count]->mem[0].internal_addr) {
++			dev_err(&dev->dev, "Can't remap memory address range\n");
++			break;
++		}
++		info[count]->mem[0].memtype = UIO_MEM_PHYS;
++
++
++		info[count]->mem[1].addr = regs_l3ram->start;
++		if (!info[count]->mem[1].addr) {
++			dev_err(&dev->dev, "Invalid memory resource\n");
++			break;
++		}
++
++		info[count]->mem[1].size = regs_l3ram->end - regs_l3ram->start + 1;
++		info[count]->mem[1].internal_addr = ioremap(regs_l3ram->start, info[count]->mem[1].size);
++
++		if (!info[count]->mem[1].internal_addr) {
++			dev_err(&dev->dev, "Can't remap memory address range\n");
++			break;
++		}
++		info[count]->mem[1].memtype = UIO_MEM_PHYS;
++
++
++                info[count]->mem[2].size = regs_ddr->end - regs_ddr->start + 1;
++                if (!(info[count]->mem[2].size-1)) {
++                        dev_err(&dev->dev, "Invalid memory resource\n");
++                        break;
++                }
++
++
++                info[count]->mem[2].internal_addr = ddr_virt_addr;
++
++                if (!info[count]->mem[2].internal_addr) {
++                        dev_err(&dev->dev, "Can't remap memory address range\n");
++                        break;
++                }
++		info[count]->mem[2].addr = ddr_phy_addr;
++                info[count]->mem[2].memtype = UIO_MEM_PHYS;
++
++
++               	string = kzalloc(20, GFP_KERNEL);
++                sprintf (string, "pruss_evt%d", count); 
++                info[count]->name = string;
++		info[count]->version = "0.01";
++
++		/* Register PRUSS IRQ lines */
++		info[count]->irq = IRQ_DA8XX_EVTOUT0+count;
++
++		info[count]->irq_flags = IRQF_SHARED;
++		info[count]->handler = pruss_handler;
++
++		ret = uio_register_device(&dev->dev, info[count]);
++
++		if (ret < 0)
++			break;
++	}
++
++	platform_set_drvdata(dev, info);
++
++	if (ret < 0) {
++		if (ddr_virt_addr)
++			dma_free_coherent (&dev->dev, regs_ddr->end - regs_ddr->start + 1, ddr_virt_addr, ddr_phy_addr);  
++		while (count --) {
++			uio_unregister_device (info[count]);
++			if (info[count]->name)
++				kfree (info[count]->name);
++			iounmap(info[count]->mem[0].internal_addr);
++		}
++	} else {
++		return 0;
++	}
++
++out_free:
++       for (count = 0; count < PRUSS_INSTANCE; count ++) {
++                if (info[count])
++                        kfree(info[count]);
++        }
++
++	if(pruss_clk != NULL)
++		clk_put(pruss_clk);
++	if (ecap0_clk != NULL)
++		clk_put (ecap0_clk);
++
++	return ret;
++}
++
++static int __devexit pruss_remove(struct platform_device *dev)
++{
++	int count = 0;
++	struct uio_info **info;
++
++	info = (struct uio_info **)platform_get_drvdata(dev);
++
++	for (count = 0; count < PRUSS_INSTANCE; count ++) { 
++		uio_unregister_device(info[count]);
++		if (info[count]->name)
++			kfree (info[count]->name);
++
++	}
++	iounmap(info[0]->mem[0].internal_addr);
++	iounmap(info[0]->mem[1].internal_addr);
++	if (ddr_virt_addr)
++		dma_free_coherent (&dev->dev, info[0]->mem[2].size, info[0]->mem[2].internal_addr, info[0]->mem[2].addr );
++
++	for (count = 0; count < PRUSS_INSTANCE; count ++) {
++		if (info[count])
++			kfree(info[count]);
++	}		
++
++	platform_set_drvdata(dev, NULL);
++
++	if(pruss_clk != NULL)
++		clk_put(pruss_clk);
++	if (ecap0_clk != NULL)
++        	clk_put (ecap0_clk);
++
++
++	return 0;
++}
++
++static struct platform_driver pruss_driver = {
++	.probe		= pruss_probe,
++	.remove		= __devexit_p(pruss_remove),
++	.driver		= {
++		.name	= DRV_NAME,
++		.owner	= THIS_MODULE,
++	},
++};
++
++static int __init pruss_init_module(void)
++{
++	return platform_driver_register(&pruss_driver);
++}
++module_init(pruss_init_module);
++
++static void __exit pruss_exit_module(void)
++{
++	platform_driver_unregister(&pruss_driver);
++}
++module_exit(pruss_exit_module);
++
++MODULE_LICENSE("GPL v2");
++MODULE_VERSION(DRV_VERSION);
++MODULE_AUTHOR("Amit Chatterjee <amit.chatterjee@ti.com>");
+-- 
+1.7.0.4
+

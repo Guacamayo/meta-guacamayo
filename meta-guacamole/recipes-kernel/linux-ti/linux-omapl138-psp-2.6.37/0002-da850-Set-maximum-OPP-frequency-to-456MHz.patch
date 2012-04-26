@@ -1,0 +1,28 @@
+From 47ec4ffa87e353bf1913f8f4de31e1fd5928b52f Mon Sep 17 00:00:00 2001
+From: Nisim Peled <nisimp@ti.com>
+Date: Wed, 18 May 2011 22:57:56 +0300
+Subject: [PATCH] da850 Set maximum OPP frequency to 456MHz
+ extends the CPU rate limit to maximum of 456MHz and enables a better performance.
+ The default rate stays the same (300MHz).
+
+Signed-off-by: Nisim Peled <nisimp@ti.com>
+---
+ arch/arm/mach-davinci/da850.c |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/arch/arm/mach-davinci/da850.c b/arch/arm/mach-davinci/da850.c
+index bc52ec4..d11854c 100644
+--- a/arch/arm/mach-davinci/da850.c
++++ b/arch/arm/mach-davinci/da850.c
+@@ -1194,7 +1194,7 @@ static struct platform_device da850_cpufreq_device = {
+ 	.id = -1,
+ };
+ 
+-unsigned int da850_max_speed = 300000;
++unsigned int da850_max_speed = 456000;
+ 
+ static void da850_set_pll0_bypass_src(bool pll1_sysclk3)
+ {
+-- 
+1.7.0.4
+

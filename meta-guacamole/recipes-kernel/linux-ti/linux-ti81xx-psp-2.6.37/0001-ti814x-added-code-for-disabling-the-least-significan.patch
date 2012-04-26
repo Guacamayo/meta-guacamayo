@@ -1,0 +1,45 @@
+From 1d43359e415cada4607d0d21b7de07c740616386 Mon Sep 17 00:00:00 2001
+From: Amarinder Bindra <a-bindra@ti.com>
+Date: Wed, 7 Dec 2011 20:54:56 +0530
+Subject: [PATCH] ti814x: added code for disabling the least significant bit of TI814x_HDMI_MUX_ADDR before vps init
+
+
+Signed-off-by: Amarinder Bindra <a-bindra@ti.com>
+---
+ drivers/video/ti81xx/vpss/core.c |   13 ++++++++++++-
+ 1 files changed, 12 insertions(+), 1 deletions(-)
+
+diff --git a/drivers/video/ti81xx/vpss/core.c b/drivers/video/ti81xx/vpss/core.c
+index eb9c074..80008b9 100644
+--- a/drivers/video/ti81xx/vpss/core.c
++++ b/drivers/video/ti81xx/vpss/core.c
+@@ -41,7 +41,7 @@
+ 
+ #define VPS_DRIVER_NAME  "vpss"
+ 
+-
++#define TI814x_HDMI_MUX_ADDR (0x481C52C8)
+ 
+ #ifdef DEBUG
+ unsigned int vpss_debug;
+@@ -148,6 +148,17 @@ static int __init vps_init(void)
+ {
+ 	VPSSDBG("core init\n");
+ 
++        /* This mux is for configuring the pixel clock to Venc through HDMI or PLL*/
++        u32 reg_value;
++        u32 reg_base;
++
++        reg_base = (u32)ioremap(TI814x_HDMI_MUX_ADDR, 0x10);
++        reg_value = __raw_readl(reg_base);
++        reg_value &= 0xFFFFFFFE;
++
++        __raw_writel(reg_value, reg_base);
++        iounmap((u32 *)TI814x_HDMI_MUX_ADDR);
++
+ 	if (platform_driver_probe(&vps_driver, vps_probe)) {
+ 		VPSSERR("failed to register ti81xx-vpss driver\n");
+ 		return -ENODEV;
+-- 
+1.7.1
+

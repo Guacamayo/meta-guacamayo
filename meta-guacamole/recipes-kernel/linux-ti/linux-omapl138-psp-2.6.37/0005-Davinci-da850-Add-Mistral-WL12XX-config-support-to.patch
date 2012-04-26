@@ -1,0 +1,77 @@
+From 332bbf93e2b5366cb5dae5eb413b8f212cd4fdac Mon Sep 17 00:00:00 2001
+From: Nisim Peled <nisimp@ti.com>
+Date: Mon, 23 May 2011 15:52:08 +0300
+Subject: [PATCH] Davinci da850 Add Mistral WL12XX config support to change ref clock
+
+Add config flag to support different clock rates needed by WL12XX modules.
+Different front-end modules has different clock rate.
+
+Signed-off-by: Nisim Peled <nisimp@ti.com>
+---
+ arch/arm/mach-davinci/Kconfig           |   24 +++++++++++++++++++++++-
+ arch/arm/mach-davinci/board-da850-evm.c |    4 ++--
+ 2 files changed, 25 insertions(+), 3 deletions(-)
+
+diff --git a/arch/arm/mach-davinci/Kconfig b/arch/arm/mach-davinci/Kconfig
+index 287bd51..ec68c5e 100644
+--- a/arch/arm/mach-davinci/Kconfig
++++ b/arch/arm/mach-davinci/Kconfig
+@@ -40,7 +40,6 @@ config ARCH_DAVINCI_DA850
+ 	select CP_INTC
+ 	select ARCH_DAVINCI_DA8XX
+ 	select ARCH_HAS_CPUFREQ
+-	select WL12XX_PLATFORM_DATA
+ 	select WIRELESS_EXT
+ 
+ config DAVINCI_UART1_AFE
+@@ -310,6 +309,29 @@ config DAVINCI_MCBSP1
+ 	depends on DAVINCI_MCBSP
+ 	default n
+ 
++config DA850_MISTRAL_WL12XX
++	bool "Enable Mistral daughter board support"
++	depends on ARCH_DAVINCI_DA850
++	help
++	  Support for the Mistral daughter board.
++	  This extension board which supports both WLAN and Bluetooth.
++	  Specifically, for WL1271, more info can be found at
++	  http://processors.wiki.ti.com/index.php/AM18x_%2B_WL1271
++
++config DA850_MISTRAL_WL12XX_REFCLOCK
++	int "Ref clock value"
++	range 0 5
++	depends on DA850_MISTRAL_WL12XX
++	default 2
++	help
++	  Set ref clock value for the Mistral WL12XX daughter board.
++	  Select 0 for 19.2 MHz.
++	  Select 1 for 26 MHz.
++	  Select 2 for 38.4 MHz.
++	  Select 3 for 52 MHz.
++	  Select 4 for 38.4 MHz, XTAL.
++	  Select 5 for 26 MHz, XTAL.
++
+ endmenu
+ 
+ endif
+diff --git a/arch/arm/mach-davinci/board-da850-evm.c b/arch/arm/mach-davinci/board-da850-evm.c
+index 7414331..3c5be76 100644
+--- a/arch/arm/mach-davinci/board-da850-evm.c
++++ b/arch/arm/mach-davinci/board-da850-evm.c
+@@ -1820,11 +1820,11 @@ static struct vpif_display_config da850_vpif_display_config = {
+ #define HAS_LCD	0
+ #endif
+ 
+-#ifdef CONFIG_WL12XX_PLATFORM_DATA
++#ifdef CONFIG_DA850_MISTRAL_WL12XX
+ 
+ static struct wl12xx_platform_data da850_wl12xx_wlan_data __initdata = {
+ 	.irq = -1,
+-	.board_ref_clock = WL12XX_REFCLOCK_38,
++	.board_ref_clock = CONFIG_DA850_MISTRAL_WL12XX_REFCLOCK,
+ 	.platform_quirks = WL12XX_PLATFORM_QUIRK_EDGE_IRQ,
+ };
+ 
+-- 
+1.7.0.4
+
