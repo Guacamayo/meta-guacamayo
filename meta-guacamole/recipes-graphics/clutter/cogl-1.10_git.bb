@@ -1,5 +1,7 @@
 require ${GUACABASE}/meta/recipes-graphics/clutter/cogl.inc
 
+FILESPATH = "${FILE_DIRNAME}/cogl-1.10"
+
 DEPENDS += "virtual/egl"
 
 LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
@@ -7,16 +9,20 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
 # the 1.10.2 tag
 SRCREV = "ebb8cdd7c6c6c5d6c6ff92e40aacb0a78e6abdbc"
 PV = "1.10.2+git${SRCPV}"
-PR = "r2"
+PR = "r3"
 
 DEFAULT_PREFERENCE = "1"
 
 SRC_URI = "git://git.gnome.org/cogl;protocol=git;branch=master"
+SRC_URI_append_beagleboard += "file://beagleboard-glchar.patch"
+
 S = "${WORKDIR}/git"
 
 AUTOTOOLS_AUXDIR = "${S}/build"
 
-EXTRA_OECONF = "${BASE_CONF} --with-flavour=eglnative"
+EXTRA_OECONF = "${BASE_CONF} --enable-gles2 --disable-gl --disable-glx"
+
+EXTRA_OECONF_beagleboard = " ${BASE_CONF} --enable-gles2 --disable-gl --disable-glx --enable-null-egl-platform"
 
 do_configure_prepend () {
 	# Disable DOLT
