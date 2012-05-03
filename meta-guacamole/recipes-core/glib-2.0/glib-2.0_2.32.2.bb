@@ -25,8 +25,8 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
            file://${GUACABASE}/meta/recipes-core/glib-2.0/glib-2.0/glib-2.0_fix_for_x32.patch \
            file://${GUACABASE}/meta/recipes-core/glib-2.0/glib-2.0/nodbus.patch \
           "
-SRC_URI[md5sum] = "032c7cf9868c9aa186b490b155a41144"
-SRC_URI[sha256sum] = "484d5b7fc09f3fa398355adaf74b369768f5859866c299f229c99721990f8398"
+SRC_URI[md5sum] = "5bfdb6197afb90e4dbc7b1bb98f0eae0"
+SRC_URI[sha256sum] = "b1764abf00bac96e0e93e29fb9715ce75f3583579acac40648e18771d43d6136"
 
 # Only apply this patch for target recipe on uclibc
 SRC_URI_append_libc-uclibc = " ${@['', 'file://${GUACABASE}/meta/recipes-core/glib-2.0/glib-2.0/no-iconv.patch']['${PN}' == '${BPN}']}"
