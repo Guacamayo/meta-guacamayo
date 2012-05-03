@@ -7,14 +7,14 @@ DEPENDS = "e2fsprogs gssdp libsoup-2.4 libxml2 gnome-icon-theme gobject-introspe
 
 PR = "r1"
 
-EXTRA_OECONF = "--disable-introspection"
+EXTRA_OECONF = "--disable-introspection --with-context-manager=linux"
 
 inherit autotools pkgconfig gnome
 
 SRC_URI = "${GNOME_MIRROR}/${BPN}/${@gnome_verdir("${PV}")}/${BPN}-${PV}.tar.xz;name=archive"
 
-SRC_URI[archive.md5sum] = "9ce2bc56abf0275be9b1d0ecdf67e7bf"
-SRC_URI[archive.sha256sum] = "3715fa56c1f351132cffe7d69127da1daada7ff50481838c6dbfd17d7182743d"
+SRC_URI[archive.md5sum] = "1086654db47def9fbe9fc54c1228d663"
+SRC_URI[archive.sha256sum] = "5920621de6386664ee759386514effa5e0544e40298245e4c67076d92715fba2"
 
 FILES_${PN} = "${libdir}/*.so.*"
 FILES_${PN}-dev += "${bindir}/gupnp-binding-tool"
