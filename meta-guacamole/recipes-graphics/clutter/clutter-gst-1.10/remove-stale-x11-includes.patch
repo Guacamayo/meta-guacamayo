@@ -1,0 +1,13 @@
+Index: git/clutter-gst/clutter-gst-auto-video-sink.c
+===================================================================
+--- git.orig/clutter-gst/clutter-gst-auto-video-sink.c	2012-05-06 11:07:38.000000000 +0100
++++ git/clutter-gst/clutter-gst-auto-video-sink.c	2012-05-06 11:08:41.761393441 +0100
+@@ -31,8 +31,6 @@
+ 
+ #include <string.h>
+ #include <clutter/clutter.h>
+-#include <clutter/x11/clutter-x11.h>
+-#include <clutter/glx/clutter-glx-texture-pixmap.h>
+ 
+ #include "clutter-gst-auto-video-sink.h"
+ #include "clutter-gst-private.h"

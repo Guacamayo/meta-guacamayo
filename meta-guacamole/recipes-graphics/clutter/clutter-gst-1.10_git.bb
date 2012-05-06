@@ -1,6 +1,8 @@
 require ${GUACABASE}/meta/recipes-graphics/clutter/clutter-gst.inc
 
-PR = "r0"
+FILESPATH = "${FILE_DIRNAME}/clutter-gst-1.10"
+
+PR = "r1"
 
 LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c \
                     file://clutter-gst/clutter-gst.h;beginline=1;endline=24;md5=95baacba194e814c110ea3bdf25ddbf4"
@@ -12,6 +14,7 @@ SRCREV = "b96101a3ec2641d7f014934006e04d5aa36eea31"
 
 SRC_URI = "git://git.gnome.org/clutter-gst;protocol=git;branch=master\
            file://${GUACABASE}/meta/recipes-graphics/clutter/clutter-gst/enable_tests-1.8.patch"
+SRC_URI += "file://remove-stale-x11-includes.patch"
 
 S = "${WORKDIR}/git"
 
