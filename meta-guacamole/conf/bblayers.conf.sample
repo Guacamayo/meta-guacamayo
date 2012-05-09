@@ -9,4 +9,4 @@ BBLAYERS = " \
   ##COREBASE##/meta-guacamole \
   "
 
-require ##COREBASE##/meta-guacamole/conf/preferred-versions.conf
+require ##COREBASE##/meta-guacamole/conf/distro/preferred-versions.conf
