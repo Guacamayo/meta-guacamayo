@@ -1,0 +1,122 @@
+From 9d586945d7629bd38113191dd0f972acabda668f Mon Sep 17 00:00:00 2001
+From: Tomas Frydrych <tomas@sleepfive.com>
+Date: Thu, 10 May 2012 07:44:18 +0100
+Subject: [PATCH] Make it easier to customise colours
+
+This commit moves colour definitions to psplash-colors.h so that the
+colour scheme can be easily modified by replacing this file rather
+than having to maintain a patch.
+---
+ psplash-colors.h |   34 ++++++++++++++++++++++++++++++++++
+ psplash.c        |   15 ++++++++-------
+ psplash.h        |    1 +
+ 3 files changed, 43 insertions(+), 7 deletions(-)
+ create mode 100644 psplash-colors.h
+
+diff --git a/psplash-colors.h b/psplash-colors.h
+new file mode 100644
+index 0000000..d701089
+--- /dev/null
++++ b/psplash-colors.h
+@@ -0,0 +1,34 @@
++/*
++ *  pslash - a lightweight framebuffer splashscreen for embedded devices.
++ *
++ *  Copyright (c) 2012 sleep(5) ltd
++ *  Author: Tomas Frydrych <tomas@sleepfive.com>
++ *
++ *  This program is free software; you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation; either version 2, or (at your option)
++ *  any later version.
++ *
++ *  This program is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ */
++
++#ifndef _HAVE_PSPLASH_COLORS_H
++#define _HAVE_PSPLASH_COLORS_H
++
++/* This is the overall background color */
++#define PSPLASH_BACKGROUND_COLOR 0xec,0xec,0xe1
++
++/* This is the color of any text output */
++#define PSPLASH_TEXT_COLOR 0x6d,0x6d,0x70
++
++/* This is the color of the progress bar indicator */
++#define PSPLASH_BAR_COLOR 0x6d,0x6d,0x70
++
++/* This is the color of the progress bar background */
++#define PSPLASH_BAR_BACKGROUND_COLOR 0xec,0xec,0xe1
++
++#endif
+diff --git a/psplash.c b/psplash.c
+index 2eaa11e..b5a38d7 100644
+--- a/psplash.c
++++ b/psplash.c
+@@ -49,12 +49,12 @@ psplash_draw_msg (PSplashFB *fb, const char *msg)
+ 			fb->height - (fb->height/6) - h, 
+ 			fb->width,
+ 			h,
+-			0xec, 0xec, 0xe1);
++			PSPLASH_BACKGROUND_COLOR);
+ 
+   psplash_fb_draw_text (fb,
+ 			(fb->width-w)/2, 
+ 			fb->height - (fb->height/6) - h,
+-			0x6d, 0x6d, 0x70,
++			PSPLASH_TEXT_COLOR,
+ 			&radeon_font,
+ 			msg);
+ }
+@@ -75,19 +75,19 @@ psplash_draw_progress (PSplashFB *fb, int value)
+       barwidth = (CLAMP(value,0,100) * width) / 100;
+       psplash_fb_draw_rect (fb, x + barwidth, y, 
+     			width - barwidth, height,
+-			0xec, 0xec, 0xe1);
++			PSPLASH_BAR_BACKGROUND_COLOR);
+       psplash_fb_draw_rect (fb, x, y, barwidth,
+-			    height, 0x6d, 0x6d, 0x70);
++			    height, PSPLASH_BAR_COLOR);
+     }
+   else
+     {
+       barwidth = (CLAMP(-value,0,100) * width) / 100;
+       psplash_fb_draw_rect (fb, x, y, 
+     			width - barwidth, height,
+-			0xec, 0xec, 0xe1);
++			PSPLASH_BAR_BACKGROUND_COLOR);
+       psplash_fb_draw_rect (fb, x + width - barwidth,
+ 			    y, barwidth, height,
+-			    0x6d, 0x6d, 0x70);
++			    PSPLASH_BAR_COLOR);
+     }
+ 
+   DBG("value: %i, width: %i, barwidth :%i\n", value, 
+@@ -264,7 +264,8 @@ main (int argc, char** argv)
+   }
+ 
+   /* Clear the background with #ecece1 */
+-  psplash_fb_draw_rect (fb, 0, 0, fb->width, fb->height, 0xec, 0xec, 0xe1);
++  psplash_fb_draw_rect (fb, 0, 0, fb->width, fb->height,
++                        PSPLASH_BACKGROUND_COLOR);
+ 
+   /* Draw the Poky logo  */
+   psplash_fb_draw_image (fb, 
+diff --git a/psplash.h b/psplash.h
+index 22d73a3..09c2876 100644
+--- a/psplash.h
++++ b/psplash.h
+@@ -83,5 +83,6 @@ PSplashFont;
+ 
+ #include "psplash-fb.h"
+ #include "psplash-console.h"
++#include "psplash-colors.h"
+ 
+ #endif
+-- 
+1.7.9.5
+
