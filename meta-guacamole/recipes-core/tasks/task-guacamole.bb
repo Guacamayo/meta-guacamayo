@@ -3,7 +3,7 @@ LICENSE = "MIT"
 
 LIC_FILES_CHKSUM = "file://${GUACABASE}/meta-guacamole/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 
-PR = "r6"
+PR = "r7"
 
 PACKAGES="\
 	task-guacamole \
@@ -91,6 +91,9 @@ RDEPENDS_task-guacamole-core = "\
 			     gst-plugins-base \
 			     gst-plugins-good \
 			     gst-plugins-bad \
+			     gst-meta-audio \
+			     gst-meta-video \
+			     gst-plugins-bad-id3tag \
 			     rygel \
 			     rygel-initd \
 			     gst-ffmpeg \
