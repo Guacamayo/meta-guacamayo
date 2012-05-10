@@ -1,6 +1,6 @@
 LICENSE = "LGPLv2+"
 
-INC_PR = "rgc5"
+INC_PR = "rgc6"
 
 inherit gnome update-rc.d useradd
 
@@ -12,6 +12,10 @@ DESCRIPTION = "Collection of DLNA[1] (UPnP[2] AV) devices, implemented through a
 SECTION = "network/multimedia"
 DEPENDS = "glib-2.0 gupnp gupnp-av gupnp-dlna gstreamer sqlite3 libsoup-2.4 libgee shared-mime-info"
 RDEPENDS_${PN} = "sudo shared-mime-info-data"
+
+require rygel-plugins.inc
+PACKAGES_DYNAMIC = "${PN}-*"
+
 PACKAGES =+ "${PN}-initd"
 
 HOMEPAGE = "http://live.gnome.org/Rygel"
@@ -31,8 +35,6 @@ do_install_append() {
     install -m 0755 ${WORKDIR}/rygel ${D}${sysconfdir}/init.d
 }
 
-FILES_${PN} += "${libdir}/rygel-1.0/librygel*.so \
-                ${datadir}/dbus-1/ \
-	       "
+FILES_${PN} += "${datadir}/dbus-1/"
 FILES_${PN}-dbg += "${libdir}/rygel-1.0/.debug/"
 FILES_${PN}-initd += "${sysconfdir}/init.d"
