@@ -1,6 +1,6 @@
 LICENSE = "LGPLv2+"
 
-INC_PR = "rgc6"
+INC_PR = "rgc7"
 
 inherit gnome update-rc.d useradd
 
@@ -11,7 +11,7 @@ SRC_URI += "file://rygel"
 DESCRIPTION = "Collection of DLNA[1] (UPnP[2] AV) devices, implemented through a plug-in mechanism."
 SECTION = "network/multimedia"
 DEPENDS = "glib-2.0 gupnp gupnp-av gupnp-dlna gstreamer sqlite3 libsoup-2.4 libgee shared-mime-info"
-RDEPENDS_${PN} = "sudo shared-mime-info-data"
+RDEPENDS_${PN} = "sudo shared-mime-info-data pulseaudio-server"
 
 require rygel-plugins.inc
 PACKAGES_DYNAMIC = "${PN}-*"

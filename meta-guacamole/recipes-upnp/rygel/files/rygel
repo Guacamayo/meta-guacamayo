@@ -37,6 +37,7 @@ case "$1" in
        echo "Starting Rygel"
        ensurehome
        setupdbus
+       sudo -b -E -u $USER -g $USER /usr/bin/pulseaudio -D
        sudo -b -E -u $USER -g $USER /usr/bin/rygel
   ;;
 
