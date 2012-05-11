@@ -9,6 +9,7 @@ PACKAGES="\
 	task-guacamole \
 	task-guacamole-core \
 	task-guacamole-restricted \
+	task-guacamole-devtools \
 	"
 
 RDEPENDS_task-guacamole = ""
