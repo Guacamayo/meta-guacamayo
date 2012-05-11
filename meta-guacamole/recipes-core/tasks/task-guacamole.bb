@@ -3,7 +3,7 @@ LICENSE = "MIT"
 
 LIC_FILES_CHKSUM = "file://${GUACABASE}/meta-guacamole/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 
-PR = "r9"
+PR = "r10"
 
 PACKAGES="\
 	task-guacamole \
@@ -83,11 +83,18 @@ GUACA_NETWORKING = "connman \
                     connman-plugin-wifi \
                    "
 
+GUACA_PA_CORE = "pulseaudio-server \
+                 gst-plugins-good-pulse \
+		"
+
+GUACA_DEVTOOLS += "pulseaudio-misc"
+
 # dbus-x11 is needed for dbus-launch
 RDEPENDS_task-guacamole-core = "\
 			     dbus \
 			     dbus-x11 \
                              ${GUACA_NETWORKING} \
+			     ${GUACA_PA_CORE} \
 			     gstreamer \
 			     gst-plugins-base \
 			     gst-plugins-good \
@@ -103,4 +110,6 @@ RDEPENDS_task-guacamole-core = "\
                                "
 
 RDEPENDS_task-guacamole-restricted = "${GUACA_RESTRICTED}"
+
+RDEPENDS_task-guacamole-devtools = "${GUACA_DEVTOOLS}"
 
