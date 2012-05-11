@@ -77,17 +77,17 @@ python __anonymous () {
     d.setVar('GUACA_RESTRICTED', restricted)
 }
 
-NETWORKING = "connman \
-           connman-plugin-ethernet \
-           connman-plugin-loopback \
-           connman-plugin-wifi \
-          "
+GUACA_NETWORKING = "connman \
+                    connman-plugin-ethernet \
+                    connman-plugin-loopback \
+                    connman-plugin-wifi \
+                   "
 
 # dbus-x11 is needed for dbus-launch
 RDEPENDS_task-guacamole-core = "\
 			     dbus \
 			     dbus-x11 \
-                             ${NETWORKING} \
+                             ${GUACA_NETWORKING} \
 			     gstreamer \
 			     gst-plugins-base \
 			     gst-plugins-good \
