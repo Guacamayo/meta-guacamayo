@@ -3,7 +3,7 @@ LICENSE = "MIT"
 
 LIC_FILES_CHKSUM = "file://${GUACABASE}/meta-guacamole/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 
-PR = "r1"
+PR = "r2"
 
 PACKAGES="\
 	task-guacamole-mex \
@@ -24,3 +24,8 @@ RDEPENDS_task-guacamole-gles-tests_beagleboard = "\
 						  clutter-1.10-examples \
 						  cogl-1.10-examples \
 					         "
+
+RDEPENDS_task-guacamole-gles-tests_atom-pc = "\
+					       clutter-1.10-examples \
+					       cogl-1.10-examples \
+					     "
