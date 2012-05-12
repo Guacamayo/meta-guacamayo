@@ -6,10 +6,26 @@
 
 USER=rygel
 HOME="/var/run/$USER"
+DBUSINFO="$HOME/dbusinfo"
 
 killproc() {
-        pid=`/bin/pidof $1`
-        [ "$pid" != "" ] && kill $pid
+    pid=`/bin/pidof $1`
+    [ "$pid" != "" ] && kill $pid
+}
+
+killrygel() {
+    echo "Stopping Rygel"
+    killproc rygel
+}
+
+killdbus() {
+    echo "Stopping session DBus"
+    [ -f $DBUSINFO ] && source $DBUSINFO && [ "$DBUS_SESSION_BUS_PID" != "" ] && kill $DBUS_SESSION_BUS_PID && rm $DBUSINFO
+}
+
+killpulse() {
+    echo "Stopping Pulse Audio server"
+    sudo -b -E -u $USER -g $USER /usr/bin/pulseaudio -k
 }
 
 ensurehome() {
@@ -22,11 +38,17 @@ ensurehome() {
 }
 
 setupdbus() {
+    [ -f $DBUSINFO ] && source $DBUSINFO
+
     if [ -z "$DBUS_SESSION_BUS_ADDRESS" ]; then
 	if [ -x /usr/bin/dbus-launch ]; then
+	    echo -n "Starting session DBus ... "
 	    eval `sudo -u $USER -g $USER dbus-launch --sh-syntax`
 	    export DBUS_SESSION_BUS_ADDRESS=$DBUS_SESSION_BUS_ADDRESS
+	    echo DBUS_SESSION_BUS_ADDRESS=$DBUS_SESSION_BUS_ADDRESS > $DBUSINFO
 	    export DBUS_SESSION_BUS_PID=$DBUS_SESSION_BUS_PID
+	    echo DBUS_SESSION_BUS_PID=$DBUS_SESSION_BUS_PID >> $DBUSINFO
+	    echo "pid=$DBUS_SESSION_BUS_PID"
 	fi
     fi
 }
@@ -34,16 +56,20 @@ setupdbus() {
 case "$1" in
   start)
        . /etc/profile
-       echo "Starting Rygel"
        ensurehome
        setupdbus
+
+       echo "Starting Pulse Audio server"
        sudo -b -E -u $USER -g $USER /usr/bin/pulseaudio -D
+
+       echo "Starting Rygel"
        sudo -b -E -u $USER -g $USER /usr/bin/rygel
   ;;
 
   stop)
-        echo "Stopping Rygel"
-        killproc rygel
+        killrygel
+	killpulse
+	killdbus
   ;;
 
   restart)
