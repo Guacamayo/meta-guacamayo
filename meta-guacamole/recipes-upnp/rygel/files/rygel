@@ -55,7 +55,8 @@ case "$1" in
        setupdbus
 
        echo "Starting Pulse Audio server"
-       /sbin/start-stop-daemon -c $USER  -S -x /usr/bin/pulseaudio -- -D
+       # can't use start-stop-daemon for pa, it starts fine but does not work
+       sudo -b -E -u $USER -g $USER /usr/bin/pulseaudio -D
 
        echo "Starting Rygel"
        /sbin/start-stop-daemon -b -c $USER -S -x /usr/bin/rygel
