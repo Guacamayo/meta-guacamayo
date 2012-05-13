@@ -56,7 +56,7 @@ case "$1" in
 
        echo "Starting Pulse Audio server"
        # can't use start-stop-daemon for pa, it starts fine but does not work
-       sudo -b -E -u $USER -g $USER /usr/bin/pulseaudio -D
+       sudo -b -E -u $USER -g $USER /usr/bin/pulseaudio -D --exit-idle-time=-1
 
        echo "Starting Rygel"
        /sbin/start-stop-daemon -b -c $USER -S -x /usr/bin/rygel
