@@ -8,14 +8,9 @@ USER=rygel
 HOME="/var/run/$USER"
 DBUSINFO="$HOME/dbusinfo"
 
-killproc() {
-    pid=`/bin/pidof $1`
-    [ "$pid" != "" ] && kill $pid
-}
-
 killrygel() {
     echo "Stopping Rygel"
-    killproc rygel
+    /sbin/start-stop-daemon -x /usr/bin/rygel -u rygel -K
 }
 
 killdbus() {
@@ -60,10 +55,10 @@ case "$1" in
        setupdbus
 
        echo "Starting Pulse Audio server"
-       sudo -b -E -u $USER -g $USER /usr/bin/pulseaudio -D
+       /sbin/start-stop-daemon -c $USER  -S -x /usr/bin/pulseaudio -- -D
 
        echo "Starting Rygel"
-       sudo -b -E -u $USER -g $USER /usr/bin/rygel
+       /sbin/start-stop-daemon -b -c $USER -S -x /usr/bin/rygel
   ;;
 
   stop)
