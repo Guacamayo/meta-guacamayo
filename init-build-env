@@ -1,5 +1,5 @@
 export GUACABASE="`pwd`"
-export TEMPLATECONF="$GUACABASE/meta-guacamole/conf"
+export TEMPLATECONF="$GUACABASE/meta-guacamayo/conf"
 export BDIR=build
 export BUILDDIR="$GUACABASE/build"
 HAVE_BBLAYERS=

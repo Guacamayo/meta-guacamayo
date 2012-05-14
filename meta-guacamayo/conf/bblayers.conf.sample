@@ -6,7 +6,7 @@ BBFILES ?= ""
 BBLAYERS = " \
   ##COREBASE##/meta \
   ##COREBASE##/meta-yocto \
-  ##COREBASE##/meta-guacamole \
+  ##COREBASE##/meta-guacamayo \
   "
 
-require ##COREBASE##/meta-guacamole/conf/distro/preferred-versions.conf
+require ##COREBASE##/meta-guacamayo/conf/distro/preferred-versions.conf

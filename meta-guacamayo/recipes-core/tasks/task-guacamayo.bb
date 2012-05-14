@@ -1,20 +1,20 @@
-DESCRIPTION="Guacamole tasks"
+DESCRIPTION="Guacamayo tasks"
 LICENSE = "MIT"
 
-LIC_FILES_CHKSUM = "file://${GUACABASE}/meta-guacamole/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+LIC_FILES_CHKSUM = "file://${GUACABASE}/meta-guacamayo/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 
 PR = "r12"
 
 DEPENDS += "alsa-plugins"
 
 PACKAGES="\
-	task-guacamole \
-	task-guacamole-core \
-	task-guacamole-restricted \
-	task-guacamole-devtools \
+	task-guacamayo \
+	task-guacamayo-core \
+	task-guacamayo-restricted \
+	task-guacamayo-devtools \
 	"
 
-RDEPENDS_task-guacamole = ""
+RDEPENDS_task-guacamayo = ""
 
 ALLOW_EMPTY = "1"
 
@@ -96,7 +96,7 @@ GUACA_PA_CORE = "pulseaudio \
 GUACA_DEVTOOLS += "pulseaudio-misc"
 
 # dbus-x11 is needed for dbus-launch
-RDEPENDS_task-guacamole-core = "\
+RDEPENDS_task-guacamayo-core = "\
 			     dbus \
 			     dbus-x11 \
                              ${GUACA_NETWORKING} \
@@ -115,7 +115,7 @@ RDEPENDS_task-guacamole-core = "\
 			     gst-ffmpeg \
                                "
 
-RDEPENDS_task-guacamole-restricted = "${GUACA_RESTRICTED}"
+RDEPENDS_task-guacamayo-restricted = "${GUACA_RESTRICTED}"
 
-RDEPENDS_task-guacamole-devtools = "${GUACA_DEVTOOLS}"
+RDEPENDS_task-guacamayo-devtools = "${GUACA_DEVTOOLS}"
 

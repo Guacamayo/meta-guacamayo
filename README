@@ -1,7 +1,7 @@
-WHAT IS GUACAMOLE?!
+WHAT IS GUACAMAYO?!
 -------------------
-The aim of the Guacamole Project is to provide a reference software stack for
-Linux-based media servers and similar devices. The Guacamole framework is based
+The aim of the Guacamayo Project is to provide a reference software stack for
+Linux-based media servers and similar devices. The Guacamayo framework is based
 on the Yocto platform (what else?).
 
 
@@ -15,13 +15,13 @@ have the HW ...).
 BUILDING IT
 -----------
 
-  git clone git://github.com/Guacamole/meta-guacamole.git
-  cd meta-guacamole
+  git clone git://github.com/Guacamayo/meta-guacamayo.git
+  cd meta-guacamayo
   git submodule update --init
 
   source init-build-env
 
-  bitbake guacamole-image-headless
+  bitbake guacamayo-image-headless
 
 The images are located in the tmp/deploy/images directory; image type and
 subsequent installation is, naturally, depended on the device.
@@ -30,17 +30,17 @@ subsequent installation is, naturally, depended on the device.
 TWEAKING IT
 -----------
 Documentation on working Poky in general can be found at yocto-project.org; the
-following is specific to Guacamole:
+following is specific to Guacamayo:
 
 Images
 ......
 Although multiple image recipes can be found in the repository, for now it is
-recommended to stick to guacamole-image-headless, which provides system without
+recommended to stick to guacamayo-image-headless, which provides system without
 a graphical environment.
 
 Audio Codecs
 ............
-Out of the box you get support for Ogg and Flac; Mp3 support in Guacamole images
+Out of the box you get support for Ogg and Flac; Mp3 support in Guacamayo images
 is facilitated by the Fluendo Gstreamer plugin, but as this requires a license
 for commercial use, it is disabled by default; you can enable it by whitelisting
 commercial licenses in your build/conf/local.conf.
@@ -48,24 +48,24 @@ commercial licenses in your build/conf/local.conf.
 
 REPOSITORY LAYOUT
 -----------------
-The git repository contains the build system for the guacamole images, with the
+The git repository contains the build system for the guacamayo images, with the
 following sub directories:
 
-meta-guacamole: the guacamole layer for Poky; the aim is to keep this as thin
+meta-guacamayo: the guacamayo layer for Poky; the aim is to keep this as thin
           as possible, using upstream Yocto packages where possible and
           appropriate.
 
 upstream: this is where the upstream meta layers go; to add a new meta layer:
            1. add git submodule into a subdirectory of upstream
            2. link the meta-whatever directory into the layers directory
-           3. update meta-guacamole/conf/bblayers.conf.sample accordingly
+           3. update meta-guacamayo/conf/bblayers.conf.sample accordingly
            4. rm build/conf/bblayer.conf so it gets regenerate in the next step
            5. sour init-build-env
 
 layers:   this directory holds all the layers into a single whole; it should
           contain no real files, only symlinks
 
-          NB: Only the Yocto and Guacamole are used as normal OE layers; bits
+          NB: Only the Yocto and Guacamayo are used as normal OE layers; bits
               of other layers are currently 'cherry-picked' using symlinks due
               to compatibility issues between some layers and lack of fine-honed
               control over layer priorities

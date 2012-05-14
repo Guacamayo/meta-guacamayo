@@ -1,24 +1,24 @@
 
-# GUACAMOLE_FEATURES controls content of guacamole images
+# GUACAMAYO_FEATURES controls content of guacamayo images
 #
-# By default we install apps-console-core and task-guacamole-core
+# By default we install apps-console-core and task-guacamayo-core
 #
 # Available features (in addition to those form core-image):
 #
-# - guacamole-restricted: packages with restrictive licensing
-# - guacamole-mex: Mex media explorer
-# - guacamole-devtools: extra tools
+# - guacamayo-restricted: packages with restrictive licensing
+# - guacamayo-mex: Mex media explorer
+# - guacamayo-devtools: extra tools
 
-PACKAGE_GROUP_guacamole-core       = "task-guacamole-core"
-PACKAGE_GROUP_guacamole-mex        = "task-guacamole-mex"
-PACKAGE_GROUP_guacamole-restricted = "task-guacamole-restricted"
-PACKAGE_GROUP_guacamole-gles-tests = "task-guacamole-gles-tests"
-PACKAGE_GROUP_guacamole-devtools   = "task-guacamole-devtools"
+PACKAGE_GROUP_guacamayo-core       = "task-guacamayo-core"
+PACKAGE_GROUP_guacamayo-mex        = "task-guacamayo-mex"
+PACKAGE_GROUP_guacamayo-restricted = "task-guacamayo-restricted"
+PACKAGE_GROUP_guacamayo-gles-tests = "task-guacamayo-gles-tests"
+PACKAGE_GROUP_guacamayo-devtools   = "task-guacamayo-devtools"
 
-# The core bits of Guacamole
-IMAGE_FEATURES =+ "apps-console-core ssh-server-dropbear guacamole-core"
+# The core bits of Guacamayo
+IMAGE_FEATURES =+ "apps-console-core ssh-server-dropbear guacamayo-core"
 
-# Configurable Guacamole features
-IMAGE_FEATURES =+ "${GUACAMOLE_FEATURES}"
+# Configurable Guacamayo features
+IMAGE_FEATURES =+ "${GUACAMAYO_FEATURES}"
 
 inherit core-image
