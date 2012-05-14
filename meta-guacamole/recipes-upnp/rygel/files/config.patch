@@ -1,0 +1,13 @@
+Index: rygel-0.14.0/data/rygel.conf
+===================================================================
+--- rygel-0.14.0.orig/data/rygel.conf	2012-03-18 16:11:52.000000000 +0000
++++ rygel-0.14.0/data/rygel.conf	2012-05-14 16:54:31.862965944 +0100
+@@ -118,7 +118,7 @@
+ 
+ [Playbin]
+ enabled=true
+-title=Audio/Video playback on @HOSTNAME@
++title=@HOSTNAME@
+ 
+ [ZDFMediathek]
+ enabled=false

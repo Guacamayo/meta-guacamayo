@@ -1,12 +1,14 @@
 LICENSE = "LGPLv2+"
 
-INC_PR = "rgc7"
+INC_PR = "rgc8"
 
 inherit gnome update-rc.d useradd
 
 SRC_URI = "${GNOME_MIRROR}/${BPN}/${@gnome_verdir("${PV}")}/${BPN}-${PV}.tar.xz;name=archive"
 
-SRC_URI += "file://rygel"
+SRC_URI += "file://rygel \
+	    file://config.patch \
+	   "
 
 DESCRIPTION = "Collection of DLNA[1] (UPnP[2] AV) devices, implemented through a plug-in mechanism."
 SECTION = "network/multimedia"
