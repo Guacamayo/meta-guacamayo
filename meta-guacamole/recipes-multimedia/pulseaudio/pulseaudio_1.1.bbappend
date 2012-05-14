@@ -1,8 +1,10 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
-PRINC = "3"
+PRINC = "4"
 
-SRC_URI += "file://pulse.conf"
+SRC_URI += "file://pulse.conf \
+	    file://config.patch \
+	   "
 
 do_install_append() {
     install -d ${D}${datadir}/alsa/alsa.conf.d
@@ -11,3 +13,5 @@ do_install_append() {
 }
 
 FILES_${PN} += "${datadir}/alsa"
+
+RDEPENDS_pulseaudio-server += "pulseaudio-module-switch-on-connect"

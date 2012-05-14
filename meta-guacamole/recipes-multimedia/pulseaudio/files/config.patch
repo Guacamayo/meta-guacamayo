@@ -1,0 +1,33 @@
+Index: pulseaudio-1.1/src/daemon/default.pa.in
+===================================================================
+--- pulseaudio-1.1.orig/src/daemon/default.pa.in	2011-10-20 14:12:05.000000000 +0100
++++ pulseaudio-1.1/src/daemon/default.pa.in	2012-05-14 12:21:03.042008669 +0100
+@@ -40,6 +40,13 @@
+ load-module module-stream-restore
+ load-module module-card-restore
+ 
++### Automatically load swich on connect module if it is present
++.ifexists module-switch-on-connect@PA_SOEXT@
++.nofail
++load-module module-switch-on-connect
++.fail
++.endif
++
+ ### Automatically augment property information from .desktop files
+ ### stored in /usr/share/application
+ load-module module-augment-properties
+Index: pulseaudio-1.1/src/daemon/system.pa.in
+===================================================================
+--- pulseaudio-1.1.orig/src/daemon/system.pa.in	2011-10-20 13:54:16.000000000 +0100
++++ pulseaudio-1.1/src/daemon/system.pa.in	2012-05-14 12:21:17.785911438 +0100
+@@ -69,3 +69,10 @@
+ 
+ ### Enable positioned event sounds
+ load-module module-position-event-sounds
++
++### Automatically load swich on connect module if it is present
++.ifexists module-switch-on-connect@PA_SOEXT@
++.nofail
++load-module module-switch-on-connect
++.fail
++.endif
