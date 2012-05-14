@@ -21,7 +21,7 @@ BUILDING IT
 
   source init-build-env
 
-  bitbake guacamole-image-minimal
+  bitbake guacamole-image-headless
 
 The images are located in the tmp/deploy/images directory; image type and
 subsequent installation is, naturally, depended on the device.
@@ -35,7 +35,7 @@ following is specific to Guacamole:
 Images
 ......
 Although multiple image recipes can be found in the repository, for now it is
-recommended to stick to guacamole-image-minimal, which provides system without
+recommended to stick to guacamole-image-headless, which provides system without
 a graphical environment.
 
 Audio Codecs
