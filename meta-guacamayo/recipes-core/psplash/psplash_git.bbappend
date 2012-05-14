@@ -1,6 +1,6 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
-PRINC = "2"
+PRINC = "3"
 
 # since we are patching that file, we have to change the checksum
 # (the patch has been submitted upstream, so it will eventually go)
