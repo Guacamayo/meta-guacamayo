@@ -1,45 +1,72 @@
 WHAT IS GUACAMOLE?!
 -------------------
 The aim of the Guacamole Project is to provide a reference software stack for
-Linux-based media servers. It is based on the Yocto platform (simply because
-it is the best!).
+Linux-based media servers and similar devices. The Guacamole framework is based
+on the Yocto platform (what else?).
 
 
 HARDWARE
 --------
-Guacamole is not targeting any particular hardware; at present images are
-known to work with Intel Atom based devices and the Beagleboard board.
+At present images are known to work with Intel Atom based devices such as Zotac
+ZBox, and the Beagleboard board. Support for Raspberry PI is planned (once we
+have the HW ...).
 
 
-REPOSITORY LAYOUT
------------------
-This repository contains the buildsystem for the guacamole images, with the
-following subdirectories:
-
-meta-gucamole: the guacamole layer for Poky; the aim is to keep this as thin
-          as possible, using upstream Yocto packages where possible and
-          appropriate.
-
-upstream: this is where the upstream meta layers go; to add a new meta layer:
-           1. add git submodule into a subdir of upstream
-           2. link the meta-whatever dir into the layers dir
-           3. update meta-guacamole/conf/bblayers.conf.sample accordingly
-           4. rm build/conf/bblayer.conf so it gets regenerated
-
-layers:   this directory holds all the layers into a single whole; it should
-          contain no real files, only symlinks
-
-
-To build the guacamole image
+BUILDING IT
+-----------
 
   git clone git://github.com/Guacamole/meta-guacamole.git
   cd meta-guacamole
   git submodule update --init
 
-  # edit build/local.conf to something sensible for your setup
-
   source init-build-env
-  bitbake guacamole-image
+
+  bitbake guacamole-image-minimal
+
+The images are located in the tmp/deploy/images directory; image type and
+subsequent installation is, naturally, depended on the device.
 
 
-See also the documentation for Yocto, yocto-project.org.
+TWEAKING IT
+-----------
+Documentation on working Poky in general can be found at yocto-project.org; the
+following is specific to Guacamole:
+
+Images
+......
+Although multiple image recipes can be found in the repository, for now it is
+recommended to stick to guacamole-image-minimal, which provides system without
+a graphical environment.
+
+Audio Codecs
+............
+Out of the box you get support for Ogg and Flac; Mp3 support in Guacamole images
+is facilitated by the Fluendo Gstreamer plugin, but as this requires a license
+for commercial use, it is disabled by default; you can enable it by whitelisting
+commercial licenses in your build/conf/local.conf.
+
+
+REPOSITORY LAYOUT
+-----------------
+The git repository contains the build system for the guacamole images, with the
+following sub directories:
+
+meta-guacamole: the guacamole layer for Poky; the aim is to keep this as thin
+          as possible, using upstream Yocto packages where possible and
+          appropriate.
+
+upstream: this is where the upstream meta layers go; to add a new meta layer:
+           1. add git submodule into a subdirectory of upstream
+           2. link the meta-whatever directory into the layers directory
+           3. update meta-guacamole/conf/bblayers.conf.sample accordingly
+           4. rm build/conf/bblayer.conf so it gets regenerate in the next step
+           5. sour init-build-env
+
+layers:   this directory holds all the layers into a single whole; it should
+          contain no real files, only symlinks
+
+          NB: Only the Yocto and Guacamole are used as normal OE layers; bits
+              of other layers are currently 'cherry-picked' using symlinks due
+              to compatibility issues between some layers and lack of fine-honed
+              control over layer priorities
+
