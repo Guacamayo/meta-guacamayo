@@ -93,7 +93,9 @@ GUACA_PA_CORE = "pulseaudio \
 		 libasound-module-pcm-pulse \
 		"
 
-GUACA_DEVTOOLS += "pulseaudio-misc"
+GUACA_DEVTOOLS += "pulseaudio-misc \
+		   dbus-daemon-proxy \
+		  "
 
 # dbus-x11 is needed for dbus-launch
 RDEPENDS_task-guacamayo-core = "\
