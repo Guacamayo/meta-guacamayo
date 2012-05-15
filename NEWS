@@ -1,0 +1,9 @@
+
+Guacamayo 0.2 'See No Evil, Hear All You Want!'
+
+This is an initial release of Guacamayo with a limited feature set:
+
+ * Audio only,
+ * Auto-configured wired networking only,
+
+Tested on Intel Atom (Zotac ZBox), and Beagleboard.
