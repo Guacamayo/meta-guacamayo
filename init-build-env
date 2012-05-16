@@ -4,5 +4,5 @@ export BDIR=build
 export BUILDDIR="$GUACABASE/build"
 HAVE_BBLAYERS=
 
-source "$GUACABASE/layers/oe-init-build-env"
+. "$GUACABASE/layers/oe-init-build-env"
 
