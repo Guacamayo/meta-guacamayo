@@ -10,6 +10,7 @@
 # - guacamayo-devtools: extra tools
 
 PACKAGE_GROUP_guacamayo-core       = "task-guacamayo-core"
+PACKAGE_GROUP_guacamayo-headless   = "task-guacamayo-headless"
 PACKAGE_GROUP_guacamayo-mex        = "task-guacamayo-mex"
 PACKAGE_GROUP_guacamayo-mex-x11    = "task-guacamayo-mex-x11"
 PACKAGE_GROUP_guacamayo-restricted = "task-guacamayo-restricted"
