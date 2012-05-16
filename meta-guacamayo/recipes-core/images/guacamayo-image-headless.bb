@@ -3,12 +3,13 @@ LICENSE = "MIT"
 
 LIC_FILES_CHKSUM = "file://${GUACABASE}/meta-guacamayo/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 
-PR = "r0"
+PR = "r1"
 
 GUACAMAYO_FEATURES =+ "package-management"
 
-# Extra Image features
-GUACAMAYO_FEATURES =+ "\
+GUACAMAYO_FEATURES =+ "			   \
+		      package-management   \
+		      guacamayo-headless   \
 		      guacamayo-restricted \
 		      "
 
