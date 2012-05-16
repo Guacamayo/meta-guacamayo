@@ -3,7 +3,7 @@ LICENSE = "MIT"
 
 LIC_FILES_CHKSUM = "file://${GUACABASE}/meta-guacamayo/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 
-PR = "r13"
+PR = "r14"
 
 DEPENDS += "alsa-plugins"
 
@@ -112,7 +112,6 @@ RDEPENDS_task-guacamayo-core = "\
 			     gst-plugins-good-id3demux \
 			     gst-plugins-bad-id3tag \
 			     rygel \
-			     rygel-initd \
 			     rygel-plugin-playbin \
 			     gst-ffmpeg \
                                "
