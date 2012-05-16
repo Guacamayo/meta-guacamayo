@@ -3,7 +3,7 @@ LICENSE = "MIT"
 
 LIC_FILES_CHKSUM = "file://${GUACABASE}/meta-guacamayo/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 
-PR = "r1"
+PR = "r2"
 
 PACKAGES="\
 	task-guacamayo-mex-x11 \
@@ -13,7 +13,7 @@ PACKAGES="\
 ALLOW_EMPTY = "1"
 
 # xserver-common, x11-common
-VIRTUAL-RUNTIME_xserver_common ?= "x11-common"
+VIRTUAL-RUNTIME_xserver_common ?= "guacamayo-session-x11"
 
 # elsa, xserver-nodm-init
 VIRTUAL-RUNTIME_graphical_init_manager ?= "xserver-nodm-init"
