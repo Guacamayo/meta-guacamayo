@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://${GUACABASE}/meta-guacamayo/COPYING.MIT;md5=3da9cfbcb
 RDEPENDS_${PN} += "${PN}-x11"
 CONFLICTS_${PN} += "guacamayo-session-headless"
 
-PR = "r6"
+PR = "r7"
 
 inherit useradd
 
@@ -24,6 +24,8 @@ USERADD_PARAM_${PN} = "--home-dir=/var/run/rygel \
                        --user-group rygel"
 
 do_install_append() {
+        # remove back up files; these can completely screw up the session
+	find ${WORKDIR}/etc -name "*~" -type f -print0 | xargs -0 /bin/rm -f
 	cp -R ${WORKDIR}/etc ${D}/${sysconfdir}
 	chmod -R 755 ${D}/${sysconfdir}
 }
