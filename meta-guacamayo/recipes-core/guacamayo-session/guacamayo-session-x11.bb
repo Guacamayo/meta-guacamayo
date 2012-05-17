@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://${GUACABASE}/meta-guacamayo/COPYING.MIT;md5=3da9cfbcb
 RDEPENDS_${PN} += "${PN}-x11"
 CONFLICTS_${PN} += "guacamayo-session-headless"
 
-PR = "r3"
+PR = "r4"
 
 inherit useradd
 
