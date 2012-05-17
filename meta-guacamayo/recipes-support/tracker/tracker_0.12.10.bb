@@ -5,7 +5,7 @@ DEPENDS = "file gtk+ gstreamer gamin dbus libexif gettext gmime sqlite3 icu"
 RDEPENDS_${PN} += " gvfs"
 HOMEPAGE = "http://projects.gnome.org/tracker/"
 
-PR = "r0"
+PR = "r1"
 
 inherit autotools pkgconfig gnome gettext
 
@@ -14,7 +14,7 @@ SRC_URI = "http://ftp.gnome.org/pub/GNOME/sources/tracker/${VER_DIR}/tracker-${P
            file://0005-Fix-missing-gobject-introspection-checks.patch \
            file://enable-sqlite-crosscompile.patch \
            file://90tracker \
-" 
+"
 
 EXTRA_OECONF += " tracker_cv_have_ioprio=yes --disable-introspection"
 
@@ -22,8 +22,8 @@ LEAD_SONAME = "libtrackerclient.so.0"
 
 do_install_append() {
    cp -PpR ${D}${STAGING_DATADIR}/* ${D}${datadir}/ || true
-   install -d ${D}/${sysconfdir}/X11/Xsession.d/
-   install -m 0755 ${WORKDIR}/90tracker  ${D}/${sysconfdir}/X11/Xsession.d/
+#  install -d ${D}/${sysconfdir}/X11/Xsession.d/
+#  install -m 0755 ${WORKDIR}/90tracker  ${D}/${sysconfdir}/X11/Xsession.d/
    rmdir ${D}${libdir}/tracker-${VER_DIR}/writeback-modules
 }
 
@@ -41,8 +41,6 @@ FILES_${PN}-dbg += "${libdir}/*/*/.debug \
                     ${libdir}/*/.debug"
 FILES_${PN}-tests = "${datadir}/tracker-tests/"
 FILES_${PN}-vala = "${datadir}/vala/"
-
-CONFFILES_${PN} += "${sysconfdir}/X11/Xsession.d/90tracker"
 
 SRC_URI[md5sum] = "1ca82c48e79002df9f3a5487d5979513"
 SRC_URI[sha256sum] = "42722831fdde63cfa07e4f0bb75805425c09b1f1801d3d5280de8be37a357b69"
