@@ -1,0 +1,173 @@
+From 2a00d4c68aac64c134ad25895d9bc778fe8ed54a Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?=C3=98yvind=20Kol=C3=A5s?= <pippin@linux.intel.com>
+Date: Fri, 1 Apr 2011 14:28:43 +0100
+Subject: [PATCH] upnp: poll for presence of upnp media server
+
+In some scenarios the latency provided by the availability of a upnp server
+through re-announcements is not satisfactory. Active polling the presence of
+the server at lower intervals can be desirable in many circumstances.
+
+This patch does HEAD request on the root page every 4 seconds, if a reply with
+a 200 status message is not received within 1 second the device media server is
+considered gone.
+
+The environment variables GRL_UPNP_PING_IDLE and GRL_UPNP_PING_TIMEOUT can be
+set to floating point values in seconds to adjust the timing behavior.
+---
+ src/media/upnp/grl-upnp.c |  119 +++++++++++++++++++++++++++++++++++++++++++++
+ 1 files changed, 119 insertions(+), 0 deletions(-)
+
+diff --git a/src/media/upnp/grl-upnp.c b/src/media/upnp/grl-upnp.c
+index 424e900..e2415d1 100644
+--- a/src/media/upnp/grl-upnp.c
++++ b/src/media/upnp/grl-upnp.c
+@@ -391,6 +391,118 @@ context_available_cb (GUPnPContextManager *context_manager,
+   g_object_unref (cp);
+ }
+ 
++#define PINGER_TIMEOUT  3.0
++#define PINGER_IDLE     6.0
++
++typedef struct Pinger {
++  GUPnPDeviceProxy *device;
++  guint             pinger;
++  SoupMessage      *message;
++  guint             timeout;
++} Pinger;
++
++static void pinger_destroy (gpointer data)
++{
++  Pinger *pinger = data;
++  g_object_set_data (G_OBJECT (pinger->device), "pinger", NULL);
++  if (pinger->pinger)
++    g_source_remove (pinger->pinger);
++  if (pinger->timeout)
++    g_source_remove (pinger->timeout);
++  g_free (pinger);
++}
++
++static void
++device_went_away (GUPnPDeviceProxy *device)
++{
++  const gchar* udn;
++  GrlMediaPlugin *source;
++  GrlPluginRegistry *registry;
++  gchar *source_id;
++
++  udn = gupnp_device_info_get_udn (GUPNP_DEVICE_INFO (device));
++  source_id = build_source_id (udn);
++  registry = grl_plugin_registry_get_default ();
++  source = grl_plugin_registry_lookup_source (registry, source_id);
++
++  if (!source) {
++    GRL_DEBUG ("No source registered with id '%s', ignoring", source_id);
++  } else {
++    Pinger *pinger;
++    pinger = g_object_get_data (G_OBJECT (source), "pinger");
++    if (pinger)
++      pinger_destroy (pinger);
++    grl_plugin_registry_unregister_source (registry, source, NULL);
++  }
++  g_free (source_id);
++}
++
++static void
++pinger_reply_cb (SoupSession *session, SoupMessage *msg, gpointer data)
++{
++  Pinger *pinger = data;
++  g_assert (pinger->timeout);
++  g_source_remove (pinger->timeout);
++  pinger->timeout = 0;
++  if (msg->status_code != 200)
++    {
++      device_went_away (pinger->device);
++      pinger_destroy (pinger);
++    }
++  pinger->message = NULL;
++}
++
++static gboolean pinger_timeout (gpointer data)
++{
++  Pinger *pinger = data;
++  SoupSession *session;
++  session = gupnp_context_get_session (gupnp_device_info_get_context (
++                                       GUPNP_DEVICE_INFO (pinger->device)));
++
++  soup_session_cancel_message (session, pinger->message, 120);
++  return FALSE;
++}
++
++static gboolean pinger_idle (gpointer data)
++{
++  Pinger *pinger = data;
++  GUPnPDeviceProxy *device = pinger->device;
++  SoupSession *session;
++  const SoupURI *uri;
++
++  g_assert (!pinger->message);
++
++  uri = gupnp_device_info_get_url_base (GUPNP_DEVICE_INFO (device));
++  pinger->message = soup_message_new_from_uri ("GET", (void*)uri);
++  session = gupnp_context_get_session (gupnp_device_info_get_context (
++                                        GUPNP_DEVICE_INFO (device)));
++  {
++    gfloat timeout = PINGER_TIMEOUT;
++    if (g_getenv ("GRL_UPNP_PING_TIMEOUT"))
++      timeout = g_strtod (g_getenv ("GRL_UPNP_PING_TIMEOUT"), NULL);
++
++    pinger->timeout = g_timeout_add (timeout * 1000, pinger_timeout, pinger);
++  }
++  soup_session_queue_message (session, pinger->message, pinger_reply_cb, data);
++
++  return TRUE;
++}
++
++static void pinger_add (GUPnPDeviceProxy *device)
++{
++  Pinger *pinger = g_new0 (Pinger, 1);
++  gfloat idle = PINGER_IDLE;
++
++  g_object_set_data (G_OBJECT (device), "pinger", pinger);
++  pinger->device = device;
++
++  if (g_getenv ("GRL_UPNP_PING_IDLE"))
++    idle = g_strtod (g_getenv ("GRL_UPNP_PING_IDLE"), NULL);
++  pinger->pinger = g_timeout_add (idle * 1000, pinger_idle, pinger);
++}
++
++
++
+ static void
+ device_available_cb (GUPnPControlPoint *cp,
+ 		     GUPnPDeviceProxy *device,
+@@ -454,6 +566,8 @@ device_available_cb (GUPnPControlPoint *cp,
+     free_source_info (source_info);
+   }
+ 
++ pinger_add (device);
++
+  free_resources:
+   g_object_unref (service);
+   g_free (source_id);
+@@ -464,6 +578,7 @@ device_unavailable_cb (GUPnPControlPoint *cp,
+ 		       GUPnPDeviceProxy *device,
+ 		       gpointer user_data)
+ {
++#if 0
+   const gchar* udn;
+   GrlMediaPlugin *source;
+   GrlPluginRegistry *registry;
+@@ -484,6 +599,10 @@ device_unavailable_cb (GUPnPControlPoint *cp,
+   }
+ 
+   g_free (source_id);
++#else
++  GRL_DEBUG ("device_unavailable_cb");
++  device_went_away (device);
++#endif
+ }
+ 
+ const static gchar *
+-- 
+1.7.4.1
+
