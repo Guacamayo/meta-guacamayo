@@ -1,16 +1,18 @@
 DESCRIPTION="X11 session"
-LICENSE = "MIT"
+# The session scripts come from x11-common, which is GPLv2
+LICENSE = "GPLv2"
 
 LIC_FILES_CHKSUM = "file://${GUACABASE}/meta-guacamayo/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 
 RDEPENDS_${PN} += "${PN}-x11"
 CONFLICTS_${PN} += "guacamayo-session-headless"
 
-PR = "r1"
+PR = "r2"
 
 inherit useradd
 
-SRC_URI = "file://etc"
+SRC_URI = "file://etc\
+           file://gplv2-license.patch"
 
 ALLOW_EMPTY = "1"
 PACKAGES =+ "${PN}-x11"
