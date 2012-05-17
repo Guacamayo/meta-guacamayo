@@ -12,19 +12,19 @@ RDEPENDS_${PN} = "fontconfig-utils"
 
 inherit allarch
 
-SRC_URI = "http://ftp.de.debian.org/debian/pool/main/f/fonts-droid/fonts-droid_20101110+git.orig.tar.bz2"
+SRC_URI = "http://ftp.de.debian.org/debian/pool/main/f/fonts-droid/fonts-droid_20111207+git.orig.tar.bz2"
 
 S = "${WORKDIR}/fonts-droid-${PV}+git"
 
 do_install () {
-        install -d ${D}${prefix}/share/fonts/ttf/ 
-        for i in *.ttf; do 
-                install -m 644 $i ${D}${prefix}/share/fonts/ttf/${i} 
-        done 
+        install -d ${D}${prefix}/share/fonts/ttf/
+        for i in *.ttf; do
+                install -m 644 $i ${D}${prefix}/share/fonts/ttf/${i}
+        done
 
 	# fontconfig ships this too.  not sure what to do about it.
-        #install -d ${D}${sysconfdir}/fonts 
-        #install -m 644 local.conf ${D}${sysconfdir}/fonts/local.conf 
+        #install -d ${D}${sysconfdir}/fonts
+        #install -m 644 local.conf ${D}${sysconfdir}/fonts/local.conf
 }
 
 pkg_postinst_${PN} () {
@@ -35,6 +35,6 @@ fc-cache
 
 FILES_${PN} = "/etc ${datadir}/fonts"
 
-SRC_URI[md5sum] = "69a9f526bae8df30e1127ab84ac4e6ca"
-SRC_URI[sha256sum] = "ca7638c95a32d59b638e25b6bbe5450eb0595d85872206b53f440368aec914b0"
+SRC_URI[md5sum] = "dcf306262c3182617e5c5a7ed0a9c43a"
+SRC_URI[sha256sum] = "fa1a11b30f524052436b1c2f36d06870841379f4d79408a129426a5ca8c9dad8"
 
