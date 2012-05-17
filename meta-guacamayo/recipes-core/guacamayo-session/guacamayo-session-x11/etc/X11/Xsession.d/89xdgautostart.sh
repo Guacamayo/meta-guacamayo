@@ -1,7 +1,7 @@
 XDGAUTOSTART=/etc/xdg/autostart
 if [ -d $XDGAUTOSTART ]; then
     for SCRIPT in $XDGAUTOSTART/*; do
-        CMD=`grep ^Exec= $SCRIPT | cut -d '=' -f 2`
+        CMD=`grep Exec= $SCRIPT | sed -e s/.*Exec=// -e s/%.//g`
         $CMD &
     done
 fi
