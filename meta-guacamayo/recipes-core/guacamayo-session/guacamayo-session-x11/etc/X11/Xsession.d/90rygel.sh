@@ -4,4 +4,7 @@ echo "Starting Pulse Audio server"
 /usr/bin/pulseaudio -D --exit-idle-time=-1
 
 echo "Starting Rygel"
-exec /usr/bin/rygel
+/usr/bin/rygel &
+
+#place holder for the desktop
+exec test-interactive test-cairo-flowers
