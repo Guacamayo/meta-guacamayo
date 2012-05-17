@@ -7,7 +7,7 @@ echo "Starting Pulse Audio server"
 # but for now put it here, so that when it does not work, we still get
 # X session running
 echo "Starting MEX"
-media-explorer -f
+media-explorer -f &
 
 echo "Starting Rygel"
 exec /usr/bin/rygel
