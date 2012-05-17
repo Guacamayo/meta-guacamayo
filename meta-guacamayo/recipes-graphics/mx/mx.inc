@@ -1,9 +1,9 @@
 DESCRIPTION = "Clutter based widget library"
 LICENSE = "LGPLv2.1"
 
-INC_PR = "r1"
+INC_PR = "r2"
 
-DEPENDS = "clutter-1.10 dbus-glib gdk-pixbuf"
+DEPENDS = "clutter-1.8 dbus-glib gdk-pixbuf"
 
 inherit autotools gettext
 
