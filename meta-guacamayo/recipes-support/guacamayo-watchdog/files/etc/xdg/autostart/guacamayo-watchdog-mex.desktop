@@ -1,0 +1,4 @@
+[Desktop Entry]
+Type=Application
+Name=Guacamayo MEX watch dog
+Exec=guacamayo-watchdog --debug=all -- media-explorer -f
