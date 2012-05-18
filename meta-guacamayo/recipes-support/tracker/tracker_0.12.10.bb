@@ -5,9 +5,9 @@ DEPENDS = "file gtk+ gstreamer gamin dbus libexif gettext gmime sqlite3 icu"
 RDEPENDS_${PN} += " gvfs"
 HOMEPAGE = "http://projects.gnome.org/tracker/"
 
-PR = "r1"
+PR = "r2"
 
-inherit autotools pkgconfig gnome gettext
+inherit autotools pkgconfig gnome gettext gsettings
 
 VER_DIR = "${@gnome_verdir("${PV}")}"
 SRC_URI = "http://ftp.gnome.org/pub/GNOME/sources/tracker/${VER_DIR}/tracker-${PV}.tar.xz \
