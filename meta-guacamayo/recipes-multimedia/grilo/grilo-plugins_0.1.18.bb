@@ -5,12 +5,12 @@ HOMEPAGE = "http://live.gnome.org/Grilo"
 LICENSE = "LGPLv2+"
 LIC_FILES_CHKSUM = "file://COPYING;md5=fbc093901857fcd118f065f900982c24"
 
-DEPENDS = "glib-2.0 libxml2 gtk+ gconf libsoup-2.4 grilo gupnp gupnp-av sqlite3 libgcrypt"
+DEPENDS = "glib-2.0 libxml2 gtk+ gconf libsoup-2.4 grilo gupnp gupnp-av sqlite3 libgcrypt tracker"
 
 SRC_URI[archive.md5sum] = "7bea4ea6b58c345ffa9ded177b917ff3"
 SRC_URI[archive.sha256sum] = "7e382f402119f4f270380627a2f49b30a6c43a47ecd645bf5ffe4e0cd99a1c79"
 
-PR = "r0"
+PR = "r1"
 
 inherit gnome
 
