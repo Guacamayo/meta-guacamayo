@@ -3,7 +3,7 @@ LICENSE = "MIT"
 
 LIC_FILES_CHKSUM = "file://${GUACABASE}/meta-guacamayo/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 
-PR = "r5"
+PR = "r6"
 
 PACKAGES="\
 	task-guacamayo-mex-x11 \
@@ -32,13 +32,13 @@ GUACA_X11 = "						\
 RDEPENDS_task-guacamayo-mex-x11 = "				\
 			      ${GUACA_X11}			\
 			      tracker				\
-			      clutter-1.8			\
-			      clutter-gst-1.8			\
+			      clutter-1.10			\
+			      clutter-gst-1.10			\
 			      media-explorer			\
 			      guacamayo-watchdog-autostart	\
 			      "
 
 RDEPENDS_task-guacamayo-mex-x11-tests = "			\
-				 clutter-1.8-examples		\
-				 clutter-gst-1.8-examples	\
+				 clutter-1.10-examples		\
+				 clutter-gst-1.10-examples	\
 				 "
