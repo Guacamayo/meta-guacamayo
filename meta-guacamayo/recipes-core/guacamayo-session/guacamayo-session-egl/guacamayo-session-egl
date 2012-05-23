@@ -67,7 +67,7 @@ case "$1" in
        /sbin/start-stop-daemon -b -c $USER -S -x /usr/bin/rygel
 
        echo "Starting MEX"
-       /sbin/start-stop-daemon -b -c $USER -S -x /usr/bin/guacamayo-watchdog --debug=all -- media-explorer -f
+       /sbin/start-stop-daemon -b -c $USER -S -x /usr/bin/guacamayo-watchdog -- --debug=all -- media-explorer -f
   ;;
 
   stop)
