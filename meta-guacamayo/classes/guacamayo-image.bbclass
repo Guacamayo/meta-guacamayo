@@ -9,14 +9,16 @@
 # - guacamayo-mex: Mex media explorer
 # - guacamayo-devtools: extra tools
 
-PACKAGE_GROUP_guacamayo-core          = "task-guacamayo-core"
-PACKAGE_GROUP_guacamayo-headless      = "task-guacamayo-headless"
-PACKAGE_GROUP_guacamayo-mex           = "task-guacamayo-mex"
-PACKAGE_GROUP_guacamayo-mex-x11       = "task-guacamayo-mex-x11"
-PACKAGE_GROUP_guacamayo-mex-x11-tests = "task-guacamayo-mex-x11-tests"
-PACKAGE_GROUP_guacamayo-restricted    = "task-guacamayo-restricted"
-PACKAGE_GROUP_guacamayo-gles-tests    = "task-guacamayo-gles-tests"
-PACKAGE_GROUP_guacamayo-devtools      = "task-guacamayo-devtools"
+PACKAGE_GROUP_guacamayo-core           = "task-guacamayo-core"
+PACKAGE_GROUP_guacamayo-headless       = "task-guacamayo-headless"
+PACKAGE_GROUP_guacamayo-mex            = "task-guacamayo-mex"
+PACKAGE_GROUP_guacamayo-mex-x11        = "task-guacamayo-mex-x11"
+PACKAGE_GROUP_guacamayo-mex-x11-tests  = "task-guacamayo-mex-x11-tests"
+PACKAGE_GROUP_guacamayo-mex-egl       = "task-guacamayo-mex-egl"
+PACKAGE_GROUP_guacamayo-mex-egl-tests = "task-guacamayo-mex-egl-tests"
+PACKAGE_GROUP_guacamayo-restricted     = "task-guacamayo-restricted"
+PACKAGE_GROUP_guacamayo-gles-tests     = "task-guacamayo-gles-tests"
+PACKAGE_GROUP_guacamayo-devtools       = "task-guacamayo-devtools"
 
 # The core bits of Guacamayo
 IMAGE_FEATURES =+ "apps-console-core ssh-server-dropbear guacamayo-core"
