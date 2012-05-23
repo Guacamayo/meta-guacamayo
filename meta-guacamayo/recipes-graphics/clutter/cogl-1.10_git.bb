@@ -25,9 +25,9 @@ AUTOTOOLS_AUXDIR = "${S}/build"
 
 EXTRA_OECONF = "${BASE_CONF} --enable-gles2 --disable-gl --disable-glx --enable-examples-install"
 
-EXTRA_OECONF_beagleboard = " ${BASE_CONF} --enable-gles2 --disable-gl --disable-glx --enable-null-egl-platform --enable-examples-install"
+EXTRA_OECONF_beagleboard = " ${BASE_CONF} --enable-gles2 --disable-gl --disable-glx --enable-null-egl-platform --enable-xlib-egl-platform --enable-examples-install --enable-debug"
 
-EXTRA_OECONF_atom-pc = " ${BASE_CONF} --disable-gles2 --enable-gl --enable-glx --enable-kms-egl-platform --enable-examples-install"
+EXTRA_OECONF_atom-pc = " ${BASE_CONF} --disable-gles2 --enable-gl --enable-glx --enable-examples-install --enable-debug"
 
 FILES_${PN}-examples = "${bindir}/* ${datadir}/cogl/examples-data/*"
 
