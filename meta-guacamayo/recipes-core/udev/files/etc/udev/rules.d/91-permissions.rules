@@ -1,0 +1,6 @@
+ACTION=="remove", GOTO="permissions_end"
+
+# input devices
+KERNEL=="event[0-9]*", ENV{.INPUT_CLASS}=="mouse|kbd", MODE="0640", GROUP="users"
+
+LABEL="permissions_end"
