@@ -2,7 +2,7 @@ require ${GUACABASE}/meta/recipes-graphics/clutter/clutter-gst.inc
 
 FILESPATH = "${FILE_DIRNAME}/clutter-gst-1.10"
 
-PR = "r2"
+PR = "r3"
 
 LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c \
                     file://clutter-gst/clutter-gst.h;beginline=1;endline=24;md5=95baacba194e814c110ea3bdf25ddbf4"
@@ -24,3 +24,7 @@ do_configure_prepend () {
        # Disable DOLT
        sed -i -e 's/^DOLT//' ${S}/configure.ac
 }
+
+FILES_${PN} += "${libdir}/gstreamer-0.10/lib*.so"
+FILES_${PN}-dev += "${libdir}/gstreamer-0.10/*.la"
+FILES_${PN}-dbg += "${libdir}/gstreamer-0.10/.debug/lib*.so"
