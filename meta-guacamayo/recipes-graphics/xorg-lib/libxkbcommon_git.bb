@@ -3,8 +3,8 @@ require ${GUACABASE}/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc
 SUMMARY = "library interface to the XKB compiler"
 
 LIC_FILES_CHKSUM = "file://COPYING;md5=469a86f811ec5d6bba592811c3005a2a"
-PR = "r0"
-DEPENDS = "xproto kbproto ${PN}-native"
+PR = "r1"
+DEPENDS = "xproto kbproto ${PN}-native xkeyboard-config"
 DEPENDS_virtclass-native = "xproto kbproto"
 
 S = "${WORKDIR}/git"
