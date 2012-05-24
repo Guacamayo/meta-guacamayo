@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://${GUACABASE}/meta-guacamayo/COPYING.MIT;md5=3da9cfbcb
 RDEPENDS_${PN} += "sudo pulseaudio-server ${PN}-initd"
 CONFLICTS_${PN} += "guacamayo-session-x11 guacamayo-session-headless"
 
-PR = "r3"
+PR = "r4"
 
 inherit update-rc.d useradd
 
@@ -24,7 +24,7 @@ INITSCRIPT_PARAMS_${PN}-initd = "start 50 5 2 3 . stop 10 0 1 6 ."
 USERADD_PACKAGES = "${PN}"
 USERADD_PARAM_${PN} = "--home-dir=/var/run/rygel \
 		       --create-home \
-                       --groups video,audio \
+                       --groups video,audio,users \
                        --user-group rygel"
 
 do_install_append() {
