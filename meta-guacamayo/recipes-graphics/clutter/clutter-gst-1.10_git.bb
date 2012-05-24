@@ -2,13 +2,14 @@ require ${GUACABASE}/meta/recipes-graphics/clutter/clutter-gst.inc
 
 FILESPATH = "${FILE_DIRNAME}/clutter-gst-1.10"
 
-PR = "r4"
+PR = "r5"
 
 LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c \
                     file://clutter-gst/clutter-gst.h;beginline=1;endline=24;md5=95baacba194e814c110ea3bdf25ddbf4"
 
 DEPENDS += "clutter-1.10 gstreamer"
 RDEPENDS_${PN} += "gst-meta-base"
+CONFLICTS = "clutter-gst-1.8"
 
 SRCREV = "1df53639f9cb36e127963d0a2518d753ac7c1868"
 

@@ -5,13 +5,14 @@ FILESPATH = "${FILE_DIRNAME}/cogl-1.10"
 DEPENDS += "virtual/egl"
 DEPENDS_append_atom-pc += " libdrm"
 RDEPENDS_atom-pc += "libgl"
+CONFLICTS = "cogl"
 
 LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
 
 # the 1.10.2 tag
 SRCREV = "ebb8cdd7c6c6c5d6c6ff92e40aacb0a78e6abdbc"
 PV = "1.10.2+git${SRCPV}"
-PR = "r8"
+PR = "r7"
 
 DEFAULT_PREFERENCE = "1"
 
