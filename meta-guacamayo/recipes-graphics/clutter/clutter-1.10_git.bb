@@ -1,13 +1,13 @@
 require ${GUACABASE}/meta/recipes-graphics/clutter/clutter.inc
 
-STDDEPENDS = "virtual/libx11 gtk-doc-native pango glib-2.0 libxfixes libxi json-glib cogl-1.10 atk"
+STDDEPENDS = "virtual/libx11 gtk-doc-native pango glib-2.0 libxfixes libxi json-glib cogl-1.10 atk udev libxkbcommon"
 
 LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
 
 # the 1.10.2 tag
 SRCREV = "62cffec9036f6a24736dc47914844fe9336c8ce4"
 PV = "1.10.2+git${SRCPV}"
-PR = "r4"
+PR = "r5"
 
 PACKAGES =+ "${PN}-examples"
 
