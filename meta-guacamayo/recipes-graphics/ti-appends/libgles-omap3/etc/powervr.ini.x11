@@ -1,0 +1,2 @@
+[default]
+WindowSystem=libpvrPVR2D_X11WSEGL.so.1
