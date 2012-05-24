@@ -59,6 +59,7 @@ case "$1" in
        ensurehome
        setupdbus
 
+       export CLUTTER_INPUT_BACKEND=evdev
        echo "Starting Pulse Audio server"
        # can't use start-stop-daemon for pa, it starts fine but does not work
        sudo -b -E -u $USER -g $USER /usr/bin/pulseaudio -D --exit-idle-time=-1
