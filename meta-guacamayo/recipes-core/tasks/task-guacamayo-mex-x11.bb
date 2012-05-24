@@ -3,7 +3,7 @@ LICENSE = "MIT"
 
 LIC_FILES_CHKSUM = "file://${GUACABASE}/meta-guacamayo/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 
-PR = "r7"
+PR = "r8"
 
 PACKAGES="\
 	task-guacamayo-mex-x11 \
@@ -27,6 +27,7 @@ GUACA_X11 = "						\
     	  xhost						\
     	  xset						\
     	  xrandr					\
+	  xkbcomp					\
 	  "
 
 RDEPENDS_task-guacamayo-mex-x11 = "				\
