@@ -205,7 +205,11 @@ USER_CLASSES ?= "buildstats image-mklibs image-prelink"
 # Supported values are auto, gnome, xfce, rxvt, screen, konsole (KDE 3.x only), none
 # Note: currently, Konsole support only works for KDE 3.x due to the way
 # newer Konsole versions behave
-#OE_TERMINAL = "auto"
+# NB Guacamayo: we have some packages that install gsettings shemas and this
+# appears to break gnome-shell (I think it is hitting the staging schemas dir
+# and not liking it), so force xterm
+OE_TERMINAL = "xterm"
+
 # By default disable interactive patch resolution (tasks will just fail instead):
 PATCHRESOLVE = "noop"
 
