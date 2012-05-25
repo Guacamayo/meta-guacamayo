@@ -34,9 +34,31 @@ following is specific to Guacamayo:
 
 Images
 ......
-Although multiple image recipes can be found in the repository, for now it is
-recommended to stick to guacamayo-image-headless, which provides system without
-a graphical environment.
+guacamayo-image-headless: a small image for an audio player; should work both on
+                          atom and beagleboard; good place to start with
+
+guacamayo-image-x11:      an image with MEX on X11; only for atom-pc machine
+                          at the moment (PVR dri2 GL drivers for the
+                          Beagleboard are not working at present).
+
+guacamayo-image-egl:      an image with MEX over native EGL + evdev for input,
+                          only tested on the Beagleboard at the moment. This is
+                          the taste of things on a more distant horizon, but
+                          presently VERY EXPERIMENTAL AND MOST LIKELY BROKEN
+                          in more ways that one (though should build).
+
+NB: The -elg and -x11 images use different Clutter packages that are not
+    parallel installable. If you want to build both the -x11 and -egl image
+    for the same machine target, you have to manually clean up the Clutter
+    packages for the given machine first with the following command:
+
+        bitbake -c cleansstate cogl-1.10-egl cogl-1.10-x11 \
+                               clutter-1.10-egl clutter-1.10-x11 \
+                               clutter-gst-1.10-egl clutter-gst-1.10-x11
+
+    (Building different image types across different machine targets, e.g.,
+    -x11 for atom-pc and -egl for beagleboard, is, of course, fine.)
+
 
 Audio Codecs
 ............
