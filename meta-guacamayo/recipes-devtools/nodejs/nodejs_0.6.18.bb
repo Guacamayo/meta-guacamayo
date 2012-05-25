@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=914812f2875eef849b5c509cc25dcb4f"
 
 #DEFAULT_PREFERENCE = "-1"
 
-PR = "r0"
+PR = "r1"
 
 DEPENDS = "openssl"
 
@@ -49,7 +49,10 @@ do_install () {
   DESTDIR=${D} oe_runmake install
 }
 
-RDEPENDS_${PN} = "curl python-shell python-datetime python-subprocess python-crypt python-textutils python-netclient "
+# I *think* these python-* deps are actually for node-waf.  That should be
+# in a -dev package.
+
+RDEPENDS_${PN} = "curl python-shell python-datetime python-subprocess python-crypt python-textutils python-netclient python-threading "
 
 FILES_${PN} += "${libdir}"
 BBCLASSEXTEND = "native"
