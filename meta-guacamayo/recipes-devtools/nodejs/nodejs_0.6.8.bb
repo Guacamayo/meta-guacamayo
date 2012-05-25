@@ -5,6 +5,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=672cc6c8dbb3e918277a61ea98f088f6"
 
 #DEFAULT_PREFERENCE = "-1"
 
+PR = "r1"
+
 DEPENDS = "openssl"
 
 SRC_URI = "http://nodejs.org/dist/v${PV}/node-v${PV}.tar.gz"
@@ -49,5 +51,5 @@ do_install () {
 
 RDEPENDS_${PN} = "curl python-shell python-datetime python-subprocess python-crypt python-textutils python-netclient "
 
-FILES_${PN} += "${libdir}/node/wafadmin"
+FILES_${PN} += "${libdir}"
 BBCLASSEXTEND = "native"
