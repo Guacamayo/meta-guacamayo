@@ -6,4 +6,4 @@ SRC_URI  = "git://git.kernel.org/pub/scm/network/connman/connman.git \
             file://add_xuser_dbus_permission.patch \
             file://connman"
 S = "${WORKDIR}/git"
-PR = "r0"
+PR = "r1"
