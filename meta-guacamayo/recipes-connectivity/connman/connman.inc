@@ -32,7 +32,7 @@ EXTRA_OECONF += "\
     --enable-tools \
     --enable-test \
     --disable-polkit \
-    --enable-client \
+    --disable-client \
 "
 
 INITSCRIPT_NAME = "connman"
