@@ -3,7 +3,7 @@ LICENSE = "MIT"
 
 LIC_FILES_CHKSUM = "file://${GUACABASE}/meta-guacamayo/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 
-PR = "r14"
+PR = "r15"
 
 DEPENDS += "alsa-plugins"
 
@@ -14,7 +14,7 @@ PACKAGES="\
 	task-guacamayo-devtools \
 	"
 
-RDEPENDS_task-guacamayo = ""
+RDEPENDS_task-guacamayo = "dconf"
 
 ALLOW_EMPTY = "1"
 
