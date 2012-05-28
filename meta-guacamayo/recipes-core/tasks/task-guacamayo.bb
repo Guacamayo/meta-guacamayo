@@ -3,7 +3,7 @@ LICENSE = "MIT"
 
 LIC_FILES_CHKSUM = "file://${GUACABASE}/meta-guacamayo/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 
-PR = "r15"
+PR = "r16"
 
 DEPENDS += "alsa-plugins"
 
@@ -14,7 +14,7 @@ PACKAGES="\
 	task-guacamayo-devtools \
 	"
 
-RDEPENDS_task-guacamayo = "dconf"
+RDEPENDS_task-guacamayo = ""
 
 ALLOW_EMPTY = "1"
 
@@ -99,6 +99,7 @@ GUACA_DEVTOOLS += "pulseaudio-misc \
 
 # dbus-x11 is needed for dbus-launch
 RDEPENDS_task-guacamayo-core = "\
+			     dconf \
 			     dbus \
 			     dbus-x11 \
                              ${GUACA_NETWORKING} \
