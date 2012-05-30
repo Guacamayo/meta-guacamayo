@@ -82,7 +82,7 @@ upstream: this is where the upstream meta layers go; to add a new meta layer:
            2. link the meta-whatever directory into the layers directory
            3. update meta-guacamayo/conf/bblayers.conf.sample accordingly
            4. rm build/conf/bblayer.conf so it gets regenerate in the next step
-           5. sour init-build-env
+           5. source init-build-env
 
 layers:   this directory holds all the layers into a single whole; it should
           contain no real files, only symlinks
