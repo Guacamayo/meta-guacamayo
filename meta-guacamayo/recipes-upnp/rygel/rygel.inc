@@ -1,6 +1,6 @@
 LICENSE = "LGPLv2+"
 
-INC_PR = "rgc9"
+INC_PR = "r0"
 
 inherit gnome
 
