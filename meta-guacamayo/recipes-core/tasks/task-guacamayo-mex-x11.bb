@@ -3,7 +3,7 @@ LICENSE = "MIT"
 
 LIC_FILES_CHKSUM = "file://${GUACABASE}/meta-guacamayo/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 
-PR = "r9"
+PR = "r10"
 
 PACKAGES="\
 	task-guacamayo-mex-x11 \
@@ -47,4 +47,5 @@ RDEPENDS_task-guacamayo-mex-x11_append_beagleboard = " \
 RDEPENDS_task-guacamayo-mex-x11-tests = "			\
 				 clutter-1.10-x11-examples	\
 				 clutter-gst-1.10-x11-examples	\
+				 mesa-demos			\
 				 "
