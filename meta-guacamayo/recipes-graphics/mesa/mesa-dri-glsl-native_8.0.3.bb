@@ -7,9 +7,11 @@ LIC_FILES_CHKSUM = "file://glsl_parser.cpp;beginline=3;endline=33;md5=d078f1cddc
 
 DEPENDS = "makedepend-native"
 
+PR = "r1"
+
 SRC_URI = "ftp://ftp.freedesktop.org/pub/mesa/${PV}/MesaLib-${PV}.tar.bz2"
-SRC_URI[md5sum] = "ff03aca82d0560009a076a87c888cf13"
-SRC_URI[sha256sum] = "f8bf37a00882840a3e3d327576bc26a79ae7f4e18fe1f7d5f17a5b1c80dd7acf"
+SRC_URI[md5sum] = "cc5ee15e306b8c15da6a478923797171"
+SRC_URI[sha256sum] = "96812c59b0923314914185a2b064eb5245f1228a319c4db94835ce1c84da407f"
 
 S = "${WORKDIR}/Mesa-${PV}/src/glsl/"
 
