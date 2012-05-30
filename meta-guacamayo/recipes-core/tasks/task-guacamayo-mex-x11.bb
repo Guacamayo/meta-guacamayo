@@ -3,7 +3,7 @@ LICENSE = "MIT"
 
 LIC_FILES_CHKSUM = "file://${GUACABASE}/meta-guacamayo/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 
-PR = "r10"
+PR = "r11"
 
 PACKAGES="\
 	task-guacamayo-mex-x11 \
@@ -31,6 +31,23 @@ GUACA_X11 = "						\
     	  xrandr					\
 	  xkbcomp					\
 	  "
+
+#
+# Video drivers, based on machine features
+#
+GUACA_X11_i915 = "xf86-video-intel	\
+               	  mesa-dri-driver-i915	\
+		 "
+
+GUACA_X11_i965 = "xf86-video-intel	\
+               	  mesa-dri-driver-i965	\
+		 "
+
+GUACA_X11 += "${@base_contains("MACHINE_FEATURES", "intel-gfx-i915", \
+                      "${GUACA_X11_i915}", "", d)}"
+GUACA_X11 += "${@base_contains("MACHINE_FEATURES", "intel-gfx-i965", \
+                      "${GUACA_X11_i965}", "", d)}"
+
 
 RDEPENDS_task-guacamayo-mex-x11 = "				\
 			      ${GUACA_X11}			\
