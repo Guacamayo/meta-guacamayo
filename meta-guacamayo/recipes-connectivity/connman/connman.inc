@@ -20,14 +20,19 @@ DEPENDS  = "dbus glib-2.0 ppp iptables gnutls \
             ${@base_contains('DISTRO_FEATURES', '3g','ofono', '', d)} \
             "
 
+TIST = "--enable-tist"
+TIST_powerpc = ""
+
 EXTRA_OECONF += "\
     ac_cv_path_WPASUPPLICANT=${sbindir}/wpa_supplicant \
     ac_cv_path_PPPD=${sbindir}/pppd \
     --disable-gtk-doc \
     --enable-debug \
     --enable-threads \
-    ${@base_contains('DISTRO_FEATURES', 'wifi', '', '--disable-wifi', d)} \
-    ${@base_contains('DISTRO_FEATURES', 'bluetooth', '', '--disable-bluetooth', d)} \
+    --enable-loopback \
+    --enable-ethernet \
+    ${@base_contains('DISTRO_FEATURES', 'wifi','--enable-wifi ${TIST}', '--disable-wifi', d)} \
+    ${@base_contains('DISTRO_FEATURES', 'bluetooth','--enable-bluetooth ${TIST}', '--disable-bluetooth', d)} \
     ${@base_contains('DISTRO_FEATURES', '3g', '', '--disable-ofono', d)} \
     --enable-tools \
     --enable-test \
