@@ -1,12 +1,11 @@
 # the 1.10.2 tag
 SRCREV = "ebb8cdd7c6c6c5d6c6ff92e40aacb0a78e6abdbc"
 PV = "1.10.2+git${SRCPV}"
-PR = "${INCPR}.0"
+PR = "${INCPR}.1"
 
 LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
 
-SRC_URI = "git://git.gnome.org/cogl;protocol=git;branch=master"
-SRC_URI_append_beagleboard += "file://beagleboard-glchar.patch"
+SRC_URI += "git://git.gnome.org/cogl;protocol=git;branch=master"
 
 S = "${WORKDIR}/git"
 

@@ -1,0 +1,13 @@
+Index: git/cogl/gl-prototypes/cogl-glsl-functions.h
+===================================================================
+--- git.orig/cogl/gl-prototypes/cogl-glsl-functions.h	2012-05-29 11:58:32.000000000 +0100
++++ git/cogl/gl-prototypes/cogl-glsl-functions.h	2012-05-30 09:45:46.530084872 +0100
+@@ -51,7 +51,7 @@
+ 
+ /* The function names in OpenGL 2.0 are different so we can't easily
+    just check for GL 2.0 */
+-COGL_EXT_BEGIN (shaders_glsl, 2, 0,
++COGL_EXT_BEGIN (shaders_glsl, 1, 4,
+                 COGL_EXT_IN_GLES2,
+                 "\0",
+                 "\0")

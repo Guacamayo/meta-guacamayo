@@ -2,7 +2,7 @@ DESCRIPTION = "a modern 3D graphics API with associated utility APIs"
 HOMEPAGE = "http://wiki.clutter-project.org/wiki/Cogl"
 LICENSE = "LGPLv2.1+"
 
-INCPR = "r0"
+INCPR = "r1"
 
 FILESPATH = "${FILE_DIRNAME}/cogl-1.10"
 
@@ -22,6 +22,9 @@ STDRDEPENDS       = ""
 STDRDEPENDS_GL    = "libgl"
 STDRDEPENDS_GLES2 = "libgles2"
 
+SRC_URI = ""
+SRC_URI_append_beagleboard += "file://beagleboard-glchar.patch"
+SRC_URI_append_atom-pc += "file://workaround-glsl-detection.patch"
 
 # check for TARGET_FPU=soft and inform configure of the result so it can disable
 # some floating points
