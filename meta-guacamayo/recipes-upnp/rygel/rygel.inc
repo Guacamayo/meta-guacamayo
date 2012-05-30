@@ -1,8 +1,8 @@
 LICENSE = "LGPLv2+"
 
-INC_PR = "r0"
+INC_PR = "r1"
 
-inherit gnome
+inherit gnome vala
 
 SRC_URI = "${GNOME_MIRROR}/${BPN}/${@gnome_verdir("${PV}")}/${BPN}-${PV}.tar.xz;name=archive"
 
