@@ -7,3 +7,6 @@
 [submodule "upstream/arago/meta-ti"]
 	path = upstream/arago/meta-ti
 	url = git://arago-project.org/git/meta-ti.git
+[submodule "upstream/misc/meta-raspberrypi"]
+	path = upstream/misc/meta-raspberrypi
+	url = git://github.com/djwillis/meta-raspberrypi.git
