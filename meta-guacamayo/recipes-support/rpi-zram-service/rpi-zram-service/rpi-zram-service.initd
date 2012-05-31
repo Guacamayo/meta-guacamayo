@@ -1,0 +1,29 @@
+#!/bin/sh
+#
+### BEGIN INIT INFO
+# Provides: rpi-zram-service
+### END INIT INFO
+
+case "$1" in
+  start)
+       . /etc/profile
+       echo "Starting zram service"
+       /usr/bin/rpi-load-zram.sh --load
+  ;;
+
+  stop)
+       /usr/bin/rpi-load-zram.sh --unload
+  ;;
+
+  restart)
+	$0 stop
+        sleep 1
+        $0 start
+  ;;
+
+  *)
+        echo "usage: $0 { start | stop | restart }"
+  ;;
+esac
+
+exit 0
