@@ -1,9 +1,10 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
-PRINC = "5"
+PRINC = "6"
 
 SRC_URI += "file://pulse.conf \
 	    file://config.patch \
+	    file://fix-desktop.patch \
 	   "
 
 do_install_append() {

@@ -1,0 +1,14 @@
+# start-pulse-audio-x11 does not work for some reason, just start directly
+Index: pulseaudio-1.1/src/daemon/pulseaudio.desktop.in
+===================================================================
+--- pulseaudio-1.1.orig/src/daemon/pulseaudio.desktop.in	2011-10-20 13:56:30.000000000 +0100
++++ pulseaudio-1.1/src/daemon/pulseaudio.desktop.in	2012-05-31 14:41:31.736409306 +0100
+@@ -3,7 +3,7 @@
+ Encoding=UTF-8
+ _Name=PulseAudio Sound System
+ _Comment=Start the PulseAudio Sound System
+-Exec=start-pulseaudio-x11
++Exec=pulseaudio --start -D --exit-idle-time=-1
+ Terminal=false
+ Type=Application
+ Categories=
