@@ -48,8 +48,7 @@
 #
 #MACHINE ?= "atom-pc"
 #MACHINE ?= "beagleboard"
-#MACHINE ?= "mpc8315e-rdb"
-#MACHINE ?= "routerstationpro"
+#MACHINE ?= "raspberrypi"
 #
 # This sets the default machine to be qemux86 if no other machine is selected:
 MACHINE ??= "qemux86"
