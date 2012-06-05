@@ -1,6 +1,6 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
-PRINC = "6"
+PRINC = "7"
 
 SRC_URI += "file://pulse.conf \
 	    file://config.patch \
@@ -16,4 +16,10 @@ do_install_append() {
 
 FILES_${PN} += "${datadir}/alsa"
 
-RDEPENDS_pulseaudio-server += "pulseaudio-module-switch-on-connect"
+RDEPENDS_pulseaudio-server += "pulseaudio-module-switch-on-connect	\
+			       pulseaudio-module-cli			\
+			       pulseaudio-module-cli-protocol-unix	\
+			       pulseaudio-module-mmkbd-evdev		\
+			       pulseaudio-module-volume-restore		\
+			       pulseaudio-module-rescue-streams		\
+			      "
