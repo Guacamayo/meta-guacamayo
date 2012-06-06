@@ -1,0 +1,2 @@
+[org.freedesktop.Tracker.Miner.Files]
+index-removable-devices=true
