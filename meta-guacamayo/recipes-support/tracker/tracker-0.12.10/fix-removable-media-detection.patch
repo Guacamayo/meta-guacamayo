@@ -1,0 +1,15 @@
+Index: tracker-0.12.10/src/libtracker-miner/tracker-storage.c
+===================================================================
+--- tracker-0.12.10.orig/src/libtracker-miner/tracker-storage.c	2011-08-03 13:53:16.000000000 +0100
++++ tracker-0.12.10/src/libtracker-miner/tracker-storage.c	2012-06-06 18:13:34.506891428 +0100
+@@ -647,6 +647,10 @@
+ 				gboolean is_multimedia;
+ 				gboolean is_blank;
+ 
++                                if (!strncmp (mount_path, "/media/",
++                                              strlen ("/media/")))
++                                  is_removable = TRUE;
++
+ 				content_type = mount_guess_content_type (mount, &is_optical, &is_multimedia, &is_blank);
+ 
+ 				/* Note: for GMounts without GVolume, is_blank should NOT be considered,

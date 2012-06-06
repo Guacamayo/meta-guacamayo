@@ -5,7 +5,7 @@ DEPENDS = "file gtk+ gstreamer gamin dbus libexif gettext gmime sqlite3 icu"
 RDEPENDS_${PN} += " gvfs"
 HOMEPAGE = "http://projects.gnome.org/tracker/"
 
-PR = "r2"
+PR = "r3"
 
 inherit autotools pkgconfig gnome gettext gsettings
 
@@ -13,6 +13,7 @@ VER_DIR = "${@gnome_verdir("${PV}")}"
 SRC_URI = "http://ftp.gnome.org/pub/GNOME/sources/tracker/${VER_DIR}/tracker-${PV}.tar.xz \
            file://0005-Fix-missing-gobject-introspection-checks.patch \
            file://enable-sqlite-crosscompile.patch \
+	   file://fix-removable-media-detection.patch \
            file://90tracker \
 "
 
