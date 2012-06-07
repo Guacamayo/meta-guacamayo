@@ -9,11 +9,11 @@ inherit autotools gettext gtk-doc
 
 SRC_URI = "http://github.com/downloads/media-explorer/media-explorer/${BPN}-${PV}.tar.xz"
 
-INCPR = "r3"
+INCPR = "r4"
 
 # Cheating, disabling web remote as it needs tracker-sparql-0.10 avahi-glib avahi-client
 # Also disable debug buddy as it needs libunwind
-EXTRA_OECONF += "--with-online=connman --enable-networks --disable-webremote \
+EXTRA_OECONF += "--with-online=always --enable-networks --disable-webremote \
                  --disable-lirc --disable-debug-buddy"
 
 do_install_append() {
