@@ -9,7 +9,7 @@ inherit autotools gettext gtk-doc
 
 SRC_URI = "http://github.com/downloads/media-explorer/media-explorer/${BPN}-${PV}.tar.xz"
 
-INCPR = "r4"
+INCPR = "r5"
 
 # Cheating, disabling web remote as it needs tracker-sparql-0.10 avahi-glib avahi-client
 # Also disable debug buddy as it needs libunwind
@@ -31,7 +31,7 @@ do_install_append() {
 
 python populate_packages_prepend() {
         plugindir = d.expand('${libdir}/media-explorer/plugins')
-        do_split_packages(d, plugindir, '^mex-(.*)\.so$', '${PN}-plugin-%s', 'Media Explorer plugin for %s', allow_dirs=True, prepend=True)
+        do_split_packages(d, plugindir, '^mex-(.*)\.so$', '${PN}-plugin-%s', 'Media Explorer plugin for %s', allow_dirs=True, prepend=True, extra_depends='${PN}')
 
 	pn = d.getVar('PN', True)
 	metapkg =  pn + '-plugins-meta'
