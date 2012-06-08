@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7 \
                     file://glib/pcre/pcre.h;startline=11;endline=35;md5=2ffb79f0a0933f282f4f36cda635683d \
                     file://docs/reference/COPYING;md5=f51a5100c17af6bae00735cd791e1fcc"
 
-PR = "r1"
+PR = "r2"
 PE = "1"
 
 #DEFAULT_PREFERENCE="-1"
@@ -16,6 +16,8 @@ PE = "1"
 DEPENDS += "libffi python-argparse-native zlib"
 DEPENDS_virtclass-native += "libffi-native python-argparse-native"
 DEPENDS_virtclass-nativesdk += "libffi-nativesdk python-argparse-native zlib-nativesdk"
+
+EXTRA_OECONF += "--enable-debug=minimal"
 
 SHRT_VER = "${@d.getVar('PV',1).split('.')[0]}.${@d.getVar('PV',1).split('.')[1]}"
 
