@@ -1,0 +1,51 @@
+From 20346f7a6115bc6b7010efa5bf403edb6a7d1066 Mon Sep 17 00:00:00 2001
+From: Tomas Frydrych <tomas@sleepfive.com>
+Date: Tue, 12 Jun 2012 10:16:14 +0100
+Subject: [PATCH] Remove init timeout when we successfully connect
+
+If the timeout is not removed on successful connection, all the upnp content
+is marked as unavailable.
+---
+ src/tracker-miner-upnp.vala |    9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
+
+diff --git a/src/tracker-miner-upnp.vala b/src/tracker-miner-upnp.vala
+index 936885e..6a31fb9 100644
+--- a/src/tracker-miner-upnp.vala
++++ b/src/tracker-miner-upnp.vala
+@@ -40,7 +40,7 @@ public class Miner : Tracker.Miner, GLib.Initable {
+ 	private HashTable<string, ContentDirectory?> mediaservers;
+ 
+ 	private TimeVal init_time;
+-
++	private uint init_timeout_id;
+ 	private bool _running = true;
+ 	private bool running {
+ 		get {
+@@ -204,6 +204,10 @@ public class Miner : Tracker.Miner, GLib.Initable {
+ 	}
+ 
+ 	private void on_context_available (Context context) {
++		if (init_timeout_id != 0) {
++		    GLib.Source.remove (init_timeout_id);
++		    init_timeout_id = 0;
++		}
+ 		ControlPoint cp = new ControlPoint (context, MEDIASERVER_DEVICE);
+ 
+ 		cp.device_proxy_available.connect (on_device_available);
+@@ -219,10 +223,11 @@ public class Miner : Tracker.Miner, GLib.Initable {
+ 		/* mark everything unavailable if it doesn't appear in a few 
+ 		 * seconds */
+ 		init_time.get_current_time ();
+-		GLib.Timeout.add_seconds (5, () =>
++		init_timeout_id = GLib.Timeout.add_seconds (5, () =>
+ 			{
+ 				try
+ 				{
++					warning ("Connection attempt timed out");
+ 					UPnPSparql.set_all_content_directories_unavailable (get_connection(),
+ 											    init_time);
+ 				}
+-- 
+1.7.10
+
