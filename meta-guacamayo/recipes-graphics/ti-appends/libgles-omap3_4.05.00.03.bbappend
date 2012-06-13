@@ -2,7 +2,7 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
 
 SRC_URI += "file://etc"
 
-PRINC = "5"
+PRINC = "6"
 
 RPROVIDES += "libgles libgles2"
 
@@ -11,6 +11,20 @@ RPROVIDES += "libgles libgles2"
 CONFFILES_${PN} = ""
 
 PACKAGES =+ "${PN}-pvrini-native ${PN}-pvrini-dri ${PN}-pvrini-x11"
+
+# the TI unpack task does no checking and will silently fail, so check here
+# (One reason for such a failure is lack of 32-bit libs on 64-bit host, which
+# are needed by the sdk binary.)
+python do_unpackextra () {
+	bb.note('Checking whether binary installer was unpacked successfully')
+	workdir = d.getVar('WORKDIR', True)
+	tspa = os.path.join(workdir, 'TSPA.txt')
+
+	if not os.path.isfile(tspa):
+		raise bb.build.FuncFailed("Unpack failed: no %s: do you have 32-bit compatibility libraries installed?" % tspa)
+}
+
+addtask do_unpackextra after do_unpack before do_patch
 
 do_install_append() {
     rm ${D}${sysconfdir}/powervr.ini
