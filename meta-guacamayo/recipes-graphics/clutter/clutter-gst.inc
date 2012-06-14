@@ -2,13 +2,13 @@ DESCRIPTION = "Clutter GStreamer"
 HOMEPAGE = "http://www.clutter-project.org/"
 LICENSE = "LGPLv2+"
 
-INCPR = "r0"
+INCPR = "r1"
 
 PACKAGES  =+ "${PN}-examples"
 PROVIDES  += "clutter-gst-1.10"
 CONFLICTS += "clutter-gst-1.8"
 
-STDDEPENDS     = "gst-plugins-base"
+STDDEPENDS     = "gst-plugins-base gst-plugins-bad"
 STDDEPENDS_EGL = "clutter-1.10-egl"
 STDDEPENDS_X11 = "clutter-1.10-x11"
 
