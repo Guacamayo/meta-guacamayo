@@ -3,18 +3,18 @@ SECTION = "x11/multimedia"
 LICENSE = "LGPLv2.1"
 
 DEPENDS = "gnome-common glib-2.0 libsoup-2.4 librest gdk-pixbuf grilo \
-           clutter-gst-1.10 mx xtst gnome-desktop gssdp connman tracker tracker-upnp"
+           clutter-gst-1.10 mx xtst gnome-desktop gssdp connman tracker tracker-upnp lirc"
 
 inherit autotools gettext gtk-doc
 
 SRC_URI = "http://github.com/downloads/media-explorer/media-explorer/${BPN}-${PV}.tar.xz"
 
-INCPR = "r5"
+INCPR = "r6"
 
 # Cheating, disabling web remote as it needs tracker-sparql-0.10 avahi-glib avahi-client
 # Also disable debug buddy as it needs libunwind
 EXTRA_OECONF += "--with-online=always --enable-networks --disable-webremote \
-                 --disable-lirc --disable-debug-buddy"
+                 --enable-lirc --disable-debug-buddy"
 
 do_install_append() {
     install -d ${D}${sysconfdir}/xdg/autostart
