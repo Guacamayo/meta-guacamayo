@@ -1,11 +1,15 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
-PRINC = "8"
+DEPENDS += "orc orc-native"
+
+PRINC = "9"
 
 SRC_URI += "file://pulse.conf \
 	    file://config.patch \
 	    file://fix-desktop.patch \
 	   "
+
+EXTRA_OECONF += "--enable-orc"
 
 do_install_append() {
     rm ${D}${sysconfdir}/xdg/autostart/pulseaudio-kde.desktop
