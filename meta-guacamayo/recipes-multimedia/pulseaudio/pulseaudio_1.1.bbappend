@@ -1,6 +1,6 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
-PRINC = "7"
+PRINC = "8"
 
 SRC_URI += "file://pulse.conf \
 	    file://config.patch \
