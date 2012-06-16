@@ -1,0 +1,35 @@
+From 00178456b4ee1b58ba36ed95832c17052c3d003f Mon Sep 17 00:00:00 2001
+From: Tomas Frydrych <tomas@sleepfive.com>
+Date: Sat, 16 Jun 2012 11:10:21 +0100
+Subject: [PATCH] mex-lirc: remove dependency on ClutterX11
+
+This commit removes the inclusion of clutter-x11.h and replaces the use
+of the X11 macro CurrentTime with its actuial value of 0L.
+---
+ mex/mex-lirc.c |    3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/mex/mex-lirc.c b/mex/mex-lirc.c
+index 51d26a8..13e348b 100644
+--- a/mex/mex-lirc.c
++++ b/mex/mex-lirc.c
+@@ -24,7 +24,6 @@
+ #include <lirc/lirc_client.h>
+ #include <unistd.h>
+ #include <fcntl.h>
+-#include <clutter/x11/clutter-x11.h>
+ 
+ #include "mex-log.h"
+ #include "mex-utils.h"
+@@ -63,7 +62,7 @@ mex_lirc_create_key_event (ClutterKeyEvent *event, guint keyval)
+ 
+   /* Event synthesis inspired/copied from Clutter X11 backend */
+   event->flags = CLUTTER_EVENT_FLAG_SYNTHETIC;
+-  event->time = CurrentTime;
++  event->time = 0L; /* Matches X11 CurrentTime */
+   event->keyval = keyval;
+   event->unicode_value = clutter_keysym_to_unicode (event->keyval);
+   event->device =
+-- 
+1.7.10
+

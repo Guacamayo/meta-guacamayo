@@ -8,7 +8,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c \
 SRCREV = "9d70bba60fedfd29c321d6bbb9c8309dbdefa976"
 PV = "0.5.0+git${SRCPV}"
 
-SRC_URI = "git://github.com/media-explorer/media-explorer.git;proto=git"
+SRC_URI = "git://github.com/media-explorer/media-explorer.git;proto=git \
+           file://0001-mex-lirc-remove-dependency-on-ClutterX11.patch	\
+	  "
 
 S = "${WORKDIR}/git"
 
