@@ -8,8 +8,7 @@ on the Yocto platform (what else?).
 HARDWARE
 --------
 At present images are known to work with Intel Atom based devices such as Zotac
-ZBox, and the Beagleboard board. Support for Raspberry PI is planned (once we
-have the HW ...).
+ZBox, the Beagleboard board and Raspberry Pi.
 
 
 BUILDING IT
@@ -34,12 +33,12 @@ following is specific to Guacamayo:
 
 Images
 ......
-guacamayo-image-headless: a small image for an audio player; should work both on
-                          atom and beagleboard; good place to start with
+guacamayo-image-headless: a small image for an audio player; works on Atom,
+                          Raspberry Pi and Beagleboard ; good place to start
+                          with
 
 guacamayo-image-x11:      an image with MEX on X11; only for atom-pc machine
-                          at the moment (PVR dri2 GL drivers for the
-                          Beagleboard are not working at present).
+                          at the moment.
 
 guacamayo-image-egl:      an image with MEX over native EGL + evdev for input,
                           only tested on the Beagleboard at the moment. This is
@@ -49,8 +48,9 @@ guacamayo-image-egl:      an image with MEX over native EGL + evdev for input,
 
 NB: The -elg and -x11 images use different Clutter packages that are not
     parallel installable. If you want to build both the -x11 and -egl image
-    for the same machine target, you have to manually clean up the Clutter
-    packages for the given machine first with the following command:
+    for the same machine target, it is recommeded to do so in separate tmp
+    directories; if using a single tmp directory you have to manually clean up
+    the Clutter packages for the given machine first with the following command:
 
         bitbake -c cleansstate cogl-1.10-egl cogl-1.10-x11 \
                                clutter-1.10-egl clutter-1.10-x11 \
@@ -58,7 +58,6 @@ NB: The -elg and -x11 images use different Clutter packages that are not
 
     (Building different image types across different machine targets, e.g.,
     -x11 for atom-pc and -egl for beagleboard, is, of course, fine.)
-
 
 Audio Codecs
 ............
