@@ -5,7 +5,7 @@
 ### END INIT INFO
 
 USER=rygel
-HOME="/var/run/$USER"
+HOME="/home/$USER"
 DBUSINFO="$HOME/dbusinfo"
 
 killrygel() {
