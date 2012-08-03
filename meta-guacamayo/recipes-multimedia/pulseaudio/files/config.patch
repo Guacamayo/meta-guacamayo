@@ -1,7 +1,7 @@
 Index: pulseaudio-1.1/src/daemon/default.pa.in
 ===================================================================
 --- pulseaudio-1.1.orig/src/daemon/default.pa.in	2011-10-20 14:12:05.000000000 +0100
-+++ pulseaudio-1.1/src/daemon/default.pa.in	2012-05-14 12:21:03.042008669 +0100
++++ pulseaudio-1.1/src/daemon/default.pa.in	2012-08-01 14:27:25.427129598 +0100
 @@ -40,6 +40,13 @@
  load-module module-stream-restore
  load-module module-card-restore
@@ -19,7 +19,7 @@ Index: pulseaudio-1.1/src/daemon/default.pa.in
 Index: pulseaudio-1.1/src/daemon/system.pa.in
 ===================================================================
 --- pulseaudio-1.1.orig/src/daemon/system.pa.in	2011-10-20 13:54:16.000000000 +0100
-+++ pulseaudio-1.1/src/daemon/system.pa.in	2012-05-14 12:21:17.785911438 +0100
++++ pulseaudio-1.1/src/daemon/system.pa.in	2012-08-01 14:27:25.427129598 +0100
 @@ -69,3 +69,10 @@
  
  ### Enable positioned event sounds
@@ -31,3 +31,17 @@ Index: pulseaudio-1.1/src/daemon/system.pa.in
 +load-module module-switch-on-connect
 +.fail
 +.endif
+Index: pulseaudio-1.1/src/daemon/daemon.conf.in
+===================================================================
+--- pulseaudio-1.1.orig/src/daemon/daemon.conf.in	2011-10-20 13:56:30.000000000 +0100
++++ pulseaudio-1.1/src/daemon/daemon.conf.in	2012-08-03 11:21:30.737426102 +0100
+@@ -54,7 +54,8 @@
+ ; log-time = no
+ ; log-backtrace = 0
+ 
+-; resample-method = speex-float-3
++resample-method = src-sinc-medium-quality
++
+ ; enable-remixing = yes
+ ; enable-lfe-remixing = no
+ 
