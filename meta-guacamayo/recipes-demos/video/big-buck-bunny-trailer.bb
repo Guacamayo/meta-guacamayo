@@ -5,6 +5,8 @@ HOMEPAGE = "http://www.bigbuckbunny.org"
 LICENSE = "CC-BY-3.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=927e60078c187c751e401061d15d9bc8"
 
+PR = "r1"
+
 FILESEXTRAPATHS_prepend := "${THISDIR}/big-buck-bunny:"
 
 SRC_URI[md5sum] = "d4ec20a0c5eb7be376176804d1fd528a"
@@ -22,6 +24,7 @@ do_configure_prepend () {
 do_install() {
     install -d ${D}${datadir}/demos/video/
     install -m 0644 ${WORKDIR}/trailer_720p.mov ${D}${datadir}/demos/video/big_buck_bunny_trailer.mov
+    install -m 0644 ${WORKDIR}/LICENSE ${D}${datadir}/demos/video/LICENSE.big_buck_bunny_trailer
 }
 
 FILES_${PN} += "${datadir}"
