@@ -19,6 +19,10 @@ PACKAGE_GROUP_guacamayo-mex-egl-tests = "task-guacamayo-mex-egl-tests"
 PACKAGE_GROUP_guacamayo-restricted     = "task-guacamayo-restricted"
 PACKAGE_GROUP_guacamayo-gles-tests     = "task-guacamayo-gles-tests"
 PACKAGE_GROUP_guacamayo-devtools       = "task-guacamayo-devtools"
+PACKAGE_GROUP_guacamayo-demos          = "task-guacamayo-demos"
+PACKAGE_GROUP_guacamayo-demos-pictures = "task-guacamayo-demos-pictures"
+PACKAGE_GROUP_guacamayo-demos-audio    = "task-guacamayo-demos-audio"
+PACKAGE_GROUP_guacamayo-demos-video    = "task-guacamayo-demos-video"
 
 # The core bits of Guacamayo
 IMAGE_FEATURES =+ "apps-console-core ssh-server-dropbear guacamayo-core"

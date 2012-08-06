@@ -3,15 +3,16 @@ LICENSE = "MIT"
 
 LIC_FILES_CHKSUM = "file://${GUACABASE}/meta-guacamayo/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 
-PR = "r19"
+PR = "r20"
 
 DEPENDS += "alsa-plugins"
 
 PACKAGES="\
-	task-guacamayo \
-	task-guacamayo-core \
-	task-guacamayo-restricted \
-	task-guacamayo-devtools \
+	task-guacamayo			\
+	task-guacamayo-core		\
+	task-guacamayo-restricted	\
+	task-guacamayo-devtools		\
+	task-guacamayo-demos		\
 	"
 
 RDEPENDS_task-guacamayo = ""
@@ -97,6 +98,12 @@ GUACA_DEVTOOLS += "pulseaudio-misc \
 		   dbus-daemon-proxy \
 		  "
 
+GUACA_DEMOS_PICTURES = "guacamayo-demos-pictures"
+GUACA_DEMOS_AUDIO    = "guacamayo-demos-audio"
+GUACA_DEMOS_VIDEO    = "guacamayo-demos-video"
+
+GUACA_DEMOS = "guacamayo-demos"
+
 # dbus-x11 is needed for dbus-launch
 RDEPENDS_task-guacamayo-core = "\
 			     dconf \
@@ -127,3 +134,7 @@ RDEPENDS_task-guacamayo-restricted = "${GUACA_RESTRICTED}"
 
 RDEPENDS_task-guacamayo-devtools = "${GUACA_DEVTOOLS}"
 
+RDEPENDS_task-guacamayo-demos = "${GUACA_DEMOS}"
+RDEPENDS_task-guacamayo-demos-pictures = "${GUACA_DEMOS_PICTURES}"
+RDEPENDS_task-guacamayo-demos-audio = "${GUACA_DEMOS_AUDIO}"
+RDEPENDS_task-guacamayo-demos-video = "${GUACA_DEMOS_VIDEO}"
