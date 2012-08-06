@@ -4,6 +4,8 @@ DESCRIPTION = "Panic by La Olla Express"
 HOMEPAGE = "http://http://www.myspace.com/laolla"
 LICENSE = "CC-BY-NC-SA-3.0"
 
+PR = "r1"
+
 LIC_FILES_CHKSUM = "file://LICENSE;md5=885175b8d808263b0e483733919876fe"
 
 FILESEXTRAPATHS_prepend := "${THISDIR}/la-olla-express-panic:"
@@ -64,6 +66,7 @@ do_configure_prepend () {
 do_install() {
     install -d ${D}${datadir}/demos/audio/La_Olla_Express/Panic
     install -m 0644 ${S}/*.mp3 ${D}${datadir}/demos/audio/La_Olla_Express/Panic
+    install -m 0644 ${WORKDIR}/LICENSE ${D}${datadir}/demos/audio/La_Olla_Express/Panic/LICENSE
 }
 
 FILES_${PN} += "${datadir}"
