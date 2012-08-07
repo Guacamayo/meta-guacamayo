@@ -10,25 +10,12 @@ inherit autotools gettext gtk-doc
 SRC_URI = "http://github.com/downloads/media-explorer/media-explorer/${BPN}-${PV}.tar.xz\
 	   file://0001-mex-lirc-remove-dependency-on-ClutterX11.patch"
 
-INCPR = "r7"
+INCPR = "r8"
 
 # Cheating, disabling web remote as it needs tracker-sparql-0.10 avahi-glib avahi-client
 # Also disable debug buddy as it needs libunwind
 EXTRA_OECONF += "--with-online=always --enable-networks --disable-webremote \
                  --enable-lirc --disable-debug-buddy"
-
-do_install_append() {
-    install -d ${D}${sysconfdir}/xdg/autostart
-    install -m 0544 ${D}${datadir}/applications/media-explorer.desktop ${D}${sysconfdir}/xdg/autostart
-
-    rm ${D}${libdir}/media-explorer/plugins/*.la
-
-    # Remove unused empty directories
-    rmdir ${D}${datadir}/media-explorer/plugins/*
-    rmdir ${D}${datadir}/media-explorer/plugins
-    rmdir ${D}${datadir}/gir-1.0
-    rmdir ${D}${libdir}/girepository-1.0
-}
 
 python populate_packages_prepend() {
         plugindir = d.expand('${libdir}/media-explorer/plugins')
