@@ -43,5 +43,5 @@ FILES_${PN}-dbg += "${libdir}/*/*/.debug \
 FILES_${PN}-tests = "${datadir}/tracker-tests/"
 FILES_${PN}-vala = "${datadir}/vala/"
 
-SRC_URI[md5sum] = "1ca82c48e79002df9f3a5487d5979513"
-SRC_URI[sha256sum] = "42722831fdde63cfa07e4f0bb75805425c09b1f1801d3d5280de8be37a357b69"
+SRC_URI[md5sum] = "f3a871beeebf86fd752863ebd22af9ac"
+SRC_URI[sha256sum] = "9b59330aa2e9e09feee587ded895e9247f71fc25f46b023d616d9969314bc7f1"
