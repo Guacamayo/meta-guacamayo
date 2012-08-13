@@ -8,8 +8,8 @@ Index: git/configure.ac
                               gupnp-vala-1.0      >= $GUPNP_VALA_REQUIRED
 -                             tracker-miner-0.10
 -                             tracker-sparql-0.10"
-+                             tracker-miner-0.12
-+                             tracker-sparql-0.12"
++                             tracker-miner-0.14
++                             tracker-sparql-0.14"
  
  PKG_CHECK_MODULES(TRACKER_MINER_UPNP, [$TRACKER_MINER_UPNP_REQUIRED])
  
@@ -23,8 +23,8 @@ Index: git/src/Makefile.am
  	--pkg gupnp-av-1.0                             \
 -	--pkg tracker-sparql-0.10                      \
 -	--pkg tracker-miner-0.10                       \
-+	--pkg tracker-sparql-0.12                      \
-+	--pkg tracker-miner-0.12                       \
++	--pkg tracker-sparql-0.14                      \
++	--pkg tracker-miner-0.14                       \
  	$(BUILD_VALAFLAGS)
  
  AM_CPPFLAGS =                                          \

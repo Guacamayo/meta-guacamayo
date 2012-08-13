@@ -5,13 +5,13 @@ DEPENDS = "vala-native glib-2.0 tracker gupnp-vala"
 HOMEPAGE = "http://gitorious.org/tracker-upnp"
 
 SRCREV = "685ab29c82809d77c2fddbf08ebd10d5f8274399"
-PR = "r3"
+PR = "r4"
 PV = "0.1.5+git${SRCPV}"
 
 inherit autotools pkgconfig vala
 
 SRC_URI = "git://git.gnome.org/tracker-upnp;proto=git \
-	   file://tracker-0.12.patch \
+	   file://tracker-0.14.patch \
 	  "
 
 S = "${WORKDIR}/git"
