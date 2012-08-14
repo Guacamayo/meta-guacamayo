@@ -1,0 +1,20 @@
+Index: grilo-plugins-0.1.18/configure.ac
+===================================================================
+--- grilo-plugins-0.1.18.orig/configure.ac	2011-12-09 17:54:55.000000000 +0000
++++ grilo-plugins-0.1.18/configure.ac	2012-08-14 07:10:07.843715686 +0100
+@@ -134,9 +134,15 @@
+                                                    HAVE_GMIME=yes,
+                                                    HAVE_GMIME=no)])
+ 
++PKG_CHECK_MODULES(TRACKER_SPARQL, tracker-sparql-0.14,
++                                  HAVE_TRACKER_SPARQL=yes,
++                                  HAVE_TRACKER_SPARQL=no)
++
++if test "x$HAVE_TRACKER_SPARQL" = "xno"; then
+ PKG_CHECK_MODULES(TRACKER_SPARQL, tracker-sparql-0.12,
+                                   HAVE_TRACKER_SPARQL=yes,
+                                   HAVE_TRACKER_SPARQL=no)
++fi
+ 
+ if test "x$HAVE_TRACKER_SPARQL" = "xno"; then
+    PKG_CHECK_MODULES(TRACKER_SPARQL, tracker-sparql-0.11,
