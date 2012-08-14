@@ -1,6 +1,8 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
-PRINC = "5"
+DEPENDS += "gdk-pixbuf-native"
+
+PRINC = "6"
 
 # since we are patching that file, we have to change the checksum
 # (the patch has been submitted upstream, so it will eventually go)
