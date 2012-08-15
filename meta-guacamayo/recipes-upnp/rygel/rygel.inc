@@ -1,6 +1,6 @@
 LICENSE = "LGPLv2+"
 
-INC_PR = "r2"
+INC_PR = "r3"
 
 inherit gnome vala
 
@@ -10,7 +10,7 @@ SRC_URI += "file://config.patch"
 
 DESCRIPTION = "Collection of DLNA[1] (UPnP[2] AV) devices, implemented through a plug-in mechanism."
 SECTION = "network/multimedia"
-DEPENDS = "glib-2.0 gupnp gupnp-av gupnp-dlna gstreamer gst-plugins-base sqlite3 libsoup-2.4 libgee shared-mime-info"
+DEPENDS = "glib-2.0 gupnp gupnp-av gupnp-dlna gstreamer gst-plugins-base sqlite3 libsoup-2.4 libgee shared-mime-info tracker"
 RDEPENDS_${PN} = "sudo shared-mime-info-data pulseaudio-server"
 
 require rygel-plugins.inc
