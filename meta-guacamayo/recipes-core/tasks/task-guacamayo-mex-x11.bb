@@ -3,7 +3,7 @@ LICENSE = "MIT"
 
 LIC_FILES_CHKSUM = "file://${GUACABASE}/meta-guacamayo/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 
-PR = "r15"
+PR = "r16"
 
 PACKAGES="\
 	task-guacamayo-mex-x11 \
@@ -51,6 +51,7 @@ GUACA_X11 += "${@base_contains("MACHINE_FEATURES", "intel-gfx-i965", \
 
 
 RDEPENDS_task-guacamayo-mex-x11 = "				\
+			      task-guacamayo-renderer		\
 			      ${GUACA_X11}			\
 			      tracker				\
 			      clutter-1.10-x11			\

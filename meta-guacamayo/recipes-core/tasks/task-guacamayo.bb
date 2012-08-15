@@ -129,7 +129,7 @@ RDEPENDS_task-guacamayo-core = "\
 
 RDEPENDS_task-guacamayo-core_append_raspberrypi = "rpi-zram-service-initd"
 
-RDEPENDS_task-guacamayo-renderer = "
+RDEPENDS_task-guacamayo-renderer = " \
 			     ${GUACA_PA_CORE} \
 			     rygel-plugin-playbin \
 			     "

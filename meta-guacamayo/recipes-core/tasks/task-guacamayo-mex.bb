@@ -3,7 +3,7 @@ LICENSE = "MIT"
 
 LIC_FILES_CHKSUM = "file://${GUACABASE}/meta-guacamayo/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 
-PR = "r3"
+PR = "r4"
 
 PACKAGES="\
 	task-guacamayo-mex \
@@ -13,6 +13,7 @@ PACKAGES="\
 ALLOW_EMPTY = "1"
 
 RDEPENDS_task-guacamayo-mex = "\
+			      task-guacamayo-renderer \
 			      clutter-1.10 \
 			      clutter-gst-1.10	    \
 			      clutter-gst-1.10-examples \

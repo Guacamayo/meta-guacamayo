@@ -3,7 +3,7 @@ LICENSE = "MIT"
 
 LIC_FILES_CHKSUM = "file://${GUACABASE}/meta-guacamayo/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 
-PR = "r2"
+PR = "r3"
 
 DEPENDS += "alsa-plugins clutter-1.10-egl clutter-gst-1.10-egl"
 
@@ -15,6 +15,7 @@ PACKAGES="\
 ALLOW_EMPTY = "1"
 
 RDEPENDS_task-guacamayo-mex-egl = "				\
+			      task-guacamayo-renderer		\
 			      tracker				\
 			      clutter-1.10-egl			\
 			      clutter-gst-1.10-egl		\
