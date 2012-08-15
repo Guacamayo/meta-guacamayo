@@ -3,13 +3,14 @@ LICENSE = "MIT"
 
 LIC_FILES_CHKSUM = "file://${GUACABASE}/meta-guacamayo/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 
-PR = "r21"
+PR = "r22"
 
 DEPENDS += "alsa-plugins"
 
 PACKAGES="\
 	task-guacamayo			\
 	task-guacamayo-core		\
+	task-guacamayo-renderer		\
 	task-guacamayo-restricted	\
 	task-guacamayo-devtools		\
 	task-guacamayo-demos-audio	\
@@ -104,14 +105,13 @@ GUACA_DEMOS_PICTURES = "guacamayo-demos-pictures"
 GUACA_DEMOS_AUDIO    = "guacamayo-demos-audio"
 GUACA_DEMOS_VIDEO    = "guacamayo-demos-video"
 
-# dbus-x11 is needed for dbus-launch
+# dbus-x11 is needed for dbus-launch (fixed in oe-core master)
 RDEPENDS_task-guacamayo-core = "\
 			     dconf \
 			     guacamayo-gsettings \
 			     dbus \
 			     dbus-x11 \
                              ${GUACA_NETWORKING} \
-			     ${GUACA_PA_CORE} \
 			     gstreamer \
 			     gst-plugins-base \
 			     gst-plugins-good \
@@ -123,12 +123,16 @@ RDEPENDS_task-guacamayo-core = "\
 			     gst-plugins-bad-meta \
 			     gst-plugins-good-id3demux \
 			     gst-plugins-bad-id3tag \
-			     rygel \
-			     rygel-plugin-playbin \
 			     gst-ffmpeg \
-                               "
+			     rygel \
+			     "
 
 RDEPENDS_task-guacamayo-core_append_raspberrypi = "rpi-zram-service-initd"
+
+RDEPENDS_task-guacamayo-renderer = "
+			     ${GUACA_PA_CORE} \
+			     rygel-plugin-playbin \
+			     "
 
 RDEPENDS_task-guacamayo-restricted = "${GUACA_RESTRICTED}"
 
