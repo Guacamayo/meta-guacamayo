@@ -1,0 +1,30 @@
+From 62dd8ef17078b8e7ae1a1c8856429dff8fb5873d Mon Sep 17 00:00:00 2001
+From: Tomas Frydrych <tomas@sleepfive.com>
+Date: Tue, 14 Aug 2012 11:49:50 +0100
+Subject: [PATCH] mex-thumbnailer: use fast search to nearest key frame, issue
+ #235
+
+Accurate searching can be very slow for some video formats, resulting in the
+thumbnailer code timing out and failing to generate a thumbnail.
+
+Signed-off-by: Tomas Frydrych <tomas@sleepfive.com>
+---
+ thumbnailer/mex-thumbnailer-internal.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/thumbnailer/mex-thumbnailer-internal.c b/thumbnailer/mex-thumbnailer-internal.c
+index f20143b..f26df16 100644
+--- a/thumbnailer/mex-thumbnailer-internal.c
++++ b/thumbnailer/mex-thumbnailer-internal.c
+@@ -361,7 +361,7 @@ get_shot (const char *uri)
+ 
+           gst_element_seek_simple (playbin, GST_FORMAT_TIME,
+                                    GST_SEEK_FLAG_FLUSH |
+-                                   GST_SEEK_FLAG_ACCURATE, seekpos);
++                                   GST_SEEK_FLAG_KEY_UNIT, seekpos);
+ 
+           /* Wait for seek to complete */
+           count = 0;
+-- 
+1.7.10.4
+

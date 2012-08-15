@@ -9,9 +9,10 @@ SRCREV = "22f7b71747c1e2f958d2acffb2ca6b8d49039c6c"
 PV = "0.5.0+git${SRCPV}"
 
 SRC_URI = "git://github.com/media-explorer/media-explorer.git;proto=git \
+	   file://fix-thumbnailer.patch \
 	  "
 
 S = "${WORKDIR}/git"
 
-PR = "${INCPR}.1"
+PR = "${INCPR}.2"
 
