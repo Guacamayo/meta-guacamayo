@@ -3,7 +3,7 @@ LICENSE = "MIT"
 
 LIC_FILES_CHKSUM = "file://${GUACABASE}/meta-guacamayo/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 
-PR = "r3"
+PR = "r4"
 
 DEPENDS += "alsa-plugins clutter-1.10-egl clutter-gst-1.10-egl"
 
@@ -23,6 +23,7 @@ RDEPENDS_task-guacamayo-mex-egl = "				\
 			      media-explorer-plugins-meta	\
 			      guacamayo-watchdog		\
 			      guacamayo-session-egl		\
+			      guacamayo-mex-plugins		\
 			      "
 
 RDEPENDS_task-guacamayo-mex-egl_append_beagleboard = " \

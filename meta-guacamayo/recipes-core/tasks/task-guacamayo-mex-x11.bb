@@ -3,7 +3,7 @@ LICENSE = "MIT"
 
 LIC_FILES_CHKSUM = "file://${GUACABASE}/meta-guacamayo/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 
-PR = "r16"
+PR = "r17"
 
 PACKAGES="\
 	task-guacamayo-mex-x11 \
@@ -62,6 +62,7 @@ RDEPENDS_task-guacamayo-mex-x11 = "				\
 			      gst-plugins-base-meta		\
 			      gst-plugins-good-meta		\
 			      guacamayo-displayconf-autostart	\
+			      guacamayo-mex-plugins		\
 			      "
 
 RDEPENDS_task-guacamayo-mex-x11_append_beagleboard = " \
