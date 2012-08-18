@@ -2,7 +2,7 @@ DESCRIPTION = "Networks plugin for mex"
 SECTION = "x11/multimedia"
 LICENSE = "LGPLv2.1"
 
-DEPENDS = "media-explorer"
+DEPENDS = "media-explorer guacamayo-headers"
 
 inherit autotools
 
@@ -17,5 +17,5 @@ SRC_URI = "git://github.com/Guacamayo/guacamayo-mex-plugins.git;proto=git"
 
 S = "${WORKDIR}/git"
 
-PR = "r1"
+PR = "r2"
 
