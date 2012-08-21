@@ -7,4 +7,4 @@ SRC_URI  = "git://git.kernel.org/pub/scm/network/connman/connman.git \
 	    file://fix-storage-dir.patch \
             file://connman"
 S = "${WORKDIR}/git"
-PR = "r2"
+PR = "r3"

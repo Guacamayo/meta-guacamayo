@@ -1,5 +1,5 @@
 SUMMARY = "A daemon for managing internet connections within embedded devices"
-DESCRIPTION = "The ConnMan project provides a daemon for managing \ 
+DESCRIPTION = "The ConnMan project provides a daemon for managing \
 internet connections within embedded devices running the Linux \
 operating system.  The Connection Manager is designed to be slim and \
 to use as few resources as possible, so it can be easily integrated. \
@@ -40,15 +40,17 @@ EXTRA_OECONF += "\
     --disable-client \
 "
 
-INITSCRIPT_NAME = "connman"
-INITSCRIPT_PARAMS = "start 05 5 2 3 . stop 22 0 1 6 ."
+inherit autotools pkgconfig update-rc.d useradd
+
+INITSCRIPT_PACKAGES = "${PN}-initd"
+INITSCRIPT_NAME_${PN}-initd = "connman"
+INITSCRIPT_PARAMS_${PN}-initd = "start 05 5 2 3 . stop 22 0 1 6 ."
+UPDATERCPN = "${PN}-initd"
 
 USERADD_PACKAGES = "${PN}"
 USERADD_PARAM_${PN} = "--system --no-create-home \
                        --shell /bin/false --groups video,tty,audio \
                        --user-group xuser"
-
-inherit autotools pkgconfig update-rc.d useradd
 
 do_install_append() {
 	install -d ${D}${sysconfdir}/init.d
@@ -96,7 +98,7 @@ python populate_packages_prepend() {
 			d.setVar("RDEPENDS_%s" % package, " ".join(rdepends))
 }
 
-PACKAGES =+ "${PN}-tools ${PN}-tests"
+PACKAGES =+ "${PN}-tools ${PN}-tests ${PN}-initd"
 
 FILES_${PN}-tools = "${bindir}/wispr"
 
@@ -110,6 +112,9 @@ FILES_${PN} = "${bindir}/* ${sbindir}/* ${libexecdir}/* ${libdir}/lib*.so.* \
             ${datadir}/idl ${datadir}/omf ${datadir}/sounds \
             ${libdir}/bonobo/servers \
             ${datadir}/dbus-1/system-services/*"
+
+FILES_${PN}-initd += "${sysconfdir}/init.d/*"
+RDEPENDS_${PN}-initd += "${PN}"
 
 FILES_${PN}-dbg += "${libdir}/connman/*/.debug"
 
