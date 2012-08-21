@@ -3,7 +3,7 @@ LICENSE = "MIT"
 
 LIC_FILES_CHKSUM = "file://${GUACABASE}/meta-guacamayo/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 
-PR = "r22"
+PR = "r23"
 
 DEPENDS += "alsa-plugins"
 
@@ -83,7 +83,7 @@ python __anonymous () {
     d.setVar('GUACA_RESTRICTED', restricted)
 }
 
-GUACA_NETWORKING = "connman \
+GUACA_NETWORKING = "connman-initd \
                     connman-plugin-ethernet \
                     connman-plugin-loopback \
                     connman-plugin-wifi \
