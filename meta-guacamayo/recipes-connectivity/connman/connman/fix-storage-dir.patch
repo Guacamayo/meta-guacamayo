@@ -1,0 +1,13 @@
+Index: git/Makefile.am
+===================================================================
+--- git.orig/Makefile.am	2012-08-19 16:11:42.000000000 +0100
++++ git/Makefile.am	2012-08-21 19:49:50.143114375 +0100
+@@ -98,7 +98,7 @@
+ 
+ scriptdir = $(libdir)/connman/scripts
+ 
+-storagedir = $(localstatedir)/lib/connman
++storagedir = $(sysconfdir)/connman
+ 
+ configdir = ${sysconfdir}/connman
+ 
