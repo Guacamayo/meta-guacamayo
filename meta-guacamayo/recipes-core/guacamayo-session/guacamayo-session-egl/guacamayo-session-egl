@@ -5,17 +5,18 @@
 ### END INIT INFO
 
 USER=rygel
-HOME="/var/run/$USER"
+HOME="/home/$USER"
 DBUSINFO="$HOME/dbusinfo"
+XDGAUTOSTART=/etc/xdg/autostart
 
 killrygel() {
     echo "Stopping Rygel"
-    /sbin/start-stop-daemon -x /usr/bin/rygel -u rygel -K
+    /sbin/start-stop-daemon -x /usr/bin/rygel -u $USER -K
 }
 
 killmex() {
     echo "Stopping Mex"
-    /sbin/start-stop-daemon -x /usr/bin/media-explorer -u rygel -K
+    /sbin/start-stop-daemon -x /usr/bin/media-explorer -u $USER -K
 }
 
 killdbus() {
@@ -33,7 +34,7 @@ ensurehome() {
 	mkdir -p "$HOME/.config"
 	# create a dummy conf file to shut up warnings
 	echo "#" > "$HOME/.config/rygel.conf"
-	chown -R rygel $HOME
+	chown -R $USER $HOME
     fi
 }
 
@@ -59,13 +60,23 @@ case "$1" in
        ensurehome
        setupdbus
 
+       chown $USER /dev/tty[01234567]
+
        export CLUTTER_INPUT_BACKEND=evdev
-       echo "Starting Pulse Audio server"
-       # can't use start-stop-daemon for pa, it starts fine but does not work
-       sudo -b -E -u $USER -g $USER /usr/bin/pulseaudio -D --exit-idle-time=-1
+
+       # dump the environment for debugging purposes
+       export > $HOME/.environment
 
        echo "Starting Rygel"
        /sbin/start-stop-daemon -b -c $USER -S -x /usr/bin/rygel
+
+       echo "Running XDG Autostarts"
+       if [ -d $XDGAUTOSTART ]; then
+	   for SCRIPT in $XDGAUTOSTART/*; do
+               CMD=`grep Exec= $SCRIPT | sed -e s/.*Exec=// -e s/%.//g`
+               sudo -b -E -u $USER -g $USER $CMD
+	   done
+       fi
 
        echo "Starting MEX"
        /sbin/start-stop-daemon -b -c $USER -S -x /usr/bin/guacamayo-watchdog -- --debug=all -- media-explorer -f
