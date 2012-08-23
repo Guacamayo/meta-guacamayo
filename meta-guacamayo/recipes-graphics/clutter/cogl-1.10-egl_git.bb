@@ -4,7 +4,7 @@ require cogl-git.inc
 CONFLICTS += "cogl-1.10-x11"
 
 # the 'normal' config: egl over big gl
-DEPENDS = "${STDDEPENDS} ${STDDEPENDS_EGL} ${STDDEPENDS_GL} ${STDDEPENDS_X11}"
+DEPENDS             = "${STDDEPENDS} ${STDDEPENDS_EGL} ${STDDEPENDS_GL}"
 DEPENDS_beagleboard = "${STDDEPENDS} ${STDDEPENDS_EGL} ${STDDEPENDS_GLES2}"
 DEPENDS_raspberrypi = "${STDDEPENDS} ${STDDEPENDS_EGL} ${STDDEPENDS_GLES2}"
 
