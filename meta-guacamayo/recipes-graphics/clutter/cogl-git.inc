@@ -1,7 +1,7 @@
-# the 1.10.2 tag
-SRCREV = "ebb8cdd7c6c6c5d6c6ff92e40aacb0a78e6abdbc"
-PV = "1.10.2+git${SRCPV}"
-PR = "${INCPR}.3"
+# the 1.10.4 tag
+SRCREV = "13861b710fc2e78e9f3c6042967817d5da7df9a0"
+PV = "1.10.4+git${SRCPV}"
+PR = "${INCPR}.1"
 
 LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
 
