@@ -67,6 +67,15 @@ case "$1" in
        # dump the environment for debugging purposes
        export > $HOME/.environment
 
+       # if the gstreamer binary registry does not exist yet, generate it now
+       # otherwise this will happen on demand when Mex first start and the
+       # clutter plugin will fail and get blacklisted due to EGL context error
+       GSTREG=`ls -1 $HOME/.gstreamer*/registry*.bin 2>/dev/null`
+       if [ x$GSTREG = x ]; then
+          echo "Introspecting Gstreamer"
+          sudo -E -u $USER gst-inspect &> /dev/null
+       fi
+
        echo "Starting Rygel"
        /sbin/start-stop-daemon -b -c $USER -S -x /usr/bin/rygel
 
@@ -79,7 +88,7 @@ case "$1" in
        fi
 
        echo "Starting MEX"
-       /sbin/start-stop-daemon -b -c $USER -S -x /usr/bin/guacamayo-watchdog -- --debug=all -- media-explorer -f
+       sudo -b -E -u $USER -g $USER /usr/bin/guacamayo-watchdog --debug=all -- media-explorer
   ;;
 
   stop)
