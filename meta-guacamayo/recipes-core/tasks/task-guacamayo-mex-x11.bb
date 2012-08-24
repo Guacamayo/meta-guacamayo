@@ -3,11 +3,12 @@ LICENSE = "MIT"
 
 LIC_FILES_CHKSUM = "file://${GUACABASE}/meta-guacamayo/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 
-PR = "r17"
+PR = "r18"
 
 PACKAGES="\
-	task-guacamayo-mex-x11 \
-	task-guacamayo-mex-x11-tests \
+	task-guacamayo-mex-x11		\
+	task-guacamayo-mex-x11-tests	\
+	task-guacamayo-mex-x11-dbg	\
 	"
 
 DEPENDS += "clutter-1.10-x11 clutter-gst-1.10-x11"
@@ -63,6 +64,10 @@ RDEPENDS_task-guacamayo-mex-x11 = "				\
 			      gst-plugins-good-meta		\
 			      guacamayo-displayconf-autostart	\
 			      guacamayo-mex-plugins		\
+			      "
+
+RDEPENDS_task-guacamayo-mex-x11-dbg = "				\
+			      media-explorer-dbg		\
 			      "
 
 RDEPENDS_task-guacamayo-mex-x11_append_beagleboard = " \
