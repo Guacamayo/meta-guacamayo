@@ -4,10 +4,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=ee31012bf90e7b8c108c69f197f3e3a4"
 DEPENDS = "glib-2.0"
 HOMEPAGE = "http://github.com/Guacamayo/"
 
-PR = "r0"
+PR = "r1"
 PV = "0.0+git${SRCPV}"
-
-SRCREV = "${AUTOREV}"
 
 PACKAGES =+ "${PN}-autostart"
 RDEPENDS_${PN}-autostart += "${PN}"

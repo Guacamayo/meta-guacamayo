@@ -4,10 +4,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
 DEPENDS = "glib-2.0 libxrandr"
 HOMEPAGE = "http://github.com/Guacamayo/"
 
-PR = "r0"
+PR = "r1"
 PV = "0.0+git${SRCPV}"
-
-SRCREV = "${AUTOREV}"
 
 PACKAGES =+ "${PN}-autostart"
 RDEPENDS_${PN}-autostart += "${PN}"
