@@ -1,3 +1,25 @@
+Guacamayo 0.3.1 'Wet Summer' developer snapshot
+
+ * Component updates: Rygel 0.15.1, Tracker 0.14.2, Cogl 1.10.4,
+ * Rygel home directory persistent across reboots (issue #11),
+ * Media demo packages (images, music, video); guacamayo-demos feature
+   (issue #17),
+ * X11 display autoconfiguration at startup (issue #20),
+ * gsettings processing done at build time, not first boot (issue #7),
+ * Fixed support for dbg-pkgs feature,
+
+ * MediaExplorer Improvements
+    - No more 'Close' button (issue #10),
+    - Fixed thumbnailer timeout issue,
+    - Support for out of tree plugins,
+    - Settings menu extensible via plugins,
+    - Old Networks applet ported to connman 1.0 and turned into a plugin,
+    - Improvements to music player (HW buttons support, Shell integration,
+      Mpris integration),
+    - VT manager for use on non-X11 platforms,
+    - Custom Guacamayo plugin for Settings (host name changing, issue #2).
+
+
 Guacamayo 0.3 'Mexed Tape' developer snapshot
 
  * guacamayo-image-x11: MediaExplorer on X11 (Atom only),
