@@ -2,4 +2,4 @@
 # (the rc script comments out the psplash section at the end)
 FILESEXTRAPATHS_prepend := "${THISDIR}/sysvinit:"
 
-PRINC = "1"
+PRINC = "2"
