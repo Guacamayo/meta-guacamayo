@@ -3,7 +3,7 @@ LICENSE = "MIT"
 
 LIC_FILES_CHKSUM = "file://${GUACABASE}/meta-guacamayo/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 
-PR = "r24"
+PR = "r25"
 
 DEPENDS += "alsa-plugins"
 
@@ -118,25 +118,26 @@ GUACA_DEMOS_AUDIO    = "guacamayo-demos-audio"
 GUACA_DEMOS_VIDEO    = "guacamayo-demos-video"
 
 # dbus-x11 is needed for dbus-launch (fixed in oe-core master)
-RDEPENDS_task-guacamayo-core = "\
-			     dconf \
-			     guacamayo-gsettings \
-			     dbus \
-			     dbus-x11 \
-                             ${GUACA_NETWORKING} \
-			     gstreamer \
-			     gst-plugins-base \
-			     gst-plugins-good \
-			     gst-plugins-bad \
-			     gst-meta-audio \
-			     gst-meta-video \
-			     gst-plugins-base-meta \
-			     gst-plugins-good-meta \
-			     gst-plugins-bad-meta \
-			     gst-plugins-good-id3demux \
-			     gst-plugins-bad-id3tag \
-			     gst-ffmpeg \
-			     rygel \
+RDEPENDS_task-guacamayo-core = "			\
+			     tzdata			\
+			     dconf			\
+			     guacamayo-gsettings	\
+			     dbus			\
+			     dbus-x11			\
+                             ${GUACA_NETWORKING}	\
+			     gstreamer			\
+			     gst-plugins-base		\
+			     gst-plugins-good		\
+			     gst-plugins-bad		\
+			     gst-meta-audio		\
+			     gst-meta-video		\
+			     gst-plugins-base-meta	\
+			     gst-plugins-good-meta	\
+			     gst-plugins-bad-meta	\
+			     gst-plugins-good-id3demux	\
+			     gst-plugins-bad-id3tag	\
+			     gst-ffmpeg			\
+			     rygel			\
 			     "
 
 RDEPENDS_task-guacamayo-core_append_raspberrypi = "rpi-zram-service-initd"
