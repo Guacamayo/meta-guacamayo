@@ -3,13 +3,15 @@ LICENSE = "MIT"
 
 LIC_FILES_CHKSUM = "file://${GUACABASE}/meta-guacamayo/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 
-PR = "r2"
+PR = "r3"
 
 # Extra Image features
-GUACAMAYO_FEATURES =+ "package-management   \
-		       guacamayo-mex-x11    \
-		       guacamayo-restricted \
-		       guacamayo-mex-x11-tests \
+GUACAMAYO_FEATURES =+ "package-management		\
+		       guacamayo-mex-x11		\
+		       guacamayo-restricted-core	\
+		       guacamayo-restricted-audio	\
+		       guacamayo-restricted-video	\
+		       guacamayo-mex-x11-tests		\
 		      "
 
 inherit guacamayo-image

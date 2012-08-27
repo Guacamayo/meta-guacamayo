@@ -3,7 +3,7 @@ LICENSE = "MIT"
 
 LIC_FILES_CHKSUM = "file://${GUACABASE}/meta-guacamayo/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 
-PR = "r23"
+PR = "r24"
 
 DEPENDS += "alsa-plugins"
 
@@ -11,7 +11,9 @@ PACKAGES="\
 	task-guacamayo			\
 	task-guacamayo-core		\
 	task-guacamayo-renderer		\
-	task-guacamayo-restricted	\
+	task-guacamayo-restricted-core	\
+	task-guacamayo-restricted-audio	\
+	task-guacamayo-restricted-video	\
 	task-guacamayo-devtools		\
 	task-guacamayo-demos-audio	\
 	task-guacamayo-demos-video	\
@@ -27,7 +29,9 @@ ALLOW_EMPTY = "1"
 # these packages down to what the whitelist permits
 #
 # These packages have 'commercial' license flag set
-GUACA_COMMERCIAL = "gst-fluendo-mp3"
+GUACA_COMMERCIAL_CORE  = "connman-guacamayo-ntp"
+GUACA_COMMERCIAL_AUDIO = ""
+GUACA_COMMERCIAL_VIDEO = "gst-fluendo-mp3"
 
 python __anonymous () {
     def license_flag_matches(flag, whitelist, pn):
@@ -76,11 +80,19 @@ python __anonymous () {
         return good
 
     restricted = ""
-    commercial = d.getVar('GUACA_COMMERCIAL', True)
-
+    commercial = d.getVar('GUACA_COMMERCIAL_CORE', True)
     restricted += check_license_ok(d, commercial, 'commercial')
+    d.setVar('GUACA_RESTRICTED_CORE', restricted)
 
-    d.setVar('GUACA_RESTRICTED', restricted)
+    restricted = ""
+    commercial = d.getVar('GUACA_COMMERCIAL_AUDIO', True)
+    restricted += check_license_ok(d, commercial, 'commercial')
+    d.setVar('GUACA_RESTRICTED_AUDIO', restricted)
+
+    restricted = ""
+    commercial = d.getVar('GUACA_COMMERCIAL_VIDEO', True)
+    restricted += check_license_ok(d, commercial, 'commercial')
+    d.setVar('GUACA_RESTRICTED_VIDEO', restricted)
 }
 
 GUACA_NETWORKING = "connman-initd \
@@ -134,7 +146,9 @@ RDEPENDS_task-guacamayo-renderer = " \
 			     rygel-plugin-playbin \
 			     "
 
-RDEPENDS_task-guacamayo-restricted = "${GUACA_RESTRICTED}"
+RDEPENDS_task-guacamayo-restricted-core  = "${GUACA_RESTRICTED_CORE}"
+RDEPENDS_task-guacamayo-restricted-audio = "${GUACA_RESTRICTED_AUDIO}"
+RDEPENDS_task-guacamayo-restricted-video = "${GUACA_RESTRICTED_VIDEO}"
 
 RDEPENDS_task-guacamayo-devtools = "${GUACA_DEVTOOLS}"
 
