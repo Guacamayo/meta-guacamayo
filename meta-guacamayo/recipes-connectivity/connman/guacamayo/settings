@@ -1,0 +1,5 @@
+[global]
+# The Guacamayo ntp server pool is strictly for non-commercial user only!
+# If you are building a commercial product using Guacamayo you MUST obtain your
+# own vendor pool, see http://www.pool.ntp.org/vendors/contribute.html.
+Timeservers=0.guacamayo.pool.ntp.org;1.guacamayo.pool.ntp.org;2.guacamayo.pool.ntp.org;3.guacamayo.pool.ntp.org
