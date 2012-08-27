@@ -12,8 +12,16 @@
 # variable as required.
 
 # Licensing
-# Which non-free licencses should be whitelisted?
-#LICENSE_FLAGS_WHITELIST="commercial"
+# Which restrictive licenses should be whitelisted?
+#
+# non-commercial: these packages are for non-commerical use only and there is
+#                 no licence for commerical use available; these include
+#                 connman-guacamayo-ntp, which enables automatic time adjustment
+#                 using Network Time Protocol
+#
+# commercial:     for commercial use these packages require commerical license
+#
+#LICENSE_FLAGS_WHITELIST="non-commercial commercial"
 
 #
 # Parallelism Options

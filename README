@@ -20,6 +20,10 @@ BUILDING IT
 
   source init-build-env
 
+  # Now edit build/conf/local.conf to suit your needs; among other things,
+  # please pay attention to the LICENCSE_FLAGS_WHITELIST variable
+  # when you are done ...
+
   bitbake guacamayo-image-headless
 
 The images are located in the tmp/deploy/images directory; image type and
