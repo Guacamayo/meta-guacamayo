@@ -28,7 +28,7 @@ ensurehome() {
 	mkdir -p "$HOME/.config"
 	# create a dummy conf file to shut up warnings
 	echo "#" > "$HOME/.config/rygel.conf"
-	chown -R rygel $HOME
+	chown -R $USER $HOME
     fi
 }
 

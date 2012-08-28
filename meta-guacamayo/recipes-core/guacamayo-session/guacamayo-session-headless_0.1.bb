@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://${GUACABASE}/meta-guacamayo/COPYING.MIT;md5=3da9cfbcb
 RDEPENDS_${PN} += "sudo pulseaudio-server ${PN}-initd"
 CONFLICTS_${PN} += "guacamayo-session-x11"
 
-PR = "r2"
+PR = "r3"
 
 inherit update-rc.d useradd
 
