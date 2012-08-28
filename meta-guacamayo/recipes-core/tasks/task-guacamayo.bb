@@ -3,7 +3,7 @@ LICENSE = "MIT"
 
 LIC_FILES_CHKSUM = "file://${GUACABASE}/meta-guacamayo/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 
-PR = "r25"
+PR = "r26"
 
 DEPENDS += "alsa-plugins"
 
@@ -138,6 +138,7 @@ RDEPENDS_task-guacamayo-core = "			\
 			     gst-plugins-bad-id3tag	\
 			     gst-ffmpeg			\
 			     rygel			\
+			     shared-mime-info		\
 			     "
 
 RDEPENDS_task-guacamayo-core_append_raspberrypi = "rpi-zram-service-initd"
