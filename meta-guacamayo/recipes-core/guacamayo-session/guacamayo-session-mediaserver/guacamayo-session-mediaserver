@@ -1,0 +1,74 @@
+#!/bin/sh
+#
+### BEGIN INIT INFO
+# Provides: rygel
+### END INIT INFO
+
+USER=rygel
+HOME="/home/$USER"
+DBUSINFO="$HOME/dbusinfo"
+
+killrygel() {
+    echo "Stopping Rygel"
+    /sbin/start-stop-daemon -x /usr/bin/rygel -u rygel -K
+}
+
+killdbus() {
+    echo "Stopping session DBus"
+    [ -f $DBUSINFO ] && source $DBUSINFO && [ "$DBUS_SESSION_BUS_PID" != "" ] && kill $DBUS_SESSION_BUS_PID && rm $DBUSINFO
+}
+
+ensurehome() {
+    if ! [ -d "$HOME/.config" ]; then
+	mkdir -p "$HOME/.config"
+	# create a dummy conf file to shut up warnings
+	echo "#" > "$HOME/.config/rygel.conf"
+	chown -R $USER $HOME
+    fi
+}
+
+setupdbus() {
+    [ -f $DBUSINFO ] && source $DBUSINFO
+
+    if [ -z "$DBUS_SESSION_BUS_ADDRESS" ]; then
+	if [ -x /usr/bin/dbus-launch ]; then
+	    echo -n "Starting session DBus ... "
+	    eval `sudo -u $USER -g $USER dbus-launch --sh-syntax`
+	    export DBUS_SESSION_BUS_ADDRESS=$DBUS_SESSION_BUS_ADDRESS
+	    echo DBUS_SESSION_BUS_ADDRESS=$DBUS_SESSION_BUS_ADDRESS > $DBUSINFO
+	    export DBUS_SESSION_BUS_PID=$DBUS_SESSION_BUS_PID
+	    echo DBUS_SESSION_BUS_PID=$DBUS_SESSION_BUS_PID >> $DBUSINFO
+	    echo "pid=$DBUS_SESSION_BUS_PID"
+	fi
+    fi
+}
+
+case "$1" in
+  start)
+       . /etc/profile
+       ensurehome
+       setupdbus
+
+       echo "Starting Rygel"
+       /sbin/start-stop-daemon -b -c $USER -S -x /usr/bin/rygel -- \
+                               --plugin-option=MediaExport:uris:$DEMOS \
+                               --title=MediaExport:"Rygel Demo Media"
+  ;;
+
+  stop)
+        killrygel
+	killdbus
+  ;;
+
+  restart)
+	$0 stop
+        sleep 1
+        $0 start
+  ;;
+
+  *)
+        echo "usage: $0 { start | stop | restart }"
+  ;;
+esac
+
+exit 0
