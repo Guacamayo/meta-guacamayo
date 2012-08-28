@@ -3,7 +3,7 @@ LICENSE = "MIT"
 
 LIC_FILES_CHKSUM = "file://${GUACABASE}/meta-guacamayo/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 
-PR = "r26"
+PR = "r27"
 
 DEPENDS += "alsa-plugins"
 
@@ -18,6 +18,7 @@ PACKAGES="\
 	task-guacamayo-demos-audio	\
 	task-guacamayo-demos-video	\
 	task-guacamayo-demos-pictures	\
+	task-guacamayo-server		\
 	"
 
 RDEPENDS_task-guacamayo = ""
@@ -146,6 +147,10 @@ RDEPENDS_task-guacamayo-core_append_raspberrypi = "rpi-zram-service-initd"
 RDEPENDS_task-guacamayo-renderer = " \
 			     ${GUACA_PA_CORE} \
 			     rygel-plugin-playbin \
+			     "
+
+RDEPENDS_task-guacamayo-server = " \
+			     rygel-plugin-media-export \
 			     "
 
 RDEPENDS_task-guacamayo-restricted-core  = "${GUACA_RESTRICTED_CORE}"

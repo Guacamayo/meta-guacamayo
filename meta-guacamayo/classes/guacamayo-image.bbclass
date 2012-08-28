@@ -12,6 +12,7 @@
 PACKAGE_GROUP_guacamayo-core             = "task-guacamayo-core"
 PACKAGE_GROUP_guacamayo-renderer         = "task-guacamayo-renderer"
 PACKAGE_GROUP_guacamayo-headless         = "task-guacamayo-headless"
+PACKAGE_GROUP_guacamayo-server           = "task-guacamayo-server"
 PACKAGE_GROUP_guacamayo-mex              = "task-guacamayo-mex"
 PACKAGE_GROUP_guacamayo-mex-x11          = "task-guacamayo-mex-x11"
 PACKAGE_GROUP_guacamayo-mex-x11-tests    = "task-guacamayo-mex-x11-tests"
