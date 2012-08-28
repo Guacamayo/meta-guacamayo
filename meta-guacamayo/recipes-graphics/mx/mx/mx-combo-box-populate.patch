@@ -1,0 +1,58 @@
+# mx_combo_box_append_text() and friends destroy and reconstruct the entire
+# menu on each call, which is extremely inefficient (e.g., to construct a 
+# menu with 10 entries, 9 intermediate menus with 1, 2, ... 9, items are 
+# constructed and destroyed), which makes it unsutable to use for anything but
+# a few entries (for example constructing a box 150 entries on Atom takes 45s)
+#
+# This patch addes mx_combo_box_populate() which appends multiple labels to the
+# combo box in a single go.s
+Index: git/mx/mx-combo-box.c
+===================================================================
+--- git.orig/mx/mx-combo-box.c	2012-08-28 08:27:49.555377610 +0100
++++ git/mx/mx-combo-box.c	2012-08-28 08:27:49.827376568 +0100
+@@ -1036,3 +1036,31 @@
+   return box->priv->index;
+ }
+ 
++/**
++ * mx_combo_box_populate:
++ * @box: A #MxComboBox
++ * @labels: %NULL terminated array of strings
++ *
++ * Populate with given labels
++ *
++ */
++void
++mx_combo_box_populate (MxComboBox  *box, const gchar **labels)
++{
++  const char **p;
++
++  g_return_if_fail (MX_IS_COMBO_BOX (box) && labels);
++
++  for (p = labels; *p; p++)
++    {
++      MxAction *action;
++
++      action = mx_action_new ();
++      mx_action_set_display_name (action, *p);
++
++      box->priv->actions = g_slist_append (box->priv->actions,
++                                           g_object_ref_sink (action));
++    }
++
++  mx_combo_box_update_menu (box);
++}
+Index: git/mx/mx-combo-box.h
+===================================================================
+--- git.orig/mx/mx-combo-box.h	2012-08-28 08:27:49.555377610 +0100
++++ git/mx/mx-combo-box.h	2012-08-28 08:28:39.843183544 +0100
+@@ -120,6 +120,9 @@
+                                            gint        index);
+ gint         mx_combo_box_get_index       (MxComboBox *box);
+ 
++#define HAVE_MX_COMBO_BOX_POPULATE
++void         mx_combo_box_populate (MxComboBox  *box, const gchar **labels);
++
+ G_END_DECLS
+ 
+ #endif /* _MX_COMBO_BOX_H */
