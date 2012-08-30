@@ -3,7 +3,7 @@ LICENSE = "MIT"
 
 LIC_FILES_CHKSUM = "file://${GUACABASE}/meta-guacamayo/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 
-PR = "r27"
+PR = "r28"
 
 DEPENDS += "alsa-plugins"
 
@@ -142,6 +142,7 @@ RDEPENDS_task-guacamayo-core = "			\
 			     shared-mime-info		\
 			     "
 
+RDEPENDS_task-guacamayo-core_append_beagleboard = "gstreamer-ti"
 RDEPENDS_task-guacamayo-core_append_raspberrypi = "rpi-zram-service-initd"
 
 RDEPENDS_task-guacamayo-renderer = " \
