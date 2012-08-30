@@ -1,14 +1,14 @@
 WHAT IS GUACAMAYO?!
 -------------------
-The aim of the Guacamayo Project is to provide a reference software stack for
-Linux-based media servers and similar devices. The Guacamayo framework is based
-on the Yocto platform (what else?).
+Guacamayo is a customizable platform for multimedia appliances, based on the
+Yocto framework (what else?).
 
 
 HARDWARE
 --------
 At present images are known to work with Intel Atom based devices such as Zotac
-ZBox, the Beagleboard board and Raspberry Pi.
+ZBox, the Beagleboard board and Raspberry Pi (though not all image types are
+available for all of these).
 
 
 BUILDING IT
@@ -22,37 +22,70 @@ BUILDING IT
 
   # Now edit build/conf/local.conf to suit your needs; among other things,
   # please pay attention to the LICENCSE_FLAGS_WHITELIST variable
-  # when you are done ...
+  # discussed below.
 
-  bitbake guacamayo-image-headless
+  # Beagleboard: you will need to download Texas Instruments Code Generation
+  # Tools: see meta-guacamayo/recipes-graphics/ti-appends/ti-cgt6x_*.bbappend
+  # for details of what to do.
 
-The images are located in the tmp/deploy/images directory; image type and
-subsequent installation is, naturally, depended on the device.
+  bitbake guacamayo-image-<type>
+
+  (For the image types, see below.)
+
+The resulting images are located in the tmp/deploy/images directory; image type
+and subsequent installation is, naturally, depended on the device.
+
+
+PACKAGE LICENSES
+----------------
+By default, Guacamayo uses only packages with non-restrictive licenses, but some
+useful packages do not fall into this category (e.g., codecs). You can enable
+the use of these by appropriately setting the variable LICENSE_FLAGS_WHITELIST
+in your local.conf. Currently two types of restrictions are in place:
+
+'commercial':      packages with this license flag require the purchase of a
+                   license for commercial deployment (e.g., Fluendo codecs for
+                   GStreamer), but are free for non-commercial use.
+
+'non-commercial':  packages in this category can *only* be used non-commercially
+                   and must not be commercially deployed (e.g., the package
+                   connman-guacamayo-ntp containing configuration for the NTP
+                   pool, in this case commerical users must use their own NTP
+                   pool).
 
 
 TWEAKING IT
 -----------
-Documentation on working Poky in general can be found at yocto-project.org; the
-following is specific to Guacamayo:
+Documentation on working with Poky in general can be found at yocto-project.org;
+the following is specific to Guacamayo:
 
-Images
-......
-guacamayo-image-headless: a small image for an audio player; works on Atom,
-                          Raspberry Pi and Beagleboard ; good place to start
-                          with
+Image Types
+...........
+Guacamayo provides several different image recipes aimed at different types
+of appliance:
 
-guacamayo-image-x11:      an image with MEX on X11; only for atom-pc machine
-                          at the moment.
+guacamayo-image-mediaserver: an image for network attached UPnP/DLNA media
+                             server (no rendering capabilities); this is the
+                             most minimal of Guacamayo images.
 
-guacamayo-image-egl:      an image with MEX over native EGL + evdev for input,
-                          only tested on the Beagleboard at the moment. This is
-                          the taste of things on a more distant horizon, but
-                          presently VERY EXPERIMENTAL AND MOST LIKELY BROKEN
-                          in more ways that one (though should build).
+guacamayo-image-headless:    a small image for an audio player; works on Atom,
+                             Raspberry Pi and Beagleboard ; good place to start
+                             at.
+
+guacamayo-image-x11:         an image with MediaExplorer shell running under
+                             X11; only for atom-pc machine at the moment (and
+                             only with Intel graphics HW).
+
+guacamayo-image-egl:         an image with MediaExplorer shell running under
+                             native EGL + evdev for input, only tested on the
+                             Beagleboard at the moment. This is the taste of
+                             things on a more distant horizon, but presently
+                             VERY EXPERIMENTAL AND MOST LIKELY BROKEN in more
+                             ways that one (though should build).
 
 NB: The -elg and -x11 images use different Clutter packages that are not
     parallel installable. If you want to build both the -x11 and -egl image
-    for the same machine target, it is recommeded to do so in separate tmp
+    for the same machine target, it is recommended to do so in separate tmp
     directories; if using a single tmp directory you have to manually clean up
     the Clutter packages for the given machine first with the following command:
 
@@ -63,12 +96,13 @@ NB: The -elg and -x11 images use different Clutter packages that are not
     (Building different image types across different machine targets, e.g.,
     -x11 for atom-pc and -egl for beagleboard, is, of course, fine.)
 
+
 Audio Codecs
 ............
 Out of the box you get support for Ogg and Flac; Mp3 support in Guacamayo images
-is facilitated by the Fluendo Gstreamer plugin, but as this requires a license
+is facilitated by the Fluendo GStreamer plugin, but as this requires a license
 for commercial use, it is disabled by default; you can enable it by whitelisting
-commercial licenses in your build/conf/local.conf.
+commercial licenses in your build/conf/local.conf as discussed above.
 
 
 REPOSITORY LAYOUT
@@ -76,7 +110,7 @@ REPOSITORY LAYOUT
 The git repository contains the build system for the guacamayo images, with the
 following sub directories:
 
-meta-guacamayo: the guacamayo layer for Poky; the aim is to keep this as thin
+meta-guacamayo: the Guacamayo layer for Poky; the aim is to keep this as thin
           as possible, using upstream Yocto packages where possible and
           appropriate.
 
