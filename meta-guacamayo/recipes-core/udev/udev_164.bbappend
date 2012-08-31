@@ -2,7 +2,7 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
 SRC_URI += "file://etc"
 
-PRINC = "1"
+PRINC = "2"
 
 do_install_append () {
         # remove stray back up files
