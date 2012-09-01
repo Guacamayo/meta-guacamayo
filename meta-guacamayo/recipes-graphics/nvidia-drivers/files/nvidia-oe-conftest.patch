@@ -1,0 +1,63 @@
+Index: kernel/Makefile.kbuild
+===================================================================
+--- kernel.orig/Makefile.kbuild	2012-08-20 04:20:27.000000000 +0100
++++ kernel/Makefile.kbuild	2012-09-03 11:27:36.314791441 +0100
+@@ -27,8 +27,8 @@
+ # Christian Zander (zander@mail.minion.de) (enhancements)
+ #
+ 
+-all: install
+-install: package-install
++all: module
++install: module-install
+ 
+ #
+ # The NVIDIA kernel module base name and static file names. KBUILD will go
+@@ -251,10 +251,10 @@
+ # sufficient privileges. Rebuild the module dependency file.
+ #
+ 
+-module-install: suser-sanity-check module
++module-install: module
+ 	@mkdir -p $(MODULE_ROOT)/video; \
+-	install -m 0664 -o root -g root $(MODULE_OBJECT) $(MODULE_ROOT)/video; \
+-	PATH="$(PATH):/bin:/sbin" depmod -ae;
++	install -m 0664 $(MODULE_OBJECT) $(MODULE_ROOT)/video; \
++	#PATH="$(PATH):/bin:/sbin" depmod -ae;
+ 
+ #
+ # This target builds, then installs, then creates device nodes and inserts
+Index: kernel/Makefile.nvidia
+===================================================================
+--- kernel.orig/Makefile.nvidia	2012-08-20 04:20:27.000000000 +0100
++++ kernel/Makefile.nvidia	2012-09-03 11:26:10.891195150 +0100
+@@ -91,12 +91,9 @@
+ module: build-sanity-checks $(LINUX_MODULE) $(CORE_OBJECTS)
+ 	@$(LD) -r -o $(MODULE_NAME).o $(LINUX_MODULE) $(CORE_OBJECTS)
+ 
+-package-install: module suser-sanity-check rmmod-sanity-check
++package-install: module
+ 	mkdir -p $(MODULE_ROOT)/video && \
+-	install -m 0664 -o root -g root $(MODULE_NAME).o \
+-	 $(MODULE_ROOT)/video/$(MODULE_NAME).o && \
+-	PATH="$(PATH):/bin:/sbin" depmod -a && \
+-		PATH="$(PATH):/bin:/sbin" modprobe $(MODULE_NAME) && \
++	install -m 0664 nvidia.o $(MODULE_ROOT)/video/nvidia.o$(O) && \
+ 	echo "$(MODULE_NAME).o installed successfully."; \
+ 
+ $(VERSION_HDR): 
+Index: kernel/conftest.sh
+===================================================================
+--- kernel.orig/conftest.sh	2012-08-20 04:20:27.000000000 +0100
++++ kernel/conftest.sh	2012-09-03 11:26:10.891195150 +0100
+@@ -23,6 +23,10 @@
+ OUTPUT=$5
+ XEN_PRESENT=1
+ 
++if [ $ARCH = "x86" ]; then
++ARCH="i386"
++fi
++
+ test_xen() {
+     #
+     # Determine if the target kernel is a Xen kernel. It used to be
