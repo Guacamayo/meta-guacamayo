@@ -1,0 +1,18 @@
+GStreamer
+---------
+The dependencies for TI GStreamer plugin to make use of the DSP require TI's
+Code Generation Tools; these are not available for anonymous download,
+see meta-guacamayo/recipes-graphics/ti-appends/ti-cgt6x_*.bbappend for details.
+
+
+U-Boot
+------
+uEnv.txt file with appropriate parameters is in deploy/images directory; this
+sets enough vram for GLES and the reserved memory for use by the CMEM module
+used by gstreamer-ti.
+
+The 'mem' argument matches the expectations of the ti loadmodules.sh scrip in
+meta-guacamayo/recipes-graphics/ti-appends/gstreamer-ti -- if you mess about
+with the 'mem' argument, you must make corresponding changes to the script!  If
+the CMEM module complains about memory overlap, your memory configuration and
+loademodules.sh script are mismatched.
