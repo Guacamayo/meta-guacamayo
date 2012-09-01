@@ -1,0 +1,8 @@
+
+Supported Images:
+
+  * guacamayo-image-mediaserver,
+  * guacamayo-image-headless,
+  * guacamayo-image-x11 (only i915/965 graphics)
+
+TODO: package NVIDIA drivers
