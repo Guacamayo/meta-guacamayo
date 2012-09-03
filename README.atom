@@ -1,8 +1,10 @@
+Guacamayo currently provides two machine types for atom based devices: atom-pc
+is intended for devices with integrated Intel graphics chips (i915, i965),
+atom-nvidia is inteded for atom devices with Nvidia graphics chips.
 
 Supported Images:
 
   * guacamayo-image-mediaserver,
   * guacamayo-image-headless,
-  * guacamayo-image-x11 (only i915/965 graphics)
+  * guacamayo-image-x11
 
-TODO: package NVIDIA drivers
