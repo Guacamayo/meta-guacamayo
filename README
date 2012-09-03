@@ -124,8 +124,3 @@ upstream: this is where the upstream meta layers go; to add a new meta layer:
 layers:   this directory holds all the layers into a single whole; it should
           contain no real files, only symlinks
 
-          NB: Only the Yocto and Guacamayo are used as normal OE layers; bits
-              of other layers are currently 'cherry-picked' using symlinks due
-              to compatibility issues between some layers and lack of fine-honed
-              control over layer priorities
-
