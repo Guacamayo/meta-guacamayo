@@ -51,8 +51,8 @@ case "$1" in
 
        echo "Starting Rygel"
        /sbin/start-stop-daemon -b -c $USER -S -x /usr/bin/rygel -- \
-                               --plugin-option=MediaExport:uris:$DEMOS \
-                               --title=MediaExport:"Rygel Demo Media"
+                               --plugin-option=MediaExport:uris:/usr/share/demos/,$HOME \
+                               --title=MediaExport:"Rygel Media Server"
   ;;
 
   stop)
