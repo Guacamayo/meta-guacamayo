@@ -2,7 +2,7 @@ DESCRIPTION = "a modern 3D graphics API with associated utility APIs"
 HOMEPAGE = "http://wiki.clutter-project.org/wiki/Cogl"
 LICENSE = "LGPLv2.1+"
 
-INCPR = "r0"
+INCPR = "r1"
 
 FILESPATH = "${FILE_DIRNAME}/cogl-1.10"
 
@@ -14,7 +14,7 @@ PACKAGES =+ "${PN}-examples"
 STDDEPENDS       = "gtk-doc-native pango glib-2.0 gdk-pixbuf"
 STDDEPENDS_GL    = "virtual/libgl libdrm"
 STDDEPENDS_EGL   = "virtual/egl"
-STDDEPENDS_GLES2 = ""
+STDDEPENDS_GLES2 = "virtual/libgles2"
 STDDEPENDS_X11   = "virtual/libx11 libxcomposite libxfixes libxi"
 
 # This has to be explictly listed, because cogl dlopens the backends
