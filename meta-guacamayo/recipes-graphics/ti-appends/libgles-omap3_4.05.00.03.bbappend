@@ -2,8 +2,9 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
 
 SRC_URI += "file://etc"
 
-PRINC = "6"
+PRINC = "7"
 
+PROVIDES += "virtual/libgles2"
 RPROVIDES += "libgles libgles2"
 
 # remove the powervr.ini file from the main package, and package several
