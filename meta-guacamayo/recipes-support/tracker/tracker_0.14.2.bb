@@ -25,7 +25,6 @@ do_install_append() {
    cp -PpR ${D}${STAGING_DATADIR}/* ${D}${datadir}/ || true
 #  install -d ${D}/${sysconfdir}/X11/Xsession.d/
 #  install -m 0755 ${WORKDIR}/90tracker  ${D}/${sysconfdir}/X11/Xsession.d/
-   rmdir ${D}${libdir}/tracker-${VER_DIR}/writeback-modules
 }
 
 PACKAGES_prepend = "${PN}-tests ${PN}-vala "
