@@ -3,9 +3,7 @@ LICENSE = "MIT"
 
 LIC_FILES_CHKSUM = "file://${GUACABASE}/meta-guacamayo/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 
-PR = "r29"
-
-DEPENDS += "alsa-plugins"
+PR = "r30"
 
 PACKAGES="\
 	task-guacamayo			\
