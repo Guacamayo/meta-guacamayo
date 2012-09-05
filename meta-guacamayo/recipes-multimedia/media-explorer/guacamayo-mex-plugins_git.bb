@@ -12,7 +12,7 @@ FILES_${PN} += "${libdir}/media-explorer/plugins/*.so"
 FILES_${PN}-dbg += "${libdir}/media-explorer/plugins/.debug/*.so"
 
 PV = "0.1.0+git${SRCPV}"
-SRC_URI = "git://github.com/Guacamayo/guacamayo-mex-plugins.git;proto=git"
+SRC_URI = "git://github.com/Guacamayo/guacamayo-mex-plugins.git;protocol=git"
 
 S = "${WORKDIR}/git"
 

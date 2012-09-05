@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c \
 
 PV = "0.5.0+git${SRCPV}"
 
-SRC_URI = "git://github.com/Guacamayo/media-explorer.git;proto=git \
+SRC_URI = "git://github.com/Guacamayo/media-explorer.git;protocol=git \
 	  "
 
 S = "${WORKDIR}/git"

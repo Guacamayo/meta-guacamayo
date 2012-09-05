@@ -12,7 +12,7 @@ RDEPENDS_${PN}-autostart += "${PN}"
 
 inherit autotools pkgconfig
 
-SRC_URI = "git://github.com/Guacamayo/guacamayo-watchdog.git;branch=master;proto=git \
+SRC_URI = "git://github.com/Guacamayo/guacamayo-watchdog.git;branch=master;protocol=git \
 	   file://etc \
           "
 S = "${WORKDIR}/git"

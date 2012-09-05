@@ -10,7 +10,7 @@ PV = "0.1.5+git${SRCPV}"
 
 inherit autotools pkgconfig vala
 
-SRC_URI = "git://git.gnome.org/tracker-upnp;proto=git \
+SRC_URI = "git://git.gnome.org/tracker-upnp;protocol=git \
 	   file://tracker-0.14.patch \
 	  "
 
