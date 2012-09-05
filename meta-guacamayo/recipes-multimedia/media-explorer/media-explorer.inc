@@ -18,21 +18,21 @@ EXTRA_OECONF += "--with-online=always --enable-networks --disable-webremote \
                  --enable-lirc --disable-debug-buddy"
 
 python populate_packages_prepend() {
-        plugindir = d.expand('${libdir}/media-explorer/plugins')
-        do_split_packages(d, plugindir, '^mex-(.*)\.so$', '${PN}-plugin-%s', 'Media Explorer plugin for %s', allow_dirs=True, prepend=True, extra_depends='${PN}')
+    plugindir = d.expand('${libdir}/media-explorer/plugins')
+    do_split_packages(d, plugindir, '^mex-(.*)\.so$', '${PN}-plugin-%s', 'Media Explorer plugin for %s', allow_dirs=True, prepend=True, extra_depends='${PN}')
 
-	pn = d.getVar('PN', True)
-	metapkg =  pn + '-plugins-meta'
-	d.setVar('ALLOW_EMPTY_' + metapkg, "1")
-	d.setVar('FILES_' + metapkg, "")
-	metapkg_rdepends = []
-	packages = d.getVar('PACKAGES', True).split()
-	for pkg in packages:
-		if pkg.startswith(pn + '-plugin-') and not pkg in metapkg_rdepends and not pkg.endswith('-dev') and not pkg.endswith('-dbg') and not pkg.count('locale') and not pkg.count('-staticdev'):
-			bb.note ("adding %s to meta rdepends" % pkg)
-			metapkg_rdepends.append(pkg)
-	d.setVar('RDEPENDS_' + metapkg, ' '.join(metapkg_rdepends))
-	d.setVar('DESCRIPTION_' + metapkg, pn + ' meta package')
+    pn = d.getVar('PN', True)
+    metapkg =  pn + '-plugins-meta'
+    d.setVar('ALLOW_EMPTY_' + metapkg, "1")
+    d.setVar('FILES_' + metapkg, "")
+    metapkg_rdepends = []
+    packages = d.getVar('PACKAGES', True).split()
+    for pkg in packages:
+        if pkg.startswith(pn + '-plugin-') and not pkg in metapkg_rdepends and not pkg.endswith('-dev') and not pkg.endswith('-dbg') and not pkg.count('locale') and not pkg.count('-staticdev'):
+            bb.note ("adding %s to meta rdepends" % pkg)
+            metapkg_rdepends.append(pkg)
+    d.setVar('RDEPENDS_' + metapkg, ' '.join(metapkg_rdepends))
+    d.setVar('DESCRIPTION_' + metapkg, pn + ' meta package')
 }
 
 PACKAGES_DYNAMIC = "${PN}-plugin-*"

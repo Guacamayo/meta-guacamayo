@@ -13,19 +13,19 @@ inherit module
 INHIBIT_PACKAGE_STRIP_${PN} = "1"
 
 def nvidia_arch(d):
-	import bb, re
-	arch = bb.data.getVar('TARGET_ARCH', d, 1)
-	if re.match("^i.86$", arch):
-		arch = "x86"
-	return arch
+    import bb, re
+    arch = bb.data.getVar('TARGET_ARCH', d, 1)
+    if re.match("^i.86$", arch):
+        arch = "x86"
+    return arch
 
 def get_kernelpatchlevel(p):
-	import re
-	r = re.compile("[0-9]+\.([0-9]+).*")
-	m = r.match(p);
-	if m:
-		return m.group(1)
-	return None
+    import re
+    r = re.compile("[0-9]+\.([0-9]+).*")
+    m = r.match(p);
+    if m:
+        return m.group(1)
+    return None
 
 NVIDIA_ARCH := "${@nvidia_arch(d)}"
 
@@ -39,18 +39,18 @@ PKG_BASENAME="NVIDIA-Linux-${NVIDIA_ARCH}-${PV}"
 FILES_${PN}-doc += " /usr/share/doc/*"
 
 nvidia_do_unpack() {
-	cd ${WORKDIR}
-	# the Nvidia installer fails if this directory already exist
-	rm -rf ${PKG_BASENAME}
-	sh ./${PKG_BASENAME}.run -x
+    cd ${WORKDIR}
+    # the Nvidia installer fails if this directory already exist
+    rm -rf ${PKG_BASENAME}
+    sh ./${PKG_BASENAME}.run -x
 
-	# copy the license from the unpack dir to S (the license check
+    # copy the license from the unpack dir to S (the license check
         # is too daft to find it otherwise)
-	cp ${WORKDIR}/${PKG_BASENAME}/LICENSE ${S}
+    cp ${WORKDIR}/${PKG_BASENAME}/LICENSE ${S}
 }
 
 python do_unpack() {
-	bb.build.exec_func('base_do_unpack', d)
-	bb.build.exec_func('nvidia_do_unpack', d)
+    bb.build.exec_func('base_do_unpack', d)
+    bb.build.exec_func('nvidia_do_unpack', d)
 }
 
