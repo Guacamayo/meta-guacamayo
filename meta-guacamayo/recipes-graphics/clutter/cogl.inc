@@ -24,6 +24,7 @@ STDRDEPENDS_GLES2 = "libgles2"
 
 SRC_URI = "file://cogl-pipeline-memory-corruption.patch"
 SRC_URI_append_beagleboard += "file://beagleboard-glchar.patch"
+SRC_URI_append_pandaboard += "file://beagleboard-glchar.patch"
 
 # check for TARGET_FPU=soft and inform configure of the result so it can disable
 # some floating points

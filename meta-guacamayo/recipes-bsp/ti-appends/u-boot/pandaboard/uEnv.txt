@@ -1,0 +1,3 @@
+vram=262M mem=1008M
+console=ttyO2,115200n8
+dvimode=1280x720MR-16@60 omapfb.vram=0:256M,1:8M omapdss.def_disp=hdmi
