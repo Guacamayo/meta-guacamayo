@@ -3,7 +3,7 @@ LICENSE = "MIT"
 
 LIC_FILES_CHKSUM = "file://${GUACABASE}/meta-guacamayo/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 
-PR = "r19"
+PR = "r20"
 
 PACKAGES="\
 	task-guacamayo-mex-x11		\
@@ -11,7 +11,7 @@ PACKAGES="\
 	task-guacamayo-mex-x11-dbg	\
 	"
 
-DEPENDS += "clutter-1.10-x11 clutter-gst-1.10-x11"
+DEPENDS += "alsa-plugins clutter-1.10-x11 clutter-gst-1.10-x11"
 
 ALLOW_EMPTY = "1"
 
