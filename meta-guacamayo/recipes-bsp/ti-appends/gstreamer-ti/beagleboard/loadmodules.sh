@@ -20,3 +20,6 @@ modprobe lpm_omap3530
 # insert SDMA driver
 modprobe sdmak
 
+# setup permissions
+chgrp video /dev/cmem
+chmod g+rw /dev/cmem
