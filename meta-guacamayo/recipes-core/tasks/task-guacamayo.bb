@@ -3,7 +3,7 @@ LICENSE = "MIT"
 
 LIC_FILES_CHKSUM = "file://${COREBASE}/meta-guacamayo/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 
-PR = "r32"
+PR = "r33"
 
 PACKAGES="\
 	task-guacamayo			\
@@ -116,14 +116,12 @@ GUACA_DEMOS_PICTURES = "guacamayo-demos-pictures"
 GUACA_DEMOS_AUDIO    = "guacamayo-demos-audio"
 GUACA_DEMOS_VIDEO    = "guacamayo-demos-video"
 
-# dbus-x11 is needed for dbus-launch (fixed in oe-core master)
 RDEPENDS_task-guacamayo-core = "			\
 			     linux-firmware		\
 			     tzdata			\
 			     dconf			\
 			     guacamayo-gsettings	\
 			     dbus			\
-			     dbus-x11			\
                              ${GUACA_NETWORKING}	\
 			     gstreamer			\
 			     gst-plugins-base		\
