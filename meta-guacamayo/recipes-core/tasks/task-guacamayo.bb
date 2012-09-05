@@ -3,7 +3,7 @@ LICENSE = "MIT"
 
 LIC_FILES_CHKSUM = "file://${GUACABASE}/meta-guacamayo/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 
-PR = "r30"
+PR = "r31"
 
 PACKAGES="\
 	task-guacamayo			\
@@ -97,7 +97,7 @@ python __anonymous () {
 GUACA_NETWORKING = "connman-initd \
                     connman-plugin-ethernet \
                     connman-plugin-loopback \
-                    connman-plugin-wifi \
+                    ${@base_contains('DISTRO_FEATURES', 'wifi','connman-plugin-wifi', '', d)} \
                    "
 
 GUACA_PA_CORE = "pulseaudio \
