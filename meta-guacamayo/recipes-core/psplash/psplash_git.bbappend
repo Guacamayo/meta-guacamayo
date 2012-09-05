@@ -2,14 +2,9 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
 DEPENDS += "gdk-pixbuf-native"
 
-PRINC = "6"
+PRINC = "7"
 
-# since we are patching that file, we have to change the checksum
-# (the patch has been submitted upstream, so it will eventually go)
-LIC_FILES_CHKSUM = "file://psplash.h;md5=89004674feba6dcfe7fbb8baccb58205"
-
-SRC_URI += "file://0001-Make-it-easier-to-customise-colours.patch \
-	    file://psplash-colors.h \
+SRC_URI += "file://psplash-colors.h \
 	    file://psplash-bar-img.png"
 
 # NB: this is only for the main logo image; if you add multiple images here,
