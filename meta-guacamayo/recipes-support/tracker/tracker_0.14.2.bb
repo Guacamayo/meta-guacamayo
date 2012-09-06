@@ -1,11 +1,11 @@
 DESCRIPTION = "Tracker is a tool designed to extract information and metadata about your personal data so that it can be searched easily and quickly."
 LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://COPYING;md5=ee31012bf90e7b8c108c69f197f3e3a4"
-DEPENDS = "file gtk+ gstreamer gamin dbus libexif gettext gmime sqlite3 icu"
+DEPENDS = "file gstreamer gamin dbus libexif gettext gmime sqlite3 icu"
 RDEPENDS_${PN} += " gvfs"
 HOMEPAGE = "http://projects.gnome.org/tracker/"
 
-PR = "r4"
+PR = "r5"
 
 inherit autotools pkgconfig gnome gettext gsettings
 
