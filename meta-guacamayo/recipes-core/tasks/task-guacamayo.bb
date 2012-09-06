@@ -3,7 +3,7 @@ LICENSE = "MIT"
 
 LIC_FILES_CHKSUM = "file://${GUACABASE}/meta-guacamayo/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 
-PR = "r28"
+PR = "r29"
 
 DEPENDS += "alsa-plugins"
 
@@ -31,8 +31,8 @@ ALLOW_EMPTY = "1"
 #
 # These packages have 'commercial' license flag set
 GUACA_COMMERCIAL_CORE  = "connman-guacamayo-ntp"
-GUACA_COMMERCIAL_AUDIO = ""
-GUACA_COMMERCIAL_VIDEO = "gst-fluendo-mp3"
+GUACA_COMMERCIAL_AUDIO = "gst-fluendo-mp3"
+GUACA_COMMERCIAL_VIDEO = ""
 
 python __anonymous () {
     def license_flag_matches(flag, whitelist, pn):
