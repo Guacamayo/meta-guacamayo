@@ -7,9 +7,9 @@ Yocto framework (what else?).
 HARDWARE
 --------
 At present images are known to work with Intel Atom based devices such as Zotac
-ZBox, the Beagleboard board and Raspberry Pi (though not all image types are
-available for all of these). Please see the board-specific READMEs in the doc
-directory.
+ZBox, the Beagleboard/Beaglebone boards and Raspberry Pi (though not all image
+types are available for all of these). Please see the board-specific READMEs in
+the doc directory.
 
 
 BUILDING IT
@@ -70,8 +70,8 @@ guacamayo-image-mediaserver: an image for network attached UPnP/DLNA media
                              most minimal of Guacamayo images.
 
 guacamayo-image-audioplayer: a small image for an audio player; works on Atom,
-                             Raspberry Pi and Beagleboard ; good place to start
-                             at.
+                             Raspberry Pi, Beaglebone and Beagleboard ; good
+                             place to start at.
 
 guacamayo-image-x11:         an image with MediaExplorer shell running under
                              X11; only for atom-pc machine at the moment (and
