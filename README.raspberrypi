@@ -1,7 +1,7 @@
 
 Supported Images:
 
-  * guacamayo-image-headless
+  * guacamayo-image-audioplayer
 
-The headless image provides a UPnP audio player, with support for USB
+The audioplayer image provides a UPnP audio player, with support for USB
 speakers.

@@ -1,4 +1,4 @@
-DESCRIPTION="Headless session"
+DESCRIPTION="Audioplayer session"
 LICENSE = "MIT"
 
 LIC_FILES_CHKSUM = "file://${GUACABASE}/meta-guacamayo/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
@@ -6,11 +6,11 @@ LIC_FILES_CHKSUM = "file://${GUACABASE}/meta-guacamayo/COPYING.MIT;md5=3da9cfbcb
 RDEPENDS_${PN} += "sudo pulseaudio-server ${PN}-initd"
 CONFLICTS_${PN} += "guacamayo-session-x11"
 
-PR = "r3"
+PR = "r0"
 
 inherit update-rc.d useradd
 
-SRC_URI = "file://guacamayo-session-headless"
+SRC_URI = "file://guacamayo-session-audioplayer"
 
 ALLOW_EMPTY = "1"
 PACKAGES =+ "${PN}-initd"

@@ -68,7 +68,7 @@ guacamayo-image-mediaserver: an image for network attached UPnP/DLNA media
                              server (no rendering capabilities); this is the
                              most minimal of Guacamayo images.
 
-guacamayo-image-headless:    a small image for an audio player; works on Atom,
+guacamayo-image-audioplayer: a small image for an audio player; works on Atom,
                              Raspberry Pi and Beagleboard ; good place to start
                              at.
 

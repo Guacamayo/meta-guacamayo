@@ -1,12 +1,15 @@
-DESCRIPTION="Headless session"
+DESCRIPTION="Seession for MediaExplorer images using native EGL platform."
 LICENSE = "MIT"
 
 LIC_FILES_CHKSUM = "file://${GUACABASE}/meta-guacamayo/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 
 RDEPENDS_${PN} += "sudo pulseaudio-server ${PN}-initd"
-CONFLICTS_${PN} += "guacamayo-session-x11 guacamayo-session-headless"
+CONFLICTS_${PN} += "guacamayo-session-x11		\
+		    guacamayo-session-audioplayer	\
+		    guacamayo-session-mediaserver	\
+                   "
 
-PR = "r7"
+PR = "r8"
 
 inherit update-rc.d useradd
 

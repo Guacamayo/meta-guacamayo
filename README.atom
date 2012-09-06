@@ -5,6 +5,6 @@ atom-nvidia is inteded for atom devices with Nvidia graphics chips.
 Supported Images:
 
   * guacamayo-image-mediaserver,
-  * guacamayo-image-headless,
+  * guacamayo-image-audioplayer,
   * guacamayo-image-x11
 
