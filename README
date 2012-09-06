@@ -8,7 +8,8 @@ HARDWARE
 --------
 At present images are known to work with Intel Atom based devices such as Zotac
 ZBox, the Beagleboard board and Raspberry Pi (though not all image types are
-available for all of these).
+available for all of these). Please see the board-specific READMEs in the doc
+directory.
 
 
 BUILDING IT
