@@ -1,5 +1,13 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
+# Depends from upstream, remove consolekit removed
+DEPENDS = "libatomics-ops liboil avahi libsamplerate0 libsndfile1 libtool \
+           ${@base_contains('DISTRO_FEATURES', 'x11', 'virtual/libx11 libxtst libice libsm libxcb gtk+', '', d)}"
+DEPENDS += "udev alsa-lib glib-2.0 dbus \
+           ${@base_contains('DISTRO_FEATURES', 'bluetooth', 'bluez4', '', d)}"
+DEPENDS += "libjson gdbm speex libxml-parser-perl-native"
+
+
 DEPENDS += "orc orc-native"
 
 PRINC = "11"
