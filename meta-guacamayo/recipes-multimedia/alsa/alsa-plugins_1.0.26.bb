@@ -3,12 +3,12 @@ HOMEPAGE = "http://www.alsa-project.org"
 SECTION = "multimedia/alsa/plugins"
 LICENSE = "LGPL2.1"
 DEPENDS = "alsa-lib pulseaudio"
-PR = "r1"
+PR = "r0"
 
 LIC_FILES_CHKSUM = "file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34"
 SRC_URI = "ftp://ftp.alsa-project.org/pub/plugins/alsa-plugins-${PV}.tar.bz2"
-SRC_URI[md5sum] = "a671f8102366c5b388133e948e1c85cb"
-SRC_URI[sha256sum] = "5c1b2791ad33ef01f0f4f040004c931310da05e45aaa8d4146024c586f2b3183"
+SRC_URI[md5sum] = "4facd408326ef5567a7d4ceb6589e6b0"
+SRC_URI[sha256sum] = "03515134d2009db4dfb2769e0ab0e1fb517c8140ffdfd64a984be968e81c9f1f"
 
 inherit autotools
 
