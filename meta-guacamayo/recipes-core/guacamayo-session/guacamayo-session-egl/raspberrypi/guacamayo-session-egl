@@ -1,0 +1,114 @@
+#!/bin/sh
+#
+### BEGIN INIT INFO
+# Provides: rygel
+### END INIT INFO
+
+USER=rygel
+HOME="/home/$USER"
+DBUSINFO="$HOME/dbusinfo"
+XDGAUTOSTART=/etc/xdg/autostart
+
+killrygel() {
+    echo "Stopping Rygel"
+    /sbin/start-stop-daemon -x /usr/bin/rygel -u $USER -K
+}
+
+killmex() {
+    echo "Stopping Mex"
+    /sbin/start-stop-daemon -x /usr/bin/media-explorer -u $USER -K
+}
+
+killdbus() {
+    echo "Stopping session DBus"
+    [ -f $DBUSINFO ] && source $DBUSINFO && [ "$DBUS_SESSION_BUS_PID" != "" ] && kill $DBUS_SESSION_BUS_PID && rm $DBUSINFO
+}
+
+killpulse() {
+    echo "Stopping Pulse Audio server"
+    sudo -b -E -u $USER -g $USER /usr/bin/pulseaudio -k
+}
+
+ensurehome() {
+    if ! [ -d "$HOME/.config" ]; then
+	mkdir -p "$HOME/.config"
+	# create a dummy conf file to shut up warnings
+	echo "#" > "$HOME/.config/rygel.conf"
+	chown -R $USER $HOME
+    fi
+}
+
+setupdbus() {
+    [ -f $DBUSINFO ] && source $DBUSINFO
+
+    if [ -z "$DBUS_SESSION_BUS_ADDRESS" ]; then
+	if [ -x /usr/bin/dbus-launch ]; then
+	    echo -n "Starting session DBus ... "
+	    eval `sudo -u $USER -g $USER dbus-launch --sh-syntax`
+	    export DBUS_SESSION_BUS_ADDRESS=$DBUS_SESSION_BUS_ADDRESS
+	    echo DBUS_SESSION_BUS_ADDRESS=$DBUS_SESSION_BUS_ADDRESS > $DBUSINFO
+	    export DBUS_SESSION_BUS_PID=$DBUS_SESSION_BUS_PID
+	    echo DBUS_SESSION_BUS_PID=$DBUS_SESSION_BUS_PID >> $DBUSINFO
+	    echo "pid=$DBUS_SESSION_BUS_PID"
+	fi
+    fi
+}
+
+case "$1" in
+  start)
+       . /etc/profile
+       ensurehome
+       setupdbus
+
+       chown $USER /dev/tty[01234567]
+       chgrp video /dev/vchiq
+       chmod g+rw /dev/vchiq
+
+       export CLUTTER_INPUT_BACKEND=evdev
+
+       # dump the environment for debugging purposes
+       export > $HOME/.environment
+
+       # if the gstreamer binary registry does not exist yet, generate it now
+       # otherwise this will happen on demand when Mex first start and the
+       # clutter plugin will fail and get blacklisted due to EGL context error
+       GSTREG=`ls -1 $HOME/.gstreamer*/registry*.bin 2>/dev/null`
+       if [ x$GSTREG = x ]; then
+          echo "Introspecting Gstreamer"
+          sudo -E -u $USER gst-inspect &> /dev/null
+       fi
+
+       echo "Starting Rygel"
+       /sbin/start-stop-daemon -b -c $USER -S -x /usr/bin/rygel
+
+       echo "Running XDG Autostarts"
+       if [ -d $XDGAUTOSTART ]; then
+	   for SCRIPT in $XDGAUTOSTART/*; do
+               CMD=`grep Exec= $SCRIPT | sed -e s/.*Exec=// -e s/%.//g`
+               sudo -b -E -u $USER -g $USER $CMD
+	   done
+       fi
+
+       echo "Starting MEX"
+       sudo -b -E -u $USER -g $USER /usr/bin/guacamayo-watchdog --debug=all -- media-explorer
+  ;;
+
+  stop)
+	killmex
+        killrygel
+	killpulse
+	killdbus
+  ;;
+
+  restart)
+	$0 stop
+        sleep 1
+        $0 start
+  ;;
+
+  *)
+        echo "usage: $0 { start | stop | restart }"
+  ;;
+esac
+
+exit 0
