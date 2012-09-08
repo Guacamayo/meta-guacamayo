@@ -3,7 +3,7 @@ LICENSE = "MIT"
 
 LIC_FILES_CHKSUM = "file://${GUACABASE}/meta-guacamayo/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 
-PR = "r20"
+PR = "r21"
 
 PACKAGES="\
 	task-guacamayo-mex-x11		\
@@ -11,7 +11,7 @@ PACKAGES="\
 	task-guacamayo-mex-x11-dbg	\
 	"
 
-DEPENDS += "alsa-plugins clutter-1.10-x11 clutter-gst-1.10-x11"
+DEPENDS += "alsa-plugins"
 
 ALLOW_EMPTY = "1"
 
@@ -61,8 +61,6 @@ RDEPENDS_task-guacamayo-mex-x11 = "				\
 			      task-guacamayo-renderer		\
 			      ${GUACA_X11}			\
 			      tracker				\
-			      clutter-1.10-x11			\
-			      clutter-gst-1.10-x11		\
 			      media-explorer			\
 			      media-explorer-plugins-meta	\
 			      guacamayo-watchdog-autostart	\
@@ -80,7 +78,7 @@ RDEPENDS_task-guacamayo-mex-x11_append_beagleboard = " \
 					   libgles-omap3-pvrini-dri"
 
 RDEPENDS_task-guacamayo-mex-x11-tests = "			\
-				 clutter-1.10-x11-examples	\
-				 clutter-gst-1.10-x11-examples	\
+				 clutter-1.10-examples	\
+				 clutter-gst-1.10-examples	\
 				 mesa-demos			\
 				 "

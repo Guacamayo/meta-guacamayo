@@ -3,9 +3,9 @@ LICENSE = "MIT"
 
 LIC_FILES_CHKSUM = "file://${GUACABASE}/meta-guacamayo/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 
-PR = "r5"
+PR = "r6"
 
-DEPENDS += "alsa-plugins clutter-1.10-egl clutter-gst-1.10-egl"
+DEPENDS += "alsa-plugins"
 
 PACKAGES="\
 	task-guacamayo-mex-egl		\
@@ -18,8 +18,6 @@ ALLOW_EMPTY = "1"
 RDEPENDS_task-guacamayo-mex-egl = "				\
 			      task-guacamayo-renderer		\
 			      tracker				\
-			      clutter-1.10-egl			\
-			      clutter-gst-1.10-egl		\
 			      media-explorer			\
 			      media-explorer-plugins-meta	\
 			      guacamayo-watchdog		\
@@ -35,6 +33,6 @@ RDEPENDS_task-guacamayo-mex-egl_append_beagleboard = " \
 					   libgles-omap3-pvrini-native"
 
 RDEPENDS_task-guacamayo-mex-egl-tests = "			\
-				 clutter-1.10-egl-examples	\
-				 clutter-gst-1.10-egl-examples	\
+				 clutter-1.10-examples	\
+				 clutter-gst-1.10-examples	\
 				 "
