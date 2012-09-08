@@ -1,7 +1,7 @@
 require clutter.inc
 require clutter-git.inc
 
-DEFAULT_PREFERENCE = "1"
+PR = "${INCPR}.0"
 
 DEPENDS = "${STDDEPENDS} ${STDDEPENDS_GLX}"
 RDEPENDS = "${STDRDEPENDS} ${STDRDEPENDS_GLX}"

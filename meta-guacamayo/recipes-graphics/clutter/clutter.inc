@@ -2,24 +2,23 @@ DESCRIPTION = "Clutter graphics library"
 HOMEPAGE = "http://www.clutter-project.org/"
 LICENSE = "LGPLv2.1+"
 
-INCPR = "r1"
+INCPR = "r0"
 
 # check for TARGET_FPU=soft and inform configure of the result so it can disable
 # some floating points
 require ${GUACABASE}/meta/recipes-graphics/clutter/clutter-fpu.inc
 
 STDDEPENDS = "gtk-doc-native pango glib-2.0 libxfixes json-glib atk \
-	      udev libxkbcommon "
+	      udev libxkbcommon cogl-1.10"
 
-STDDEPENDS_GLX = "cogl-1.10-x11 virtual/libx11 libxi virtual/libgl"
-STDDEPENDS_EGL = "cogl-1.10-egl virtual/egl"
+STDDEPENDS_GLX = "virtual/libx11 libxi virtual/libgl"
+STDDEPENDS_EGL = "virtual/egl"
 
 STDRDEPENDS     = "xkeyboard-config"
 STDRDEPENDS_EGL = ""
 STDRDEPENDS_GLX = ""
 
 CONFLICTS += "clutter-1.8"
-PROVIDES  += "clutter-1.10"
 
 S = "${WORKDIR}/git"
 AUTOTOOLS_AUXDIR = "${S}/build"
