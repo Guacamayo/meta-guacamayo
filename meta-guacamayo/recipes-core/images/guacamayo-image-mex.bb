@@ -3,15 +3,24 @@ LICENSE = "MIT"
 
 LIC_FILES_CHKSUM = "file://${GUACABASE}/meta-guacamayo/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 
-PR = "r3"
+PR = "r0"
+
+# Select appropriate MEX flavour based on machine features
+GUACA_MEX_X11 = "guacamayo-mex-x11		\
+	         guacamayo-mex-x11-tests	\
+		"
+GUACA_MEX_EGL = "guacamayo-mex-egl		\
+	         guacamayo-mex-egl-tests	\
+		"
+
+GUACA_MEX = "${@base_contains("MACHINE_FEATURES", "guacamayo-x11", "${GUACA_MEX_X11}", "${GUACA_MEX_EGL}", d)}"
 
 # Extra Image features
 GUACAMAYO_FEATURES =+ "package-management		\
-		       guacamayo-mex-egl		\
 		       guacamayo-restricted-core	\
 		       guacamayo-restricted-audio	\
 		       guacamayo-restricted-video	\
-		       guacamayo-mex-egl-tests		\
+		       ${GUACA_MEX}			\
 		      "
 
 inherit guacamayo-image

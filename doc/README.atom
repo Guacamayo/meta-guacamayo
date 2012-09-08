@@ -6,5 +6,5 @@ Supported Images:
 
   * guacamayo-image-mediaserver,
   * guacamayo-image-audioplayer,
-  * guacamayo-image-x11
+  * guacamayo-image-mex, with Mex under X11.
 

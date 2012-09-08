@@ -4,7 +4,7 @@ Supported Images:
   * guacamayo-image-mediaserver,
   * guacamayo-image-audioplayer,
 
-guacamayo-image-egl can be built, but is not fully functional at the moment
+guacamayo-image-mex can be built, but is not fully functional at the moment
 
 
 GStreamer

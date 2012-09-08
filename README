@@ -73,29 +73,13 @@ guacamayo-image-audioplayer: a small image for an audio player; works on Atom,
                              Raspberry Pi, Beaglebone and Beagleboard ; good
                              place to start at.
 
-guacamayo-image-x11:         an image with MediaExplorer shell running under
-                             X11; only for atom-pc machine at the moment (and
-                             only with Intel graphics HW).
+guacamayo-image-mex:         An image with MediaExplorer shell. Depending on
+                             the machine, the shell is running under either
+			     under X11 or under native EGL.
 
-guacamayo-image-egl:         an image with MediaExplorer shell running under
-                             native EGL + evdev for input, only tested on the
-                             Beagleboard at the moment. This is the taste of
-                             things on a more distant horizon, but presently
-                             VERY EXPERIMENTAL AND MOST LIKELY BROKEN in more
-                             ways that one (though should build).
-
-NB: The -elg and -x11 images use different Clutter packages that are not
-    parallel installable. If you want to build both the -x11 and -egl image
-    for the same machine target, it is recommended to do so in separate tmp
-    directories; if using a single tmp directory you have to manually clean up
-    the Clutter packages for the given machine first with the following command:
-
-        bitbake -c cleansstate cogl-1.10-egl cogl-1.10-x11 \
-                               clutter-1.10-egl clutter-1.10-x11 \
-                               clutter-gst-1.10-egl clutter-gst-1.10-x11
-
-    (Building different image types across different machine targets, e.g.,
-    -x11 for atom-pc and -egl for beagleboard, is, of course, fine.)
+NB: The MEX elg and x11 packages sets are not parallel installable, use if you
+    want to experiment with switching from the default for the given machine,
+    make sure to build in a different tmp directory.
 
 
 Audio Codecs
