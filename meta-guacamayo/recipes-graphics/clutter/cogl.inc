@@ -2,12 +2,11 @@ DESCRIPTION = "a modern 3D graphics API with associated utility APIs"
 HOMEPAGE = "http://wiki.clutter-project.org/wiki/Cogl"
 LICENSE = "LGPLv2.1+"
 
-INCPR = "r3"
+INCPR = "r0"
 
 FILESPATH = "${FILE_DIRNAME}/cogl-1.10"
 
 CONFLICTS += "cogl"
-PROVIDES += "cogl-1.10"
 
 PACKAGES =+ "${PN}-examples"
 
