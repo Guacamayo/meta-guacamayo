@@ -1,0 +1,13 @@
+Index: git/cogl/cogl-internal.h
+===================================================================
+--- git.orig/cogl/cogl-internal.h	2012-04-26 09:23:49.000000000 +0100
++++ git/cogl/cogl-internal.h	2012-04-26 09:24:56.128280074 +0100
+@@ -30,6 +30,8 @@
+ #include <X11/Xutil.h>
+ #endif
+ 
++typedef char GLchar;
++
+ #ifdef COGL_GL_DEBUG
+ 
+ const char *
