@@ -9,11 +9,13 @@ CONFLICTS_${PN} += "guacamayo-session-x11		\
 		    guacamayo-session-audioplayer	\
 		   "
 
-PR = "r2"
+PR = "r3"
 
 inherit update-rc.d useradd
 
-SRC_URI = "file://guacamayo-session-mediaserver"
+SRC_URI = "file://guacamayo-session-mediaserver	\
+	   file://guacamayo-session-common	\
+	  "
 
 ALLOW_EMPTY = "1"
 PACKAGES =+ "${PN}-initd"
@@ -33,6 +35,7 @@ USERADD_PARAM_${PN} = "--home-dir=/home/rygel \
 do_install_append() {
     install -d ${D}${sysconfdir}/init.d
     install -m 0755 ${WORKDIR}/${PN} ${D}${sysconfdir}/init.d
+    install -m 0644 ${WORKDIR}/guacamayo-session-common ${D}/${sysconfdir}
 }
 
 FILES_${PN}-initd += "${sysconfdir}/init.d"
