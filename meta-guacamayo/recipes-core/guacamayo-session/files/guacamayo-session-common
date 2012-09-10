@@ -46,3 +46,5 @@ setupdbus() {
 	fi
     fi
 }
+
+touch /.this-is-root
