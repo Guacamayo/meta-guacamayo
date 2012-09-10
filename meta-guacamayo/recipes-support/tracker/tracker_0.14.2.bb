@@ -5,7 +5,7 @@ DEPENDS = "file gtk+ gstreamer gamin dbus libexif gettext gmime sqlite3 icu"
 RDEPENDS_${PN} += " gvfs"
 HOMEPAGE = "http://projects.gnome.org/tracker/"
 
-PR = "r3"
+PR = "r4"
 
 inherit autotools pkgconfig gnome gettext gsettings
 
