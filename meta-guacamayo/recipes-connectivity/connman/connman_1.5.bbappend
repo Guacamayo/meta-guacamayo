@@ -1,6 +1,6 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/guacamayo:"
 
-PRINC = "1"
+PRINC = "2"
 
 SRC_URI  += "file://fix-storage-dir.patch \
 	     file://settings		  \
