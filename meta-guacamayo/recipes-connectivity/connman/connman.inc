@@ -20,6 +20,8 @@ DEPENDS  = "dbus glib-2.0 ppp iptables gnutls \
             ${@base_contains('DISTRO_FEATURES', '3g','ofono', '', d)} \
             "
 
+INC_PR = "r0"
+
 TIST = "--enable-tist"
 TIST_powerpc = ""
 
@@ -38,20 +40,29 @@ EXTRA_OECONF += "\
     --enable-test \
     --disable-polkit \
     --disable-client \
+    --enable-fake \
 "
-
-inherit autotools pkgconfig update-rc.d useradd
 
 INITSCRIPT_PACKAGES = "${PN}-initd"
 INITSCRIPT_NAME_${PN}-initd = "connman"
 INITSCRIPT_PARAMS_${PN}-initd = "start 05 5 2 3 . stop 22 0 1 6 ."
 UPDATERCPN = "${PN}-initd"
 
+# IMPORTANT: because xuser is shared with rootless X, please make sure the
+# USERADD_PARAM is in sync with the one in xserver-nodm-init.bb
 USERADD_PACKAGES = "${PN}"
 USERADD_PARAM_${PN} = "--system --no-create-home \
                        --shell /bin/false --groups video,tty,audio \
                        --user-group xuser"
 
+inherit autotools pkgconfig update-rc.d useradd
+
+# This allows *everyone* to access ConnMan over DBus, without any access
+# control.  Really the at_console flag should work, which would mean that
+# both this and the xuser patch can be dropped.
+do_compile_append() {
+	sed -i -e s:deny:allow:g src/connman-dbus.conf
+}
 do_install_append() {
 	install -d ${D}${sysconfdir}/init.d
 	install -m 0755 ${WORKDIR}/connman ${D}${sysconfdir}/init.d/connman
@@ -74,6 +85,7 @@ RPROVIDES_${PN} = "\
 	"
 
 RDEPENDS_${PN} = "\
+	dbus \
 	${@base_contains('DISTRO_FEATURES', 'bluetooth', 'bluez4', '', d)} \
 	${@base_contains('DISTRO_FEATURES', 'wifi','wpa-supplicant', '', d)} \
 	${@base_contains('DISTRO_FEATURES', '3g','ofono', '', d)} \
@@ -82,20 +94,19 @@ RDEPENDS_${PN} = "\
 PACKAGES_DYNAMIC = "${PN}-plugin-*"
 
 python populate_packages_prepend() {
-	depmap = dict( pppd="ppp",
-	       	     )
-	packages = []
-	multilib_prefix = (d.getVar("MLPREFIX", True) or "")
-	hook = lambda file,pkg,b,c,d:packages.append((file,pkg))
-	plugin_dir = d.expand('${libdir}/connman/plugins/')
-	plugin_name = d.expand('${PN}-plugin-%s')
-	do_split_packages(d, plugin_dir, '^(.*).so$', plugin_name, '${PN} plugin for %s', extra_depends='', hook=hook )
-	for (file, package) in packages:
-		plugintype = package.split( '-' )[-1]
-		if plugintype in depmap:
-			rdepends = map(lambda x: multilib_prefix + x,  depmap[plugintype].split())
-			bb.note( "Adding rdependency on %s to %s" % ( rdepends, package ) )
-			d.setVar("RDEPENDS_%s" % package, " ".join(rdepends))
+    depmap = dict(pppd="ppp")
+    packages = []
+    multilib_prefix = (d.getVar("MLPREFIX", True) or "")
+    hook = lambda file,pkg,b,c,d:packages.append((file,pkg))
+    plugin_dir = d.expand('${libdir}/connman/plugins/')
+    plugin_name = d.expand('${PN}-plugin-%s')
+    do_split_packages(d, plugin_dir, '^(.*).so$', plugin_name, '${PN} plugin for %s', extra_depends='', hook=hook, prepend=True )
+    for (file, package) in packages:
+        plugintype = package.split( '-' )[-1]
+        if plugintype in depmap:
+            rdepends = map(lambda x: multilib_prefix + x,  depmap[plugintype].split())
+            bb.note( "Adding rdependency on %s to %s" % ( rdepends, package ) )
+            d.setVar("RDEPENDS_%s" % package, " ".join(rdepends))
 }
 
 PACKAGES =+ "${PN}-tools ${PN}-tests ${PN}-initd"
@@ -103,14 +114,12 @@ PACKAGES =+ "${PN}-tools ${PN}-tests ${PN}-initd"
 FILES_${PN}-tools = "${bindir}/wispr"
 
 FILES_${PN}-tests = "${bindir}/*-test ${libdir}/${BPN}/test/*"
-RDEPENDS_${PN}-tests = "python-dbus"
+RDEPENDS_${PN}-tests = "python-dbus python-pygobject python-textutils python-subprocess python-fcntl python-netclient"
 
 FILES_${PN} = "${bindir}/* ${sbindir}/* ${libexecdir}/* ${libdir}/lib*.so.* \
+            ${libdir}/connman/plugins \
             ${sysconfdir} ${sharedstatedir} ${localstatedir} \
             ${base_bindir}/* ${base_sbindir}/* ${base_libdir}/*.so* ${datadir}/${PN} \
-            ${datadir}/pixmaps ${datadir}/applications \
-            ${datadir}/idl ${datadir}/omf ${datadir}/sounds \
-            ${libdir}/bonobo/servers \
             ${datadir}/dbus-1/system-services/*"
 
 FILES_${PN}-initd += "${sysconfdir}/init.d/*"
