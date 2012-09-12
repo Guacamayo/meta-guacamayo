@@ -10,7 +10,7 @@ DEPENDS += "libjson gdbm speex libxml-parser-perl-native"
 
 DEPENDS += "orc orc-native"
 
-PRINC = "11"
+PRINC = "12"
 
 SRC_URI += "file://pulse.conf \
 	    file://config.patch \
@@ -28,10 +28,33 @@ do_install_append() {
 
 FILES_${PN} += "${datadir}/alsa"
 
-RDEPENDS_pulseaudio-server += "pulseaudio-module-switch-on-connect	\
-			       pulseaudio-module-cli			\
-			       pulseaudio-module-cli-protocol-unix	\
-			       pulseaudio-module-mmkbd-evdev		\
-			       pulseaudio-module-volume-restore		\
-			       pulseaudio-module-rescue-streams		\
-			      "
+# From oe-core, minus the ConsoleKit integration as we don't need it
+RDEPENDS_pulseaudio-server = " \
+    pulseaudio-module-filter-apply \
+    pulseaudio-module-filter-heuristics \
+    pulseaudio-module-udev-detect \
+    pulseaudio-module-null-sink \
+    pulseaudio-module-device-restore \
+    pulseaudio-module-stream-restore \
+    pulseaudio-module-card-restore \
+    pulseaudio-module-augment-properties \
+    pulseaudio-module-detect \
+    pulseaudio-module-alsa-sink \
+    pulseaudio-module-alsa-source \
+    pulseaudio-module-alsa-card \
+    pulseaudio-module-native-protocol-unix \
+    pulseaudio-module-default-device-restore \
+    pulseaudio-module-intended-roles \
+    pulseaudio-module-rescue-streams \
+    pulseaudio-module-always-sink \
+    pulseaudio-module-suspend-on-idle \
+    pulseaudio-module-position-event-sounds \
+    pulseaudio-module-role-cork"
+
+RDEPENDS_pulseaudio-server += " \
+    pulseaudio-module-switch-on-connect	\
+    pulseaudio-module-cli \
+    pulseaudio-module-cli-protocol-unix \
+    pulseaudio-module-mmkbd-evdev \
+    pulseaudio-module-volume-restore \
+    pulseaudio-module-rescue-streams"
