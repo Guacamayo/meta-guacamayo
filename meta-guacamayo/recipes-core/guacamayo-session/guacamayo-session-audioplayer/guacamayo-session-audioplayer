@@ -23,6 +23,8 @@ case "$1" in
 
        echo "Starting Rygel"
        /sbin/start-stop-daemon -b -c $USER -S -x /usr/bin/rygel
+
+       /usr/bin/guacamayo-watchdog --keep-alive --debug=all -- guacamayo-cli
   ;;
 
   stop)

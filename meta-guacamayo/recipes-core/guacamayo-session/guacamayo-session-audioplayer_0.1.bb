@@ -3,10 +3,14 @@ LICENSE = "MIT"
 
 LIC_FILES_CHKSUM = "file://${GUACABASE}/meta-guacamayo/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 
-RDEPENDS_${PN} += "sudo pulseaudio-server ${PN}-initd"
+RDEPENDS_${PN} += "sudo pulseaudio-server \
+		   ${PN}-initd		  \
+		   guacamayo-cli	  \
+		   guacamayo-watchdog"
+
 CONFLICTS_${PN} += "guacamayo-session-x11"
 
-PR = "r2"
+PR = "r3"
 
 inherit update-rc.d useradd
 
