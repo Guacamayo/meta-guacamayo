@@ -1,4 +1,4 @@
-require ${GUACABASE}/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc
+require ${COREBASE}/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc
 
 SUMMARY = "library interface to the XKB compiler"
 

@@ -28,7 +28,7 @@ SRC_URI_append_raspberrypi += "file://rpi.patch"
 
 # check for TARGET_FPU=soft and inform configure of the result so it can disable
 # some floating points
-require ${GUACABASE}/meta/recipes-graphics/clutter/clutter-fpu.inc
+require ${COREBASE}/meta/recipes-graphics/clutter/clutter-fpu.inc
 
 BASE_CONF = "--disable-gtk-doc			\
 	     ${@get_clutter_fpu_setting(bb, d)}	\

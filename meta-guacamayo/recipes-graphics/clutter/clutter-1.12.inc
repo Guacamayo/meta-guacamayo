@@ -6,7 +6,7 @@ INCPR = "r0"
 
 # check for TARGET_FPU=soft and inform configure of the result so it can disable
 # some floating points
-require ${GUACABASE}/meta/recipes-graphics/clutter/clutter-fpu.inc
+require ${COREBASE}/meta/recipes-graphics/clutter/clutter-fpu.inc
 
 STDDEPENDS = "gtk-doc-native pango glib-2.0 libxfixes json-glib atk \
 	      udev libxkbcommon cogl-1.12"

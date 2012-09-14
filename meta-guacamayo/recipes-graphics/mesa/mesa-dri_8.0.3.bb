@@ -1,7 +1,7 @@
 
-include ${GUACABASE}/meta/recipes-graphics/mesa/mesa-common.inc
+include ${COREBASE}/meta/recipes-graphics/mesa/mesa-common.inc
 include mesa-8.0.inc
-include ${GUACABASE}/meta/recipes-graphics/mesa/mesa-dri.inc
+include ${COREBASE}/meta/recipes-graphics/mesa/mesa-dri.inc
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 

@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c \
 
 
 SRC_URI = "git://git.gnome.org/clutter-gst;protocol=git;branch=master\
-           file://${GUACABASE}/meta/recipes-graphics/clutter/clutter-gst/enable_tests-1.8.patch"
+           file://${COREBASE}/meta/recipes-graphics/clutter/clutter-gst/enable_tests-1.8.patch"
 
 S = "${WORKDIR}/git"
 
