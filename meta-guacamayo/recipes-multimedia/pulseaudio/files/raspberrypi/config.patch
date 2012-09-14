@@ -1,0 +1,56 @@
+Index: pulseaudio-1.1/src/daemon/default.pa.in
+===================================================================
+--- pulseaudio-1.1.orig/src/daemon/default.pa.in	2011-10-20 14:12:05.000000000 +0100
++++ pulseaudio-1.1/src/daemon/default.pa.in	2012-09-14 12:41:40.441996856 +0100
+@@ -40,6 +40,13 @@
+ load-module module-stream-restore
+ load-module module-card-restore
+ 
++### Automatically load swich on connect module if it is present
++.ifexists module-switch-on-connect@PA_SOEXT@
++.nofail
++load-module module-switch-on-connect
++.fail
++.endif
++
+ ### Automatically augment property information from .desktop files
+ ### stored in /usr/share/application
+ load-module module-augment-properties
+@@ -191,5 +198,5 @@
+ ])dnl
+ 
+ ### Make some devices default
+-#set-default-sink output
++set-default-sink 0
+ #set-default-source input
+Index: pulseaudio-1.1/src/daemon/system.pa.in
+===================================================================
+--- pulseaudio-1.1.orig/src/daemon/system.pa.in	2011-10-20 13:54:16.000000000 +0100
++++ pulseaudio-1.1/src/daemon/system.pa.in	2012-09-14 12:42:58.797591240 +0100
+@@ -69,3 +69,12 @@
+ 
+ ### Enable positioned event sounds
+ load-module module-position-event-sounds
++
++### Automatically load swich on connect module if it is present
++.ifexists module-switch-on-connect@PA_SOEXT@
++.nofail
++load-module module-switch-on-connect
++.fail
++.endif
++
++set-default-sink 0
+Index: pulseaudio-1.1/src/daemon/daemon.conf.in
+===================================================================
+--- pulseaudio-1.1.orig/src/daemon/daemon.conf.in	2011-10-20 13:56:30.000000000 +0100
++++ pulseaudio-1.1/src/daemon/daemon.conf.in	2012-09-08 18:01:49.407279854 +0100
+@@ -54,7 +54,8 @@
+ ; log-time = no
+ ; log-backtrace = 0
+ 
+-; resample-method = speex-float-3
++resample-method = src-sinc-medium-quality
++
+ ; enable-remixing = yes
+ ; enable-lfe-remixing = no
+ 

@@ -2,7 +2,7 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
 DEPENDS += "orc orc-native"
 
-PRINC = "10"
+PRINC = "11"
 
 SRC_URI += "file://pulse.conf \
 	    file://config.patch \
