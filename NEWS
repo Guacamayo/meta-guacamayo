@@ -1,3 +1,29 @@
+Guacamayo 0.4 'Veni Vidi ... More to Come'
+
+ Summary of developments since previous stable release (0.2):
+
+ * MediaExplorer images for Atom devices with Intel graphics,
+ * Audioplayer images support for new HW (RaspberryPi, Beaglebone, Pandaboard),
+ * Automatic clock synchronisation via NTP,
+ * Configurable WiFi, host name and time zone (via MediaExplorer settings on the
+   mex images and console interface on audioplayer images),
+ * Mediaserver images, for, erm, media server appliances.
+
+ Changes since 0.3.1:
+
+ * Automatic clock configuration via NTP,
+ * MediaExplorer plugin for configuration of timezone, hostname and networks,
+ * Console shell for configuration of timezone, hostname and wifi on images
+   without MediaExplorer,
+ * New guacamayo-image-mediaserver image for UPnP media servers,
+ * Fully functional audioplayer images for Raspberry Pi and Beaglebone,
+ * Initial support for Pandaboard (audioserver images only),
+ * Single consolidated guacamayo-image-mex replacing previous -x11 and -egl
+   images,
+ * Improved packaging of Cogl and Clutter,
+ * More documentation under /doc
+
+
 Guacamayo 0.3.1 'Wet Summer' developer snapshot
 
  * Component updates: Rygel 0.15.1, Tracker 0.14.2, Cogl 1.10.4,
