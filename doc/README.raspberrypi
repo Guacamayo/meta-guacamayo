@@ -3,23 +3,41 @@ Supported Images:
 
   * guacamayo-image-audioplayer
 
-The audioplayer image provides a UPnP audio player, with support for USB
-speakers.
+The audioplayer image provides a UPnP audio player, with support for the onboard
+audio output or USB speakers. To use it, you will need a UPnP media server
+attached to the same network and a suitable UPnP controller to control the
+player (e.g., the AndroMote application on an Androi phone). The UPnP media
+renderer provided by the audioplayer image is called 'raspberrypi' and should
+appear in the control application automatically (for changing the renderer name,
+see 'Hostname' below).
 
 
-Speakers
---------
-Both the on board audio and USB speakera are supported (but see Known Issues
-below).
+Making the SD card
+------------------
+The easiest way to create the SD card is to directly write the rpi-sdimg onto
+an sd card, e.g.,
+
+   dd bs=64M if=/<mypath>/tmp/deploy/images/guacamayo-image-audioplayer-raspberrypi.rpi-sdimg of=/dev/<mydevice>
+
+Where <mypath> is the path to the build tmp directory and <mydevice> is the SD
+card device (NB: this needs to be the device, i.e., 'sdc', not a partition,
+i.e., not 'sdc1').
+
+The SD card must have a capacity at least as big as the size of the image; by
+default the images are 1GB in size; unless you enabled the dbg-packages feature,
+the actual filesystem inside the image is much smaller (you can change the image
+size from your local.conf using SDIMG_SIZE, e.g., SDIMG_SIZE="500" for a 500MB
+image).
 
 
 Networking
 ----------
 The Ethernet connection should work out of the box, and there is a console shell
 running on the device which provides a 'wifi' command to connect to a wifi
-(obviously, you need a monitor and keyboard attached). Alternatively, when
-debug-tweaks feature has been enabled, you can start the guacamayo shell in a
-ssh session using the command 'guacamayo-cli'.
+(obviously, you need a monitor and keyboard attached to set this up the first
+time; NB: the monitor has to be connected *before* you power the board up). When
+debug-tweaks feature has been enabled, you can also start the guacamayo shell in
+a ssh session using the command 'guacamayo-cli'.
 
 
 Hostname
@@ -27,19 +45,13 @@ Hostname
 The default hostname is 'raspberrypi', and the device should be accessible
 on the network as 'raspberrypi.local'. The host name also serves as the
 media renderer identifier. To change the hostname, you can use the guacamayo
-console shell.
+console shell mentioned in the Networking section above.
 
 
 Known Issues
 ------------
 
-  * If USB speakers are plugged in at boot time, sound will end up going to
-    the built-in sound card instead; unplugging and repplugging the speakers
-    fixes this (this issue is down to the USB driver being loaded before the
-    driver for the built in audio, and the active sink being switched in
-    response to that by the PulseAudio switch-on-connect module).
-
-  * If wifi dongle is present at boot time, it can take a while (in the order
-    of 5 minutes) before networking connection is established; replugging the
+  * If wifi dongle is present at boot time it can take a while (in the order of
+    5 minutes or so) before networking connection is established; replugging the
     dongle fixes this. (There appears to be race condition between connman and
     dongle driver during boot.)
