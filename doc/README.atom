@@ -8,3 +8,10 @@ Supported Images:
   * guacamayo-image-audioplayer,
   * guacamayo-image-mex, with Mex under X11.
 
+Known Issues:
+
+  * When a NAS device with large amount of media is encountered for the first
+    time, the indexing of the files by tracker-upnp results in a high CPU load,
+    making the system sluggish; this can also interfer with indexing files on
+    the image itself (e.g., when demos are included). A work around is to wait
+    for the indexing to finish and reboot the device.
