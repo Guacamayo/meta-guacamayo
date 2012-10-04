@@ -28,7 +28,7 @@ PACKAGE_GROUP_guacamayo-demos-audio      = "task-guacamayo-demos-audio"
 PACKAGE_GROUP_guacamayo-demos-video      = "task-guacamayo-demos-video"
 
 # The core bits of Guacamayo
-IMAGE_FEATURES =+ "apps-console-core ssh-server-dropbear guacamayo-core"
+IMAGE_FEATURES =+ "splash ssh-server-dropbear guacamayo-core"
 
 # Configurable Guacamayo features
 IMAGE_FEATURES =+ "${GUACAMAYO_FEATURES}"
