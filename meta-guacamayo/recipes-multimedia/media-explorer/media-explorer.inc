@@ -10,7 +10,7 @@ inherit autotools gettext gtk-doc
 SRC_URI = "http://github.com/downloads/media-explorer/media-explorer/${BPN}-${PV}.tar.xz\
 	   file://0001-mex-lirc-remove-dependency-on-ClutterX11.patch"
 
-INCPR = "r8"
+INCPR = "r9"
 
 # Cheating, disabling web remote as it needs tracker-sparql-0.10 avahi-glib avahi-client
 # Also disable debug buddy as it needs libunwind

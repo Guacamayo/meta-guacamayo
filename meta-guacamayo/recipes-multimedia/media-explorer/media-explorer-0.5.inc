@@ -9,8 +9,7 @@ do_install_append() {
     rm ${D}${libdir}/media-explorer/plugins/*.la
 
     # Remove unused empty directories
-    rmdir ${D}${datadir}/media-explorer/plugins/*
-    rmdir ${D}${datadir}/media-explorer/plugins
+    rm -rf ${D}${datadir}/media-explorer/plugins
 }
 
 
