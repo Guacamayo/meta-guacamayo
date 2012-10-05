@@ -66,3 +66,11 @@ CONFFILES_${PN}-pvrini-dri = "${sysconfdir}/powervr.ini"
 CONFFILES_${PN}-pvrini-x11 = "${sysconfdir}/powervr.ini"
 
 FILES_${PN}-staticdev += "${libdir}/ES*/*.a"
+
+# The Ti recipe prepends these to PACKAGES, but does not take care of not
+# including the static dev libs
+FILES_${PN}-es2 = "${libdir}/ES2*/*.so* ${bindir}/ES2*/*"
+FILES_${PN}-es3 = "${libdir}/ES3*/*.so* ${bindir}/ES3*/*"
+FILES_${PN}-es5 = "${libdir}/ES5*/*.so* ${bindir}/ES5*/*"
+FILES_${PN}-es6 = "${libdir}/ES6*/*.so* ${bindir}/ES6*/*"
+FILES_${PN}-es8 = "${libdir}/ES8*/*.so* ${bindir}/ES8*/*"
