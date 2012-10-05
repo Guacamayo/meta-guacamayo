@@ -2,7 +2,7 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
 
 SRC_URI += "file://etc"
 
-PRINC = "7"
+PRINC = "8"
 
 PROVIDES += "virtual/libgles2"
 RPROVIDES += "libgles libgles2"
@@ -43,7 +43,7 @@ def fixup_ini(name, oldfile, d):
     src = os.path.join(thepkgsys, oldfile)
     dst = os.path.join(thepkgsys, 'powervr.ini')
     bb.note("moving %s -> %s" % (src,dst))
-    os.rename(src,dst);
+    bb.utils.copyfile(src,dst)
     return 0
 
 python populate_packages_append () {
