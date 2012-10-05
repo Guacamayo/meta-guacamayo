@@ -16,5 +16,8 @@ SRC_URI = "git://github.com/Guacamayo/guacamayo-mex-plugins.git;protocol=git"
 
 S = "${WORKDIR}/git"
 
-PR = "r3"
+PR = "r4"
 
+do_install_append() {
+    rm ${D}${libdir}/media-explorer/plugins/*.la
+}
