@@ -2,7 +2,7 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
 
 SRC_URI += "file://etc"
 
-PRINC = "8"
+PRINC = "9"
 
 PROVIDES += "virtual/libgles2"
 RPROVIDES += "libgles libgles2"
@@ -64,3 +64,5 @@ RDEPENDS_${PN}-pvrini-x11 += "libgles-omap3-x11wsegl"
 CONFFILES_${PN}-pvrini-native = "${sysconfdir}/powervr.ini"
 CONFFILES_${PN}-pvrini-dri = "${sysconfdir}/powervr.ini"
 CONFFILES_${PN}-pvrini-x11 = "${sysconfdir}/powervr.ini"
+
+FILES_${PN}-staticdev += "${libdir}/ES*/*.a"
