@@ -3,9 +3,9 @@ DESCRIPTION = "GUPnP DLNA is a small utility library that aims to ease the DLNA-
 LICENSE = "LGPLv2"
 LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c \
                     "
-DEPENDS = "gupnp"
+DEPENDS = "gupnp gst-plugins-base"
 
-PR = "r1"
+PR = "r2"
 
 inherit autotools pkgconfig gnome
 
