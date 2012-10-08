@@ -11,7 +11,7 @@
 #  d) DRI/libdrm also have X11 deps, though we have lost that battle
 #     already
 
-include mesa-dri_${PV}.bb
+require ${COREBASE}/meta/recipes-graphics/mesa/mesa-dri_${PV}.bb
 
 PR_append = ".1"
 
