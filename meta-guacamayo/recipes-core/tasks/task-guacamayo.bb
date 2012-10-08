@@ -3,7 +3,7 @@ LICENSE = "MIT"
 
 LIC_FILES_CHKSUM = "file://${COREBASE}/meta-guacamayo/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 
-PR = "r33"
+PR = "r34"
 
 PACKAGES="\
 	task-guacamayo			\
@@ -140,7 +140,6 @@ RDEPENDS_task-guacamayo-core = "			\
 			     "
 
 RDEPENDS_task-guacamayo-core_append_beagleboard = "gstreamer-ti"
-RDEPENDS_task-guacamayo-core_append_raspberrypi = "rpi-zram-service-initd"
 
 RDEPENDS_task-guacamayo-renderer = " \
 			     ${GUACA_PA_CORE} \
