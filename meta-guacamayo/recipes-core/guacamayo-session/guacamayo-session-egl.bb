@@ -9,7 +9,7 @@ CONFLICTS_${PN} += "guacamayo-session-x11		\
 		    guacamayo-session-mediaserver	\
                    "
 
-PR = "r10"
+PR = "r11"
 
 inherit update-rc.d useradd
 

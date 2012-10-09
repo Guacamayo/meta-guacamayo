@@ -22,7 +22,9 @@ case "$1" in
        chmod g+rw /dev/vchiq
 
        export CLUTTER_INPUT_BACKEND=evdev
-
+       # the g_slice allocator crashes on the RPi, malloc does not
+       # though the device is really memory starved
+       export G_SLICE=always-malloc
        # dump the environment for debugging purposes
        export > $HOME/.environment
 
