@@ -1,5 +1,5 @@
-# the 1.11.2 tag
-SRCREV = "c1d2298e30d515347c5e3f7b29c296280f80226b"
+# the 1.12 tag
+SRCREV = "29c3dbce5a89994f07a0468c485165c224ae8f86"
 PV = "1.11.2+git${SRCPV}"
 INCPR_append = ".0"
 
