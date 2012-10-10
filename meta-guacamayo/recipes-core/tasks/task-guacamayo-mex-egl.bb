@@ -3,7 +3,7 @@ LICENSE = "MIT"
 
 LIC_FILES_CHKSUM = "file://${COREBASE}/meta-guacamayo/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 
-PR = "r7"
+PR = "r8"
 
 DEPENDS += "alsa-plugins"
 
@@ -33,7 +33,7 @@ RDEPENDS_task-guacamayo-mex-egl_append_beagleboard = " \
 					   libgles-omap3-pvrini-native"
 
 RDEPENDS_task-guacamayo-mex-egl-tests = "			\
-				 clutter-1.10-examples		\
-				 cogl-1.10-examples		\
+				 clutter-1.12-examples		\
+				 cogl-1.12-examples		\
 				 clutter-gst-1.10-examples	\
 				 "

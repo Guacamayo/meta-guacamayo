@@ -3,7 +3,7 @@ LICENSE = "MIT"
 
 LIC_FILES_CHKSUM = "file://${COREBASE}/meta-guacamayo/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 
-PR = "r22"
+PR = "r23"
 
 PACKAGES="\
 	task-guacamayo-mex-x11		\
@@ -78,8 +78,8 @@ RDEPENDS_task-guacamayo-mex-x11_append_beagleboard = " \
 					   libgles-omap3-pvrini-dri"
 
 RDEPENDS_task-guacamayo-mex-x11-tests = "			\
-				 clutter-1.10-examples		\
+				 clutter-1.12-examples		\
 				 clutter-gst-1.10-examples	\
-				 cogl-1.10-examples		\
+				 cogl-1.12-examples		\
 				 mesa-demos			\
 				 "
