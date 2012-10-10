@@ -2,12 +2,12 @@ DESCRIPTION = "Clutter GStreamer"
 HOMEPAGE = "http://www.clutter-project.org/"
 LICENSE = "LGPLv2+"
 
-INCPR = "r0"
+INCPR = "r1"
 
 PACKAGES  =+ "${PN}-examples"
 CONFLICTS += "clutter-gst-1.8"
 
-DEPENDS     = "gst-plugins-base gst-plugins-bad clutter-1.10"
+DEPENDS     = "gst-plugins-base gst-plugins-bad clutter-1.12"
 RDEPENDS_${PN} += "gst-meta-base"
 
 FILESPATH = "${FILE_DIRNAME}/clutter-gst"
