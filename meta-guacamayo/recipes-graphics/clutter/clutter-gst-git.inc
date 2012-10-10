@@ -1,5 +1,5 @@
 
-SRCREV = "6de0ef28283623064b95c2f6280ec348456bb6f6"
+SRCREV = "c7adcda3fb4dd06e6570d1f42ee3ec08eb39d52a"
 PV = "1.6.0+git${SRCPV}"
 INCPR_append = ".0"
 
