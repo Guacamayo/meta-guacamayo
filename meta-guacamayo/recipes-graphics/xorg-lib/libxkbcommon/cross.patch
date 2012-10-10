@@ -1,13 +1,14 @@
 Upstream-Status: Inappropriate
-Signed-off-by: Phil Blundell <philb at gnu.org>
+Signed-off-by: Tomas Frydrych <tomas@sleepfive.com>
+Updated from patch by Phil Blundell <philb at gnu.org>
 
-Use makekeys from -native package rather than trying to compile it here, and fix up
-configure logic to find keysymdef.h in the sysroot.
+Use makekeys from -native package rather than trying to compile it here, and 
+fix up configure logic to find keysymdef.h in the sysroot.
 
 Index: git/Makefile.am
 ===================================================================
---- git.orig/Makefile.am	2012-05-24 07:13:08.989558521 +0100
-+++ git/Makefile.am	2012-05-24 07:13:09.261557338 +0100
+--- git.orig/Makefile.am	2012-10-10 10:27:51.935448294 +0100
++++ git/Makefile.am	2012-10-10 10:27:52.227447093 +0100
 @@ -1,5 +1,5 @@
  # Order: makekeys before src
 -SUBDIRS = include makekeys src test
@@ -17,8 +18,8 @@ Index: git/Makefile.am
  pkgconfig_DATA = xkbcommon.pc
 Index: git/configure.ac
 ===================================================================
---- git.orig/configure.ac	2012-05-24 07:13:08.989558521 +0100
-+++ git/configure.ac	2012-05-24 07:13:09.261557338 +0100
+--- git.orig/configure.ac	2012-10-10 10:27:51.939448276 +0100
++++ git/configure.ac	2012-10-10 10:27:52.227447093 +0100
 @@ -74,7 +74,8 @@
  
  # Obtain the path to the X Window System Core Protocol
@@ -28,11 +29,11 @@ Index: git/configure.ac
 +includex11dir="$PKG_CONFIG_SYSROOT_DIR`$PKG_CONFIG --variable=includex11dir xproto`"
  AC_MSG_RESULT([$includex11dir])
  
- # Obtain full path for keysymdef header file
+ AC_MSG_CHECKING([keysym definitions])
 Index: git/src/Makefile.am
 ===================================================================
---- git.orig/src/Makefile.am	2012-05-24 07:13:08.993558503 +0100
-+++ git/src/Makefile.am	2012-05-24 07:16:16.860681455 +0100
+--- git.orig/src/Makefile.am	2012-10-10 10:27:51.939448276 +0100
++++ git/src/Makefile.am	2012-10-10 10:27:52.227447093 +0100
 @@ -7,6 +7,7 @@
  libxkbcommon_la_LIBADD = xkbcomp/libxkbcomp.la
  libxkbcommon_la_LDFLAGS = -no-undefined
@@ -41,11 +42,11 @@ Index: git/src/Makefile.am
  	XKBcommonint.h \
  	alloc.c \
  	atom.c \
-@@ -26,5 +27,5 @@
+@@ -25,5 +26,5 @@
  BUILT_SOURCES = ks_tables.h
  CLEANFILES = $(BUILT_SOURCES)
  
--ks_tables.h: $(top_builddir)/makekeys/makekeys$(EXEEXT) $(KEYSYMDEF_H) $(XF86KEYSYM_H)
--	$(AM_V_GEN)cat $(KEYSYMDEF_H) $(XF86KEYSYM_H) | $(top_builddir)/makekeys/makekeys$(EXEEXT) > $@
-+ks_tables.h: $(KEYSYMDEF_H) $(XF86KEYSYM_H)
-+	$(AM_V_GEN)cat $(KEYSYMDEF_H) $(XF86KEYSYM_H) | libxkbcommon-makekeys$(EXEEXT) > $@
+-ks_tables.h: $(KEYSYMDEFS) $(top_builddir)/makekeys/makekeys$(EXEEXT)
+-	$(top_builddir)/makekeys/makekeys $(KEYSYMDEFS) > $@
++ks_tables.h: $(KEYSYMDEFS)
++	 libxkbcommon-makekeys$(EXEEXT) $(KEYSYMDEFS) > $@
