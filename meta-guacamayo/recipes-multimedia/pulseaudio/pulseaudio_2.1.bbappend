@@ -10,7 +10,7 @@ DEPENDS += "libjson gdbm speex libxml-parser-perl-native"
 
 DEPENDS += "orc orc-native"
 
-PRINC = "12"
+PRINC = "13"
 
 SRC_URI += "file://pulse.conf \
 	    file://config.patch \
@@ -53,6 +53,7 @@ RDEPENDS_pulseaudio-server = " \
 
 RDEPENDS_pulseaudio-server += " \
     pulseaudio-module-switch-on-connect	\
+    pulseaudio-module-switch-on-port-available	\
     pulseaudio-module-cli \
     pulseaudio-module-cli-protocol-unix \
     pulseaudio-module-mmkbd-evdev \
