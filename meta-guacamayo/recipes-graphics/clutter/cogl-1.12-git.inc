@@ -1,5 +1,5 @@
 SRCREV = "cb834c95e98e02a249a9cc6ad74f5d24e9e65edf"
-PV = "1.11.5+git${SRCPV}"
+PV = "1.12.0"
 INCPR_append = ".0"
 
 LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
