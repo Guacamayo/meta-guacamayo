@@ -5,11 +5,14 @@ HOMEPAGE = "http://www.lirc.org"
 LICENSE = "GPLv2"
 DEPENDS = "virtual/kernel setserial"
 
-PR = "${INCPR}.0"
+PR = "${INCPR}.1"
 
 inherit autotools module
 
 require lirc-config.inc
+
+# Patch needed for 3.4 kernels, at the moment that's just linux-yocto
+SRC_URI_append_x86 = " file://fix-for-3.4.patch"
 
 MAKE_TARGETS = "KERNEL_PATH=${STAGING_KERNEL_DIR} MAKE='make V=1' -C drivers"
 
