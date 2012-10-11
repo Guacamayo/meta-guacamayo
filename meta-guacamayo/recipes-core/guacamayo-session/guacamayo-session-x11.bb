@@ -10,7 +10,7 @@ CONFLICTS_${PN} += "guacamayo-session-egl		\
 		    guacamayo-session-mediaserver	\
 		   "
 
-PR = "r9"
+PR = "r10"
 
 inherit useradd
 

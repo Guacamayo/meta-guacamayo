@@ -35,4 +35,6 @@ for SESSIONFILE in $SYSSESSIONDIR/*; do
     set -e
 done
 
+wait
+
 exit 0
