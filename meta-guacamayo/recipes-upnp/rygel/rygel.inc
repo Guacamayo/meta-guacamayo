@@ -19,4 +19,3 @@ PACKAGES_DYNAMIC = "${PN}-*"
 HOMEPAGE = "http://live.gnome.org/Rygel"
 
 FILES_${PN} += "${datadir}/dbus-1/"
-FILES_${PN}-dbg += "${libdir}/rygel-1.0/.debug/"

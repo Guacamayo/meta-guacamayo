@@ -1,12 +1,16 @@
+INC_PR_append = ".1"
+
 LIBV = "1.0"
 
 python populate_packages_prepend () {
     rygel_libdir = d.expand('${libdir}/rygel-${LIBV}')
+    rygel_dbgdir = d.expand('${libdir}/rygel-${LIBV}/.debug')
     postinst = d.getVar('plugin_postinst', True)
 
     do_split_packages(d, rygel_libdir, 'librygel(.*)\.so$', d.expand('${PN}-plugin%s'), 'Rygel plugin for %s', postinst=postinst, extra_depends=d.expand('${PN}'))
     do_split_packages(d, rygel_libdir, 'librygel(.*)\.la$', d.expand('${PN}-plugin%s-dev'), 'Rygel plugin for %s (development files)', extra_depends=d.expand('${PN}-dev'))
     do_split_packages(d, rygel_libdir, 'librygel(.*)\.a$', d.expand('${PN}-plugin%s-staticdev'), 'Rygel plugin for %s (static development files)', extra_depends=d.expand('${PN}-staticdev'))
+    do_split_packages(d, rygel_dbgdir, 'librygel(.*)\.so$', d.expand('${PN}-plugin%s-dbg'), 'Rygel plugin for %s (debugging symbols)', extra_depends=d.expand('${PN}-dbg'))
 
     pn = d.getVar('PN', True)
     metapkg =  pn + '-meta'
