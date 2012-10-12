@@ -1,13 +1,15 @@
-Index: git/cogl/cogl-internal.h
+Index: git/cogl/cogl-gles2.h
 ===================================================================
---- git.orig/cogl/cogl-internal.h	2012-04-26 09:23:49.000000000 +0100
-+++ git/cogl/cogl-internal.h	2012-04-26 09:24:56.128280074 +0100
-@@ -30,6 +30,8 @@
- #include <X11/Xutil.h>
- #endif
+--- git.orig/cogl/cogl-gles2.h	2012-10-12 07:27:04.001561125 +0100
++++ git/cogl/cogl-gles2.h	2012-10-12 07:39:49.334035012 +0100
+@@ -29,6 +29,10 @@
+ #ifndef __COGL_GLES2_H__
+ #define __COGL_GLES2_H__
  
 +typedef char GLchar;
++#define GL_BGR_EXT  0x80E0
++#define GL_BGRA_EXT 0x80E1
 +
- #ifdef COGL_GL_DEBUG
- 
- const char *
+ #define __COGL_H_INSIDE__
+ #include <cogl/cogl-defines.h>
+ #include <cogl/cogl-context.h>
