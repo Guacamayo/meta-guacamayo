@@ -19,9 +19,9 @@ SRC_URI[sha256sum] = "eb80e8dc38c389728bfca1f041af7658e7dd67faca8c763de02d5014ff
 SECTION = "x11/libs"
 DEPENDS = "intltool-native xkbcomp-native glib-2.0"
 
-PR = "r2"
+PR = "r3"
 
-EXTRA_OECONF = "--with-xkb-rules-symlink=evdev"
+EXTRA_OECONF = "--with-xkb-rules-symlink=evdev --disable-runtime-deps"
 
 FILES_${PN} += "${datadir}/X11/xkb"
 
