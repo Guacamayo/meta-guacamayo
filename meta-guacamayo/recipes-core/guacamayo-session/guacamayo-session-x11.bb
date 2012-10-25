@@ -2,7 +2,7 @@ DESCRIPTION="X11 session"
 # The session scripts come from x11-common, which is GPLv2
 LICENSE = "GPLv2"
 
-LIC_FILES_CHKSUM = "file://${COREBASE}/meta-guacamayo/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+LIC_FILES_CHKSUM = "file://${THISDIR}/../../COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 
 RDEPENDS_${PN} += "${PN}-x11"
 CONFLICTS_${PN} += "guacamayo-session-egl		\

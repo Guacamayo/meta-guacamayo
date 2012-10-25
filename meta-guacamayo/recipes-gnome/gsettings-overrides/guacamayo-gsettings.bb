@@ -1,6 +1,6 @@
 DESCRIPTION = "Guacamayo overrides for gsettings"
 LICENSE = "MIT"
-LIC_FILES_CHKSUM = "file://${COREBASE}/meta-guacamayo/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+LIC_FILES_CHKSUM = "file://${THISDIR}/../../COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 
 PR = "r2"
 
