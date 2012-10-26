@@ -5,7 +5,7 @@ DEPENDS = "file gstreamer gamin dbus libexif gettext gmime sqlite3 icu"
 RDEPENDS_${PN} += " gvfs"
 HOMEPAGE = "http://projects.gnome.org/tracker/"
 
-PR = "r5"
+PR = "r6"
 
 inherit autotools pkgconfig gnome gettext gsettings
 
@@ -18,6 +18,10 @@ SRC_URI = "http://ftp.gnome.org/pub/GNOME/sources/tracker/${VER_DIR}/tracker-${P
 "
 
 EXTRA_OECONF += " tracker_cv_have_ioprio=yes --disable-introspection"
+
+# Disable the desktop-centric miners
+EXTRA_OECONF += "--disable-miner-thunderbird --disable-miner-firefox \
+                 --disable-miner-evolution --disable-miner-flickr"
 
 LEAD_SONAME = "libtrackerclient.so.0"
 
