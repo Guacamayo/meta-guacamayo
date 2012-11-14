@@ -10,7 +10,7 @@ DEPENDS += "libjson gdbm speex libxml-parser-perl-native"
 
 DEPENDS += "orc orc-native"
 
-PRINC = "13"
+PRINC = "14"
 
 SRC_URI += "file://pulse.conf \
 	    file://config.patch \
@@ -20,7 +20,7 @@ SRC_URI += "file://pulse.conf \
 EXTRA_OECONF += "--enable-orc"
 
 do_install_append() {
-    rm ${D}${sysconfdir}/xdg/autostart/pulseaudio-kde.desktop
+    rm -f ${D}${sysconfdir}/xdg/autostart/pulseaudio-kde.desktop
     install -d ${D}${datadir}/alsa/alsa.conf.d
     install -m 0755 ${WORKDIR}/pulse.conf ${D}${datadir}/alsa/alsa.conf.d/
 
