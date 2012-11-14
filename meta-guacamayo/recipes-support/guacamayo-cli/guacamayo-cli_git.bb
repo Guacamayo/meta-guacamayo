@@ -4,6 +4,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=ee31012bf90e7b8c108c69f197f3e3a4"
 DEPENDS = "glib-2.0 guacamayo-headers readline"
 HOMEPAGE = "http://guacamayo-project.org"
 
+SRCREV ?= "c4e8c1605062633ecb8710a01724dd2953f47776"
 PR = "r0"
 PV = "0.0+git${SRCPV}"
 

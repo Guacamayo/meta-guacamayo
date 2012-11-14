@@ -5,6 +5,8 @@ DEPENDS = "glib-2.0 libxrandr"
 HOMEPAGE = "http://github.com/Guacamayo/"
 
 PR = "r1"
+
+SRCREV ?= "90d51832a8a9ed65ecf8a9316098d22bc4fdd860"
 PV = "0.0+git${SRCPV}"
 
 PACKAGES =+ "${PN}-autostart"

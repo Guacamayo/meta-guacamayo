@@ -5,6 +5,8 @@ DEPENDS = "glib-2.0"
 HOMEPAGE = "http://github.com/Guacamayo/"
 
 PR = "r1"
+
+SRCREV ?= "4ee5003490aecf4e3554a5facee709b273150390"
 PV = "0.0+git${SRCPV}"
 
 PACKAGES =+ "${PN}-autostart"
