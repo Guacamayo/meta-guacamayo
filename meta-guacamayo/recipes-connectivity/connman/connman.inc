@@ -20,7 +20,7 @@ DEPENDS  = "dbus glib-2.0 ppp iptables gnutls \
             ${@base_contains('DISTRO_FEATURES', '3g','ofono', '', d)} \
             "
 
-INC_PR = "r0"
+INC_PR = "r1"
 
 TIST = "--enable-tist"
 TIST_powerpc = ""
@@ -70,6 +70,9 @@ do_install_append() {
 	install -d ${D}${bindir}
 	install -m 0755 ${S}/tools/*-test ${D}${bindir}
 	install -m 0755 ${S}/tools/wispr ${D}${bindir}
+
+	# Create an empty dir for the plugins to avoid packaging errors
+	install -d ${D}${libdir}/connman/plugins
 
 	# We don't need to package an empty directory
 	rmdir ${D}${libdir}/connman/scripts
