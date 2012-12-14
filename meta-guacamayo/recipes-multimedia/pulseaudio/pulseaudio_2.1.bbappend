@@ -1,3 +1,5 @@
+DEFAULT_PREFERENCE = "-1"
+
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
 # Depends from upstream, remove consolekit removed
