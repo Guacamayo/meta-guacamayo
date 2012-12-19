@@ -1,3 +1,5 @@
+INCPR = "r2"
+
 DESCRIPTION = "Pulseaudio is a sound server for Linux and Unix-like operating systems."
 HOMEPAGE = "http://www.pulseaudio.org"
 AUTHOR = "Lennart Poettering"
@@ -20,16 +22,13 @@ SRC_URI = "http://freedesktop.org/software/pulseaudio/releases/pulseaudio-${PV}.
 inherit autotools pkgconfig useradd
 
 EXTRA_OECONF = "\
-		--disable-lynx \
 		${@base_contains('DISTRO_FEATURES', 'bluetooth', '--enable-bluez', '--disable-bluez', d)} \
-		--disable-polkit \
-		${@base_contains('DISTRO_FEATURES', 'x11', '--with-x', '--without-x', d)} \
-		--without-jack \
-		--with-glib \
-		--with-alsa \
-		--with-oss \
-		--without-hal \
-		--disable-hal \
+		${@base_contains('DISTRO_FEATURES', 'x11', '--enable-x11', '--disable-x11', d)} \
+		--disable-jack \
+		--enable-glib2 \
+		--enable-alsa \
+		--enable-oss-output \
+		--disable-hal-compat \
 		--disable-orc \
 		--with-access-group=audio \
 "

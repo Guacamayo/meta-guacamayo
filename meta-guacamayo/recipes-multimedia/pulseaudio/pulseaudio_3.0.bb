@@ -1,6 +1,6 @@
 require pulseaudio-3.0.inc
 
-PR = "r0"
+PR = "${INCPR}.0"
 
 DEPENDS += "libjson gdbm speex libxml-parser-perl-native"
 
