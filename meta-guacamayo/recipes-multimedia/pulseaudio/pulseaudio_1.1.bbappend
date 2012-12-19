@@ -1,3 +1,5 @@
+DEFAULT_PREFERENCE = "10"
+
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
 DEPENDS += "orc orc-native"
