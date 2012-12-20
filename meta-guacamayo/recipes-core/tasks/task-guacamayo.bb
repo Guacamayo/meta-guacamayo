@@ -3,7 +3,7 @@ LICENSE = "MIT"
 
 LIC_FILES_CHKSUM = "file://${THISDIR}/../../COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 
-PR = "r34"
+PR = "r35"
 
 PACKAGES="\
 	task-guacamayo			\
@@ -106,6 +106,7 @@ GUACA_PA_CORE = "pulseaudio \
 		 libasound-module-conf-pulse \
 		 libasound-module-ctl-pulse \
 		 libasound-module-pcm-pulse \
+		 pulseaudio-misc \
 		"
 
 GUACA_DEVTOOLS += "pulseaudio-misc \
