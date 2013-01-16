@@ -12,6 +12,7 @@ case "$1" in
   start)
        . /etc/profile
        ensurehome
+       cleanupdbus
        setupdbus
 
        echo "Starting Rygel"

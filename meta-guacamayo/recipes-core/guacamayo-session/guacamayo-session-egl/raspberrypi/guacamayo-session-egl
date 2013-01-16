@@ -13,6 +13,7 @@ case "$1" in
   start)
        . /etc/profile
        ensurehome
+       cleanupdbus
        setupdbus
 
        chown $USER /dev/tty[01234567]

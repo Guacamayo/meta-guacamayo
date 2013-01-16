@@ -9,7 +9,12 @@ killrygel() {
 
 killdbus() {
     echo "Stopping session DBus"
-    [ -f $DBUSINFO ] && source $DBUSINFO && [ "$DBUS_SESSION_BUS_PID" != "" ] && kill $DBUS_SESSION_BUS_PID && rm $DBUSINFO
+    [ -f $DBUSINFO ] && source $DBUSINFO && [ "$DBUS_SESSION_BUS_PID" != "" ] && kill $DBUS_SESSION_BUS_PID
+    rm -rf $DBUSINFO
+}
+
+cleanupdbus() {
+ rm  -rf $DBUSINFO
 }
 
 killpulse() {
