@@ -1,5 +1,5 @@
 [org.freedesktop.Tracker.Miner.Files]
-index-removable-devices=true
+index-removable-devices=false
 index-recursive-directories=[ '&DESKTOP', '&DOCUMENTS', '&DOWNLOAD', '&MUSIC', '&PICTURES', '&VIDEOS', '/usr/share/demos' ]
 
 [org.media-explorer.Shell]
