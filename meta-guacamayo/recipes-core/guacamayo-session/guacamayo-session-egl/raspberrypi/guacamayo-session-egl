@@ -5,6 +5,7 @@
 ### END INIT INFO
 
 USER=rygel
+XDGAUTOSTART=/etc/xdg/autostart
 
 . /etc/guacamayo-session-common
 
