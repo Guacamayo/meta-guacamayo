@@ -12,6 +12,20 @@ appear in the control application automatically (for changing the renderer name,
 see 'Hostname' below).
 
 
+Experimental (model B only):
+
+  * guacamayo-image-mex
+
+Video playback does not work, but audio and slide show does.  The images are
+setup for 256/256MB memory split between GPU/CPU and overclocked to 1GHz; if you
+do not like this, you should override the appropriate variables in your
+local.conf (see guacamayo-image-mex.bb). Audioplayback from MEX is choppy,
+usually when tracker is doing something.
+
+If you add the Guacamayou demo packages, or any other media files anywhere on
+the SD card, you will need to index them manually.
+
+
 Making the SD card
 ------------------
 The easiest way to create the SD card is to directly write the rpi-sdimg onto
