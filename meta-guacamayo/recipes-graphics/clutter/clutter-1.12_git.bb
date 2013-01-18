@@ -1,7 +1,9 @@
 require clutter-1.12.inc
 require clutter-1.12-git.inc
 
-PR = "${INCPR}.0"
+PR = "${INCPR}.1"
+
+SRC_URI += "file://fix-navkeys.patch"
 
 DEPENDS = "${STDDEPENDS} ${STDDEPENDS_GLX}"
 RDEPENDS = "${STDRDEPENDS} ${STDRDEPENDS_GLX}"

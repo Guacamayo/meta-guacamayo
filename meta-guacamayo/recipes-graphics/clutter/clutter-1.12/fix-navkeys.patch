@@ -1,0 +1,41 @@
+# This is a gross hack, but the clutter libxkbcommon keycode to keysym 
+# translation only works for keys that have ASCII representation; for now
+# shortcircuit processing for navigation and core multimedia keys to make
+# the evdev backend usable. Proper fix is needed.
+Index: git/clutter/evdev/clutter-xkb-utils.c
+===================================================================
+--- git.orig/clutter/evdev/clutter-xkb-utils.c	2013-01-18 15:02:49.266067999 +0000
++++ git/clutter/evdev/clutter-xkb-utils.c	2013-01-18 15:19:19.697601429 +0000
+@@ -113,6 +113,24 @@
+   else
+     event = clutter_event_new (CLUTTER_KEY_RELEASE);
+ 
++  switch (key)
++    {
++    case 105: sym = 0xff51; break;
++    case 106: sym = 0xff53; break;
++    case 103: sym = 0xff52; break;
++    case 108: sym = 0xff54; break;
++    case 104: sym = 0xff55; break;
++    case 109: sym = 0xff56; break;
++    case 114: sym = 0x1008FF11; break;
++    case 115: sym = 0x1008FF13; break;
++    case 113: sym = 0x1008FF12; break;
++    case 166: sym = 0x1008FF15; break;
++    case 164: sym = 0x1008FF14; break;
++    case 163: sym = 0x1008FF17; break;
++    case 165: sym = 0x1008FF16; break;
++    case 116: sym = 0x1008FF21; break;
++
++    default:
+   code = key + xkb->min_key_code;
+   level = 0;
+ 
+@@ -125,6 +143,7 @@
+     *modifier_state |= xkb->map->modmap[code];
+   else
+     *modifier_state &= ~xkb->map->modmap[code];
++    }
+ 
+   event->key.device = device;
+   event->key.stage = stage;
