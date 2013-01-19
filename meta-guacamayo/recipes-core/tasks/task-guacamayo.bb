@@ -3,7 +3,7 @@ LICENSE = "MIT"
 
 LIC_FILES_CHKSUM = "file://${THISDIR}/../../COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 
-PR = "r37"
+PR = "r38"
 
 PACKAGES="\
 	task-guacamayo			\
@@ -142,7 +142,7 @@ RDEPENDS_task-guacamayo-core = "			\
 			     "
 
 RDEPENDS_task-guacamayo-core_append_beagleboard = "gstreamer-ti"
-RDEPENDS_task-guacamayo-core_append_raspberrypi = "gst-omx"
+RDEPENDS_task-guacamayo-core_append_raspberrypi = "${@base_contains('DISTRO_FEATURES', 'openmax', 'gst-omx', '', d)}"
 
 RDEPENDS_task-guacamayo-renderer = " \
 			     ${GUACA_PA_CORE} \
