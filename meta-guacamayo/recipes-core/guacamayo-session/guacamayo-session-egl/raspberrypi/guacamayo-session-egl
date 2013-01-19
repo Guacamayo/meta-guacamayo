@@ -18,6 +18,12 @@ case "$1" in
 
        chown $USER /dev/tty[01234567]
 
+       # There is no button on the RPi, and shutting down by pulling the
+       # plug is nasty on the SD card, so permit the rygel group to run
+       # shutdown
+       chmod 04750 /sbin/shutdown.sysvinit
+       chgrp rygel /sbin/shutdown.sysvinit
+
        # We should sort this out in bbappend to vc-graphics, but the package
        # is still in flux
        chgrp video /dev/vchiq
