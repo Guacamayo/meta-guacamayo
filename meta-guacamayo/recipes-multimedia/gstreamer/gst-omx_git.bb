@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
 # the RPi is packaged in sided the firmware package vc-graphics.
 RDEPENDS_raspberrypi = "virtual/egl"
 
-PR = "r0"
+PR = "r1"
 
 BRANCH = "0.10"
 BRANCH_raspberrypi = "raspberry"
@@ -15,7 +15,7 @@ BRANCH_raspberrypi = "raspberry"
 SRCREV="27a711debd8a2832b4b58db778289ec35400014f"
 SRCREV_raspberrypi="d2f031808b4e1d51546245ee93cd5524d1ce2f63"
 
-PV = "0.10.0+git${SRCPV}"
+PV = "0.10.0.1+git${SRCPV}"
 
 SRC_URI = "git://anongit.freedesktop.org/gstreamer/gst-omx;branch=${BRANCH};protocol=git\
 	file://gstomx.conf"
