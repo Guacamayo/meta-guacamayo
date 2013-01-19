@@ -3,11 +3,9 @@ LICENSE = "LGPLv2.1"
 LICENSE_FLAGS = "commercial"
 LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
 
-# It does not really depend on EGL, of course, but on libopenmaxil, which on
-# the RPi is packaged in sided the firmware package vc-graphics.
-RDEPENDS_raspberrypi = "virtual/egl"
+RDEPENDS_raspberrypi = "libopenmaxil"
 
-PR = "r1"
+PR = "r2"
 
 BRANCH = "0.10"
 BRANCH_raspberrypi = "raspberry"
