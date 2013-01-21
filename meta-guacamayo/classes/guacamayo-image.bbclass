@@ -26,6 +26,7 @@ PACKAGE_GROUP_guacamayo-devtools         = "task-guacamayo-devtools"
 PACKAGE_GROUP_guacamayo-demos-pictures   = "task-guacamayo-demos-pictures"
 PACKAGE_GROUP_guacamayo-demos-audio      = "task-guacamayo-demos-audio"
 PACKAGE_GROUP_guacamayo-demos-video      = "task-guacamayo-demos-video"
+PACKAGE_GROUP_guacamayo-openmax          = "task-guacamayo-openmax"
 
 # The core bits of Guacamayo
 IMAGE_FEATURES =+ "splash ssh-server-dropbear guacamayo-core"

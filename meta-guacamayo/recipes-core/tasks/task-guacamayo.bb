@@ -3,7 +3,7 @@ LICENSE = "MIT"
 
 LIC_FILES_CHKSUM = "file://${THISDIR}/../../COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 
-PR = "r38"
+PR = "r39"
 
 PACKAGES="\
 	task-guacamayo			\
@@ -17,6 +17,7 @@ PACKAGES="\
 	task-guacamayo-demos-video	\
 	task-guacamayo-demos-pictures	\
 	task-guacamayo-server		\
+	task-guacamayo-openmax		\
 	"
 
 RDEPENDS_task-guacamayo = ""
@@ -142,7 +143,6 @@ RDEPENDS_task-guacamayo-core = "			\
 			     "
 
 RDEPENDS_task-guacamayo-core_append_beagleboard = "gstreamer-ti"
-RDEPENDS_task-guacamayo-core_append_raspberrypi = "${@base_contains('DISTRO_FEATURES', 'openmax', 'gst-omx', '', d)}"
 
 RDEPENDS_task-guacamayo-renderer = " \
 			     ${GUACA_PA_CORE} \
@@ -162,3 +162,5 @@ RDEPENDS_task-guacamayo-devtools = "${GUACA_DEVTOOLS}"
 RDEPENDS_task-guacamayo-demos-pictures = "${GUACA_DEMOS_PICTURES}"
 RDEPENDS_task-guacamayo-demos-audio    = "${GUACA_DEMOS_AUDIO}"
 RDEPENDS_task-guacamayo-demos-video    = "${GUACA_DEMOS_VIDEO}"
+
+RDEPENDS_task-guacamayo-openmax = "${@base_contains('MACHINE_FEATURES', 'openmax', 'gst-omx', '', d)}"
