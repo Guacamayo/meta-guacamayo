@@ -1,7 +1,7 @@
 Index: pulseaudio-1.1/src/daemon/default.pa.in
 ===================================================================
 --- pulseaudio-1.1.orig/src/daemon/default.pa.in	2011-10-20 14:12:05.000000000 +0100
-+++ pulseaudio-1.1/src/daemon/default.pa.in	2013-01-21 14:42:35.470955666 +0000
++++ pulseaudio-1.1/src/daemon/default.pa.in	2012-09-14 12:41:40.441996856 +0100
 @@ -40,6 +40,13 @@
  load-module module-stream-restore
  load-module module-card-restore
@@ -16,15 +16,6 @@ Index: pulseaudio-1.1/src/daemon/default.pa.in
  ### Automatically augment property information from .desktop files
  ### stored in /usr/share/application
  load-module module-augment-properties
-@@ -143,7 +150,7 @@
- load-module module-intended-roles
- 
- ### Automatically suspend sinks/sources that become idle for too long
--load-module module-suspend-on-idle
-+#load-module module-suspend-on-idle
- 
- ### If autoexit on idle is enabled we want to make sure we only quit
- ### when no local session needs us anymore.
 @@ -191,5 +198,5 @@
  ])dnl
  
@@ -35,13 +26,8 @@ Index: pulseaudio-1.1/src/daemon/default.pa.in
 Index: pulseaudio-1.1/src/daemon/system.pa.in
 ===================================================================
 --- pulseaudio-1.1.orig/src/daemon/system.pa.in	2011-10-20 13:54:16.000000000 +0100
-+++ pulseaudio-1.1/src/daemon/system.pa.in	2013-01-21 14:42:43.190925960 +0000
-@@ -65,7 +65,16 @@
- load-module module-always-sink
- 
- ### Automatically suspend sinks/sources that become idle for too long
--load-module module-suspend-on-idle
-+#load-module module-suspend-on-idle
++++ pulseaudio-1.1/src/daemon/system.pa.in	2012-09-14 12:42:58.797591240 +0100
+@@ -69,3 +69,12 @@
  
  ### Enable positioned event sounds
  load-module module-position-event-sounds
@@ -57,7 +43,7 @@ Index: pulseaudio-1.1/src/daemon/system.pa.in
 Index: pulseaudio-1.1/src/daemon/daemon.conf.in
 ===================================================================
 --- pulseaudio-1.1.orig/src/daemon/daemon.conf.in	2011-10-20 13:56:30.000000000 +0100
-+++ pulseaudio-1.1/src/daemon/daemon.conf.in	2013-01-20 17:46:00.996662977 +0000
++++ pulseaudio-1.1/src/daemon/daemon.conf.in	2012-09-08 18:01:49.407279854 +0100
 @@ -54,7 +54,8 @@
  ; log-time = no
  ; log-backtrace = 0
