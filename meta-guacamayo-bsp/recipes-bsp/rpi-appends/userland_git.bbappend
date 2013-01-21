@@ -1,12 +1,17 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
 
-PRINC = "2"
+PRINC = "3"
 
 PROVIDES += "libopenmaxil"
 RPROVIDES += "libopenmaxil libgles2"
 
 SRC_URI += "file://egl.pc \
 	    file://vchiq.sh"
+
+inherit pkgconfig update-rc.d
+
+INITSCRIPT_NAME = "vchiq.sh"
+INITSCRIPT_PARAMS = "start 03 S ."
 
 prefix="/usr"
 
