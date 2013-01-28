@@ -1,0 +1,13 @@
+Index: git/configure.ac
+===================================================================
+--- git.orig/configure.ac	2013-01-28 18:35:28.450650551 +0000
++++ git/configure.ac	2013-01-28 18:38:12.669950663 +0000
+@@ -79,7 +79,7 @@
+ AC_MSG_RESULT([$includex11dir])
+ 
+ AC_MSG_CHECKING([keysym definitions])
+-KEYSYMDEFDIR=`$PKG_CONFIG --variable=includedir xproto`/X11
++KEYSYMDEFDIR="$includex11dir"
+ FILES="keysymdef.h XF86keysym.h Sunkeysym.h DECkeysym.h HPkeysym.h"
+ for i in $FILES; do
+     if test -f "$KEYSYMDEFDIR/$i"; then
