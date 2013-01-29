@@ -3,6 +3,8 @@
 
 require ../../../layers/meta-yocto-bsp/conf/machine/atom-pc.conf
 
+IMAGE_FSTYPES += "tar.bz2"
+
 MACHINE_FEATURES += "iwlagn"
 
 PREFERRED_PROVIDER_virtual/kernel = "linux-yocto"
