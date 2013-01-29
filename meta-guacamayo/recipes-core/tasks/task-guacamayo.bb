@@ -3,7 +3,7 @@ LICENSE = "MIT"
 
 LIC_FILES_CHKSUM = "file://${THISDIR}/../../COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 
-PR = "r39"
+PR = "r40"
 
 PACKAGES="\
 	task-guacamayo			\
@@ -113,6 +113,7 @@ GUACA_PA_CORE = "pulseaudio \
 GUACA_DEVTOOLS += "pulseaudio-misc \
 		   dbus-daemon-proxy \
 		   evtest \
+		   connman-tests \
 		  "
 
 GUACA_DEMOS_PICTURES = "guacamayo-demos-pictures"
