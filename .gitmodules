@@ -10,3 +10,6 @@
 [submodule "upstream/misc/meta-raspberrypi"]
 	path = upstream/misc/meta-raspberrypi
 	url = git://github.com/djwillis/meta-raspberrypi.git
+[submodule "upstream/meta-intel"]
+	path = upstream/meta-intel
+	url = git://git.yoctoproject.org/meta-intel

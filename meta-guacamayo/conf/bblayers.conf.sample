@@ -10,6 +10,8 @@ BBLAYERS = " \
   ##COREBASE##/meta-yocto-bsp \
   ##COREBASE##/meta-raspberrypi \
   ##COREBASE##/meta-ti \
+  ##COREBASE##/meta-intel \
+  ##COREBASE##/meta-nuc \
   ##COREBASE##/meta-guacamayo-bsp \
   ##COREBASE##/meta-guacamayo \
   "

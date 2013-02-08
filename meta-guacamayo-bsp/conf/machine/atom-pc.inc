@@ -16,4 +16,4 @@ MACHINE_EXTRA_RRECOMMENDS = "kernel-modules eee-acpi-scripts kernel-module-snd-h
 
 APPEND += "quiet"
 
-BBMASK = ".*/meta-ti/|.*/meta-raspberrypi|.*/recipes-bsp/ti-appends/|.*/recipes-bsp/rpi-appends|.*/recipes-kernel/linux/linux-ti*"
+BBMASK = ".*/meta-ti/|.*/meta-raspberrypi|.*/recipes-bsp/ti-appends/|.*/recipes-bsp/rpi-appends|.*/recipes-kernel/linux/linux-ti*|.*/meta-intel|.*/meta-nuc"
