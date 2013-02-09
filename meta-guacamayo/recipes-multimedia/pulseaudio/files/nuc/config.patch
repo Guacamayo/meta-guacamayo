@@ -1,0 +1,61 @@
+Index: pulseaudio-1.1/src/daemon/default.pa.in
+===================================================================
+--- pulseaudio-1.1.orig/src/daemon/default.pa.in	2011-10-20 14:12:05.000000000 +0100
++++ pulseaudio-1.1/src/daemon/default.pa.in	2013-02-09 08:37:09.714686289 +0000
+@@ -40,6 +40,13 @@
+ load-module module-stream-restore
+ load-module module-card-restore
+ 
++### Automatically load swich on connect module if it is present
++.ifexists module-switch-on-connect@PA_SOEXT@
++.nofail
++load-module module-switch-on-connect
++.fail
++.endif
++
+ ### Automatically augment property information from .desktop files
+ ### stored in /usr/share/application
+ load-module module-augment-properties
+@@ -48,6 +55,8 @@
+ ### (it's probably better to not load these drivers manually, but instead
+ ### use module-udev-detect -- see below -- for doing this automatically)
+ ifelse(@HAVE_ALSA@, 1, [dnl
++load-module module-alsa-sink device=hw:0,3
++load-module module-alsa-sink device=hw:0,7
+ #load-module module-alsa-sink
+ #load-module module-alsa-source device=hw:1,0
+ ])dnl
+Index: pulseaudio-1.1/src/daemon/system.pa.in
+===================================================================
+--- pulseaudio-1.1.orig/src/daemon/system.pa.in	2011-10-20 13:54:16.000000000 +0100
++++ pulseaudio-1.1/src/daemon/system.pa.in	2013-02-09 08:38:35.770089047 +0000
+@@ -69,3 +69,15 @@
+ 
+ ### Enable positioned event sounds
+ load-module module-position-event-sounds
++
++### Automatically load swich on connect module if it is present
++.ifexists module-switch-on-connect@PA_SOEXT@
++.nofail
++load-module module-switch-on-connect
++.fail
++.endif
++
++ifelse(@HAVE_ALSA@, 1, [dnl
++load-module module-alsa-sink device=hw:0,3
++load-module module-alsa-sink device=hw:0,7
++])dnl
+Index: pulseaudio-1.1/src/daemon/daemon.conf.in
+===================================================================
+--- pulseaudio-1.1.orig/src/daemon/daemon.conf.in	2011-10-20 13:56:30.000000000 +0100
++++ pulseaudio-1.1/src/daemon/daemon.conf.in	2013-02-08 17:19:43.816240903 +0000
+@@ -54,7 +54,8 @@
+ ; log-time = no
+ ; log-backtrace = 0
+ 
+-; resample-method = speex-float-3
++resample-method = src-sinc-medium-quality
++
+ ; enable-remixing = yes
+ ; enable-lfe-remixing = no
+ 
