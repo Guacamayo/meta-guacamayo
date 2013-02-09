@@ -1,44 +1,49 @@
+PACKAGE_ARCH = "${MACHINE_ARCH}"
 
-# This recipe attempts to build mesa as a pure EGL/GLES2 platform, but
-# MESA screws us left, right, front, and, for good measure, back too
+# This recipe attempts to build mesa as a pure EGL/GLES2 platform, and though
+# mesa has the configure parameters for that, it seems fairly clear that
+# nobody has ever done that before, at least not with the DRI drivers
 #
-# It seems that:
-#
-#  a) To get the intel accelerated drivers, we need DRI,
-#  b) DRI requires big OpenGL,
-#  c) Big GL can't be built without GLX; libGL will never linked if
-#     --disable-glx is passed
-#  d) DRI/libdrm also have X11 deps, though we have lost that battle
-#     already
+# Also, the Yocto mesa-dri recipe is set up in a way that makes 'subclassing'
+# it hard.
 
 require ${COREBASE}/meta/recipes-graphics/mesa/mesa-dri_${PV}.bb
 
 PR_append = ".1"
 
-#PROTO_DEPS = "glproto dri2proto"
-#LIB_DEPS = "libxml2-native"
-
 DEPENDS += "libdrm udev"
 
-COMPATIBLE_MACHINE = "atom-egl"
+COMPATIBLE_MACHINE = "(atom-egl|nuc)"
 DEFAULT_PREFERENCE_atom-egl = "100"
+DEFAULT_PREFERENCE_nuc = "100"
 
 PROVIDES += "virtual/egl virtual/libgles2"
+
+SRC_URI += "file://fix-gles-only-install.patch"
 
 DRI_DRIVERS=""
 GALLIUM_DRIVERS=""
 
 DRI_DRIVERS_atom-egl = "i915,i965"
+DRI_DRIVERS_nuc = "i965"
 GALLIMU_DRIVERS_atom-nvidia = "noveau"
 
-# have to use = here, because the Yocto recipe uses the deprecated option
-# --with-driver which fails if some other options are not in their auto
-# state
+# blow this out of the way, it makes it completely impossible to tweak
+# the configure parameters, because it stupidly appends itself to the
+# end of the line
+PACKAGECONFIG=""
+PACKAGECONFIG[egl]=""
+PACKAGECONFIG[x11]=""
+PACKAGECONFIG[gles]=""
+
+# dont's try to tweak the existing line, make our own!
 EXTRA_OECONF = "\
 		--disable-xorg					\
 		--disable-xa					\
 		--disable-d3d1x					\
 		--disable-xlib-glx				\
+		--disable-opengl				\
+		--disable-glx					\
 	        --disable-glu					\
                 --disable-glw					\
                 --disable-glut					\
@@ -55,13 +60,3 @@ EXTRA_OECONF = "\
 		--enable-dri					\
 		--with-dri-drivers=${DRI_DRIVERS}		\
 		"
-
-PACKAGES =+ "libgbm libgbm-dev libgbm-dbg libgles2 libgles2-dev libgles2-dbg"
-
-FILES_libgbm = "${libdir}/libgbm.so.*"
-FILES_libgbm-dev = "${libdir}/libgbm* ${libdir}/pkgconfig/gbm.pc ${includedir}/gbm.h"
-FILES_libgbm-dbg += "${libdir}/gbm/.debug/libgbm*"
-
-FILES_libgles2 = "${libdir}/libGLESv2.so.*"
-FILES_libgles2-dev = "${libdir}/libGLESv2.* ${includedir}/GLES2 ${libdir}/pkgconfig/glesv2.pc"
-FILES_libgles2-dbg += "${libdir}/.debug/libGLESv2*"
