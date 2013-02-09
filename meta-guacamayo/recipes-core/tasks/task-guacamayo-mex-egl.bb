@@ -3,7 +3,7 @@ LICENSE = "MIT"
 
 LIC_FILES_CHKSUM = "file://${THISDIR}/../../COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 
-PR = "r9"
+PR = "r10"
 
 DEPENDS += "alsa-plugins"
 
@@ -31,6 +31,8 @@ RDEPENDS_task-guacamayo-mex-egl-dbg = "				\
 
 RDEPENDS_task-guacamayo-mex-egl_append_beagleboard = " \
 					   libgles-omap3-pvrini-native"
+
+RDEPENDS_task-guacamayo-mex-egl_append_nuc = "mesa-dri-driver-i965"
 
 RDEPENDS_task-guacamayo-mex-egl-tests = "			\
 				 clutter-1.12-examples		\
