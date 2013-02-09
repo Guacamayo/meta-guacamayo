@@ -22,7 +22,7 @@ STDRDEPENDS       = ""
 STDRDEPENDS_GL    = "libgl"
 STDRDEPENDS_GLES2 = "libgles2"
 
-SRC_URI = ""
+SRC_URI = "file://fix-kms-backend.patch"
 SRC_URI_append_beagleboard += "file://beagleboard-glchar.patch"
 SRC_URI_append_pandaboard += "file://beagleboard-glchar.patch"
 SRC_URI_append_raspberrypi += "file://rpi.patch"

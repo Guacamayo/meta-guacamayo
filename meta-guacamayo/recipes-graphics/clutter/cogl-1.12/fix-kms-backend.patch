@@ -1,0 +1,13 @@
+Index: git/cogl/winsys/cogl-winsys-egl-kms.c
+===================================================================
+--- git.orig/cogl/winsys/cogl-winsys-egl-kms.c	2013-02-09 16:53:36.292090503 +0000
++++ git/cogl/winsys/cogl-winsys-egl-kms.c	2013-02-09 16:56:56.235370285 +0000
+@@ -518,7 +518,7 @@
+ 
+   kms_display->dummy_gbm_surface = gbm_surface_create (kms_renderer->gbm,
+                                                        16, 16,
+-                                                       GBM_FORMAT_XRGB8888,
++                                                       GBM_BO_FORMAT_XRGB8888,
+                                                        GBM_BO_USE_RENDERING);
+   if (!kms_display->dummy_gbm_surface)
+     {
