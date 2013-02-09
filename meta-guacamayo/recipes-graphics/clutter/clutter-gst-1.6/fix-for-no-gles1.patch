@@ -1,0 +1,13 @@
+Index: git/clutter-gst/clutter-gst-video-sink.c
+===================================================================
+--- git.orig/clutter-gst/clutter-gst-video-sink.c	2013-02-09 15:32:16.130848526 +0000
++++ git/clutter-gst/clutter-gst-video-sink.c	2013-02-09 16:08:17.282150771 +0000
+@@ -47,7 +47,7 @@
+  */
+ #include <cogl/cogl.h>
+ 
+-#ifdef COGL_HAS_GLES
++#ifdef COGL_HAS_GLES1
+ #include <GLES/gl.h>
+ #include <GLES/glext.h>
+ #elif COGL_HAS_GLES2
