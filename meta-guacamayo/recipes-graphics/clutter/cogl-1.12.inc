@@ -12,6 +12,7 @@ PACKAGES =+ "${PN}-examples"
 
 STDDEPENDS       = "gtk-doc-native pango glib-2.0 gdk-pixbuf"
 STDDEPENDS_GL    = "virtual/libgl libdrm"
+STDDEPENDS_KMS   = "libdrm virtual/egl"
 STDDEPENDS_EGL   = "virtual/egl"
 STDDEPENDS_GLES2 = "virtual/libgles2"
 STDDEPENDS_X11   = "virtual/libx11 libxcomposite libxfixes libxi"
@@ -43,6 +44,10 @@ BASE_CONF = "--disable-gtk-doc			\
 BASE_CONF_EGL_GL = "--enable-gl			\
 		    --enable-kms-egl-platform	\
 		   "
+
+BASE_CONF_KMS_GLES = "--enable-gles2		\
+		      --enable-kms-egl-platform	\
+		     "
 
 BASE_CONF_EGL_GLES = "--enable-gles2			\
 		      --enable-null-egl-platform	\
