@@ -4,5 +4,10 @@ export BDIR=build
 export BUILDDIR="$GUACABASE/build"
 HAVE_BBLAYERS=
 
+# Here we explicitly set BASH_SOURCE in order to make this script and
+# oe-init-build-env work with non-bash shells. Has been tested with zsh
+# and dash, in addition to bash.
+BASH_SOURCE="$GUACABASE/layers/oe-init-build-env"
+
 . "$GUACABASE/layers/oe-init-build-env"
 
