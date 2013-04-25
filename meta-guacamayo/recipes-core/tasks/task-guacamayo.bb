@@ -22,8 +22,6 @@ PACKAGES="\
 
 RDEPENDS_task-guacamayo = ""
 
-ALLOW_EMPTY = "1"
-
 # The following packages might be desirable, but have restricted license, so we
 # require the user to specifically flag them up as acceptable -- filter out
 # these packages down to what the whitelist permits
@@ -93,6 +91,11 @@ python __anonymous () {
     commercial = d.getVar('GUACA_COMMERCIAL_VIDEO', True)
     restricted += check_license_ok(d, commercial, 'commercial')
     d.setVar('GUACA_RESTRICTED_VIDEO', restricted)
+
+    # Set ALLOW_EMPTY on all packages
+    packages = d.getVar('PACKAGES', True).split()
+    for pkg in packages:
+        d.setVar("ALLOW_EMPTY_%s" % pkg, "1")
 }
 
 GUACA_NETWORKING = "connman-initd \

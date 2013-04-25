@@ -17,7 +17,7 @@ SRC_URI = "file://guacamayo-session-egl		\
 	   file://guacamayo-session-common	\
 	  "
 
-ALLOW_EMPTY = "1"
+ALLOW_EMPTY_${PN} = "1"
 PACKAGES =+ "${PN}-initd"
 
 INITSCRIPT_PACKAGES = "${PN}-initd"
