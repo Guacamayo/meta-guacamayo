@@ -10,4 +10,4 @@ inherit allarch
 
 ALLOW_EMPTY_${PN} = "1"
 
-RDEPENDS = "guacamayos"
+RDEPENDS_${PN} = "guacamayos"

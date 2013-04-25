@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=2d5025d4aa3495befef8f17206a5b0a1 \
                     file://rest/rest-main.c;beginline=8;endline=19;md5=9f91b454290dc0fd7d6da2ed85cef107"
 
 DEPENDS = "glib-2.0 libsoup-2.4"
-RDEPENDS += "ca-certificates"
+RDEPENDS_${PN} += "ca-certificates"
 
 inherit gnome gettext vala
 

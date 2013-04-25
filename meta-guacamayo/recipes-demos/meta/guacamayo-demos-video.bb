@@ -10,4 +10,4 @@ inherit allarch
 
 ALLOW_EMPTY_${PN} = "1"
 
-RDEPENDS = "big-buck-bunny-trailer sintel-trailer"
+RDEPENDS_${PN} = "big-buck-bunny-trailer sintel-trailer"
