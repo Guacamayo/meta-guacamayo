@@ -4,10 +4,10 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
 # mesa has the configure parameters for that, it seems fairly clear that
 # nobody has ever done that before, at least not with the DRI drivers
 #
-# Also, the Yocto mesa-dri recipe is set up in a way that makes 'subclassing'
+# Also, the Yocto mesa recipe is set up in a way that makes 'subclassing'
 # it hard.
 
-require ${COREBASE}/meta/recipes-graphics/mesa/mesa-dri_${PV}.bb
+require ${COREBASE}/meta/recipes-graphics/mesa/mesa_${PV}.bb
 
 PR_append = ".1"
 
