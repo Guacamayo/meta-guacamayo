@@ -8,7 +8,7 @@ RDEPENDS_${PN} += "sudo pulseaudio-server \
 		   guacamayo-cli	  \
 		   guacamayo-watchdog"
 
-CONFLICTS_${PN} += "guacamayo-session-x11"
+RCONFLICTS_${PN} += "guacamayo-session-x11"
 
 PR = "r3"
 

@@ -5,7 +5,7 @@ LICENSE = "LGPLv2+"
 INCPR = "r1"
 
 PACKAGES  =+ "${PN}-examples"
-CONFLICTS += "clutter-gst-1.8 clutter-gst-1.10 clutter-gst-1.6"
+RCONFLICTS += "clutter-gst-1.8 clutter-gst-1.10 clutter-gst-1.6"
 
 DEPENDS     = "gst-plugins-base gst-plugins-bad clutter-1.12"
 RDEPENDS_${PN} += "gst-meta-base"

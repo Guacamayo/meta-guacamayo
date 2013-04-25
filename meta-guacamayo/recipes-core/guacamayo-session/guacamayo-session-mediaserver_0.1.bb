@@ -4,10 +4,10 @@ LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://${THISDIR}/../../COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 
 RDEPENDS_${PN} += "sudo ${PN}-initd"
-CONFLICTS_${PN} += "guacamayo-session-x11		\
-		    guacamayo-session-egl		\
-		    guacamayo-session-audioplayer	\
-		   "
+RCONFLICTS_${PN} += "guacamayo-session-x11		\
+		     guacamayo-session-egl		\
+		     guacamayo-session-audioplayer	\
+		    "
 
 PR = "r3"
 

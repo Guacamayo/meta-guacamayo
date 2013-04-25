@@ -6,7 +6,7 @@ INCPR = "r1"
 
 FILESPATH = "${FILE_DIRNAME}/cogl-1.12"
 
-CONFLICTS += "cogl cogl-1.10"
+RCONFLICTS_${PN} += "cogl cogl-1.10"
 
 PACKAGES =+ "${PN}-examples"
 

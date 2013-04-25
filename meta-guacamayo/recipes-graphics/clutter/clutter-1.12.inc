@@ -18,7 +18,7 @@ STDRDEPENDS     = "xkeyboard-config"
 STDRDEPENDS_EGL = ""
 STDRDEPENDS_GLX = ""
 
-CONFLICTS += "clutter-1.8 clutter-1.10"
+RCONFLICTS += "clutter-1.8 clutter-1.10"
 
 S = "${WORKDIR}/git"
 AUTOTOOLS_AUXDIR = "${S}/build"
