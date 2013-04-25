@@ -23,7 +23,7 @@ fakeroot do_install() {
 }
 
 # this is for distributions that don't use udev
-pkg_postinst_append() {
+pkg_postinst_${PN}_append() {
 if [ ! -c $D/dev/lirc -a ! -f /sbin/udevd ]; then mknod $D/dev/lirc c 61 0; fi
 }
 
