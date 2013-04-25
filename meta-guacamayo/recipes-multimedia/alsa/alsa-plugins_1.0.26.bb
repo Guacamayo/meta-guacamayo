@@ -24,3 +24,10 @@ python populate_packages_prepend() {
 FILES_${PN}-dev += "${libdir}/alsa-lib/libasound*.a ${libdir}/alsa-lib/libasound*.la"
 FILES_${PN}-dbg += "${libdir}/alsa-lib/.debug"
 
+FILES_libasound-module-conf-pulse += "${datadir}/alsa/alsa.conf.d/*pulseaudio*"
+FILES_libasound-module-rate-samplerate += "${libdir}/alsa-lib/*rate_samplerate_*.so"
+FILES_libasound-module-rate-speexrate += "${libdir}/alsa-lib/*rate_speexrate_*.so"
+
+# Symlinks to .so files cause a warning, but these are legitimate.
+INSANE_SKIP_libasound-module-rate-samplerate = "dev-so"
+INSANE_SKIP_libasound-module-rate-speexrate = "dev-so"
