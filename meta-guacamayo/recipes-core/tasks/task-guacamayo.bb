@@ -95,6 +95,12 @@ python __anonymous () {
     d.setVar('GUACA_RESTRICTED_VIDEO', restricted)
 }
 
+python populate_packages_prepend() {
+    for pkg in d.getVar("PACKAGES", True).split():
+        bb.plain("pkg = %s" % pkg)
+        d.setVar("ALLOW_EMPTY_%s" % pkg, "1")
+}
+
 GUACA_NETWORKING = "connman-initd \
                     connman-plugin-ethernet \
                     connman-plugin-loopback \
