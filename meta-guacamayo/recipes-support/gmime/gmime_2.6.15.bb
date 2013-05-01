@@ -3,12 +3,15 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=fbc093901857fcd118f065f900982c24"
 DESCRIPTION = "Runtime libraries for parsing and creating MIME mail"
 SECTION = "libs"
 PRIORITY = "optional"
-DEPENDS = "glib-2.0 zlib"
+DEPENDS = "glib-2.0 zlib gpgme"
 
 inherit gnome autotools lib_package binconfig
 
-SRC_URI += "file://iconv-detect.h \
-            file://nodolt.patch;patch=1"
+GNOME_COMPRESS_TYPE="xz"
+
+SRC_URI += "file://iconv-detect.h   \
+            file://nodolt.patch \
+            "
 
 EXTRA_OECONF += "--disable-mono"
 
@@ -20,6 +23,6 @@ do_install_append () {
 	rm -f ${D}${libdir}/gmimeConf.sh
 }
 
-SRC_URI[archive.md5sum] = "f0700515d5d715ae6b34289fdca90451"
-SRC_URI[archive.sha256sum] = "59c71aa8d0f06c66f863bc0462868237a770ce30d1402af2515235fa41db51ca"
+SRC_URI[archive.md5sum] = "a139ee5870ec4c0bf28fcff8ac0af444"
+SRC_URI[archive.sha256sum] = "b4c2a0b99b82063387cd750a38421ebaa0636f339e67984a84371bcb697dc99a"
 

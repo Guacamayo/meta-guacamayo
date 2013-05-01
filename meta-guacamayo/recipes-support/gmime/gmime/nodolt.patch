@@ -1,12 +1,12 @@
-Index: gmime-2.4.10/configure.in
+Index: gmime-2.6.15/configure.ac
 ===================================================================
---- gmime-2.4.10.orig/configure.in
-+++ gmime-2.4.10/configure.in
-@@ -80,7 +80,6 @@ AC_PATH_PROG(TAR, tar, /bin/tar)
- 
- AC_EXEEXT
+--- gmime-2.6.15.orig/configure.ac
++++ gmime-2.6.15/configure.ac
+@@ -148,7 +148,6 @@ AC_EXEEXT
  AC_PROG_LIBTOOL
+ dnl when using libtool 2.x create libtool early, because it's used in configure
+ m4_ifdef([LT_OUTPUT], [LT_OUTPUT])
 -DOLT
  
- AM_MAINTAINER_MODE
- 
+ dnl Checks for header files.
+ AC_CHECK_HEADERS(sys/mman.h)
