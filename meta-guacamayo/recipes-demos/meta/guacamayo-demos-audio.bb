@@ -10,4 +10,4 @@ inherit allarch
 
 ALLOW_EMPTY_${PN} = "1"
 
-RDEPENDS = "la-olla-express-panic"
+RDEPENDS_${PN} = "la-olla-express-panic"

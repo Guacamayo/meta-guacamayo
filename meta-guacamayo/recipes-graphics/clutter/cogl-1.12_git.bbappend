@@ -47,5 +47,5 @@ EGL_EXTRA_OECONF_raspberrypi = "${BASE_CONF} ${BASE_CONF_EGL_GLES}"
 
 
 DEPENDS = "${@base_contains("MACHINE_FEATURES", "guacamayo-x11", "${X11_DEPENDS}", "${EGL_DEPENDS}", d)}"
-RDEPENDS = "${@base_contains("MACHINE_FEATURES", "guacamayo-x11", "${X11_RDEPENDS}", "${EGL_RDEPENDS}", d)}"
+RDEPENDS_${PN} = "${@base_contains("MACHINE_FEATURES", "guacamayo-x11", "${X11_RDEPENDS}", "${EGL_RDEPENDS}", d)}"
 EXTRA_OECONF = "${@base_contains("MACHINE_FEATURES", "guacamayo-x11", "${X11_EXTRA_OECONF}", "${EGL_EXTRA_OECONF}", d)}"

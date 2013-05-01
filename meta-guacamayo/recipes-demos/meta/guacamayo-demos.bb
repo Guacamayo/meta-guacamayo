@@ -10,7 +10,7 @@ inherit allarch
 
 ALLOW_EMPTY_${PN} = "1"
 
-RDEPENDS = "guacamayo-demos-pictures	\
+RDEPENDS_${PN} = "guacamayo-demos-pictures	\
 	    guacamayo-demos-audio	\
 	    guacamayo-demos-video	\
 	   "
