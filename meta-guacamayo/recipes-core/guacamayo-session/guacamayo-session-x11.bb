@@ -17,7 +17,7 @@ inherit useradd
 SRC_URI = "file://etc\
            file://gplv2-license.patch"
 
-ALLOW_EMPTY = "1"
+ALLOW_EMPTY_${PN} = "1"
 PACKAGES =+ "${PN}-x11"
 
 USERADD_PACKAGES = "${PN}"

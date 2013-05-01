@@ -13,7 +13,7 @@ PACKAGES="\
 
 DEPENDS += "alsa-plugins"
 
-ALLOW_EMPTY = "1"
+ALLOW_EMPTY_${PN} = "1"
 
 # xserver-common, x11-common
 VIRTUAL-RUNTIME_xserver_common ?= "guacamayo-session-x11"

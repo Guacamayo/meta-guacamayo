@@ -13,7 +13,7 @@ PACKAGES="\
 	task-guacamayo-mex-egl-dbg	\
 	"
 
-ALLOW_EMPTY = "1"
+ALLOW_EMPTY_${PN} = "1"
 
 RDEPENDS_task-guacamayo-mex-egl = "				\
 			      task-guacamayo-renderer		\

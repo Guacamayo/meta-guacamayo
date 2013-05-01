@@ -9,7 +9,7 @@ DEPENDS += "alsa-plugins"
 
 PACKAGES="task-guacamayo-audioplayer"
 
-ALLOW_EMPTY = "1"
+ALLOW_EMPTY_${PN} = "1"
 
 RDEPENDS_task-guacamayo-audioplayer = "task-guacamayo-renderer guacamayo-session-audioplayer"
 

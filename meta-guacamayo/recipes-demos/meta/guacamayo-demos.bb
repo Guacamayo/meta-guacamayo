@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://${THISDIR}/../../COPYING.MIT;md5=3da9cfbcb788c80a0384
 
 inherit allarch
 
-ALLOW_EMPTY = "1"
+ALLOW_EMPTY_${PN} = "1"
 
 RDEPENDS = "guacamayo-demos-pictures	\
 	    guacamayo-demos-audio	\

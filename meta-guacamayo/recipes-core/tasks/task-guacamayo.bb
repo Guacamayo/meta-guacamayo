@@ -22,7 +22,7 @@ PACKAGES="\
 
 RDEPENDS_task-guacamayo = ""
 
-ALLOW_EMPTY = "1"
+ALLOW_EMPTY_${PN} = "1"
 
 # The following packages might be desirable, but have restricted license, so we
 # require the user to specifically flag them up as acceptable -- filter out
