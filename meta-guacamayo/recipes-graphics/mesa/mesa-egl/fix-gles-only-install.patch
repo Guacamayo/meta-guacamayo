@@ -3,11 +3,11 @@ Index: Mesa-8.0.4/src/mesa/Makefile
 --- Mesa-8.0.4.orig/src/mesa/Makefile	2012-03-22 17:10:07.000000000 +0000
 +++ Mesa-8.0.4/src/mesa/Makefile	2013-02-09 15:15:15.915212929 +0000
 @@ -166,7 +166,7 @@
- 	            else \
- 	              $(MAKE) install-osmesa || exit 1 ; \
- 	            fi ;; \
+	            else \
+	              $(MAKE) install-osmesa || exit 1 ; \
+	            fi ;; \
 -	    dri)    $(MAKE) install-libgl install-dri || exit 1 ;; \
 +	    dri)    $(MAKE) install-dri || exit 1 ;; \
- 	    *)      $(MAKE) install-libgl || exit 1 ;; \
- 	  esac ; \
- 	done
+	    *)      $(MAKE) install-libgl || exit 1 ;; \
+	  esac ; \
+	done
