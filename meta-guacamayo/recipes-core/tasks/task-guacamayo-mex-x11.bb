@@ -11,9 +11,14 @@ PACKAGES="\
 	task-guacamayo-mex-x11-dbg	\
 	"
 
-DEPENDS += "alsa-plugins"
+python __anonymous () {
+    # Set ALLOW_EMPTY on all packages
+    packages = d.getVar('PACKAGES', True).split()
+    for pkg in packages:
+        d.setVar("ALLOW_EMPTY_%s" % pkg, "1")
+}
 
-ALLOW_EMPTY = "1"
+DEPENDS += "alsa-plugins"
 
 # xserver-common, x11-common
 VIRTUAL-RUNTIME_xserver_common ?= "guacamayo-session-x11"

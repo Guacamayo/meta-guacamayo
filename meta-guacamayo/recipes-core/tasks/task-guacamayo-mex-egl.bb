@@ -13,7 +13,12 @@ PACKAGES="\
 	task-guacamayo-mex-egl-dbg	\
 	"
 
-ALLOW_EMPTY = "1"
+python __anonymous () {
+    # Set ALLOW_EMPTY on all packages
+    packages = d.getVar('PACKAGES', True).split()
+    for pkg in packages:
+        d.setVar("ALLOW_EMPTY_%s" % pkg, "1")
+}
 
 RDEPENDS_task-guacamayo-mex-egl = "				\
 			      task-guacamayo-renderer		\
