@@ -27,4 +27,3 @@ pkg_postinst_${PN}_append() {
 if [ ! -c $D/dev/lirc -a ! -f /sbin/udevd ]; then mknod $D/dev/lirc c 61 0; fi
 }
 
-FILES_${PN} = "/lib/modules"
