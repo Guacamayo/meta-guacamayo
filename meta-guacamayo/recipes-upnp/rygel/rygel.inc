@@ -13,6 +13,9 @@ SECTION = "network/multimedia"
 DEPENDS = "glib-2.0 gupnp gupnp-av gupnp-dlna gstreamer gst-plugins-base sqlite3 libsoup-2.4 libgee shared-mime-info tracker"
 RDEPENDS_${PN} = "sudo shared-mime-info-data pulseaudio-server"
 
+PACKAGECONFIG[ui] = "--with-ui,--without-ui,gtk+3"
+PACKAGECONFIG ??= ""
+
 require rygel-plugins.inc
 PACKAGES_DYNAMIC = "${PN}-*"
 
