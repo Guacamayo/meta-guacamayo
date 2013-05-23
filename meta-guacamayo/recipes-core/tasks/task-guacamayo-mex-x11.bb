@@ -3,7 +3,7 @@ LICENSE = "MIT"
 
 LIC_FILES_CHKSUM = "file://${THISDIR}/../../COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 
-PR = "r24"
+PR = "r25"
 
 PACKAGES="\
 	task-guacamayo-mex-x11		\
@@ -43,11 +43,11 @@ GUACA_X11 = "						\
 # Video drivers, based on machine features
 #
 GUACA_X11_i915 = "xf86-video-intel	\
-               	  mesa-dri-driver-i915	\
+               	  mesa-driver-i915	\
 		 "
 
 GUACA_X11_i965 = "xf86-video-intel	\
-               	  mesa-dri-driver-i965	\
+               	  mesa-driver-i965	\
 		 "
 
 GUACA_X11_nvidia = "xf86-video-nvidia	\
